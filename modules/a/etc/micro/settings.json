@@ -1,0 +1,10 @@
+{
+  "autoclose": true,
+  "autoindent": true,
+  "clipboard": "terminal",
+  "colorscheme": "darcula",
+  "indentchar": " ",
+  "matchbrace": true,
+  "tabsize": 2,
+  "mouse": false
+}

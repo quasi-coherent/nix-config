@@ -1,0 +1,14 @@
+[general]
+live_config_reload = true
+
+[window]
+decorations = "None"
+startup_mode = "Fullscreen"
+option_as_alt = "OnlyLeft"
+
+[cursor]
+shape = "Block"
+blinking = "Never"
+
+[terminal]
+osc52 = "CopyPaste"
