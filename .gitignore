@@ -2,3 +2,5 @@
 .direnv/
 result
 result-*
+**/undo-tree
+.envrc.local

@@ -1,0 +1,47 @@
+# Update the env when attaching to an existing session.
+set -g update-environment -r
+
+# Rebind prefix to `C-;`.
+# This causes all sorts of problems. The terminal, tmux, and emacs each need
+# something; see https://sw.kovidgoyal.net/kitty/keyboard-protocol/
+unbind C-b
+set -g prefix C-\;
+bind-key C-\; send-prefix
+
+set -ag terminal-overrides ",alacritty*:Tc,xterm*:Tc"
+set -as terminal-features ",alacritty*:RGB,xterm*:RGB"
+set -as terminal-features ",alacritty*:hyperlinks,xterm*:hyperlinks"
+set -as terminal-features ",alacritty*:usstyle,xterm*:usstyle"
+set -as terminal-features ",alacritty*:extkeys,xterm*:extkeys"
+set -as terminal-features ",alacritty*:clipboard,xterm*:clipboard"
+
+# Status line and border info.
+set -g status on
+set -g status-interval 2
+set -g status-justify left
+set -g status-position bottom
+set -g status-left-length 80
+set -g status-right-length 80
+set -g status-right "#(date -u +'%%Y-%%m-%%dT%%H:%%M:%%S%%z')"
+
+set -g pane-border-status bottom
+set -g pane-border-format " [#{pane_index}] | #{pane_current_path} #(cd #{pane_current_path}; git rev-parse --abbrev-ref HEAD) "
+
+# Silence...
+set -g visual-activity off
+set -g visual-bell off
+set -g visual-silence on
+set -g bell-action none
+set -g renumber-windows on
+set -g window-status-separator " | "
+set-window-option -g window-active-style  bg=terminal
+set-window-option -g window-style bg=black
+set-window-option -g monitor-activity off
+set-window-option -g automatic-rename off
+
+set -g word-separators " |{}()[]<>`='/\\\"!@#$%^&*:;,?-"
+set -g set-clipboard on
+
+bind-key -T copy-mode C-l send-keys -X scroll-middle
+bind-key -T copy-mode M-w send -X copy-pipe-and-cancel 'reattach-to-user-namespace pbcopy'
+bind-key -T copy-mode C-k send -X copy-pipe-end-of-line-and-cancel 'reattach-to-user-namespace pbcopy'
