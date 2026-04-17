@@ -40,9 +40,10 @@
 
       system.defaults.NSGlobalDomain."com.apple.keyboard.fnState" = true;
       system.defaults.NSGlobalDomain."com.apple.sound.beep.volume" = 0.0;
+      system.defaults.NSGlobalDomain.AppleICUForce24HourTime = true;
       system.defaults.NSGlobalDomain.AppleIconAppearanceTheme = "TintedDark";
       system.defaults.NSGlobalDomain.AppleInterfaceStyle = "Dark";
-      # system.defaults.NSGlobalDomain._HIHideMenuBar = true;
+      system.defaults.NSGlobalDomain._HIHideMenuBar = true;
       system.defaults.NSGlobalDomain.InitialKeyRepeat = 15;
       system.defaults.NSGlobalDomain.KeyRepeat = 2;
 
@@ -53,8 +54,6 @@
       system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
       system.defaults.NSGlobalDomain.NSAutomaticQuoteSubstitutionEnabled = false;
       system.defaults.NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
-
-      # Useful with Aerospace.
       system.defaults.NSGlobalDomain.NSWindowShouldDragOnGesture = true;
 
       system.defaults.trackpad.Clicking = false;

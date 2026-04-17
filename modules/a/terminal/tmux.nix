@@ -38,7 +38,7 @@
         disableConfirmationPrompt = true;
         escapeTime = 0;
         extraConfig = ''
-          source-file ${config.xdg.configHome}/tmux/tmux.conf.common
+          source-file ${config.xdg.configHome}/tmux/tmux.common.conf
         '';
         focusEvents = false;
         historyLimit = 100000;
@@ -47,5 +47,12 @@
         shell = "${zshPkg}/bin/zsh";
         terminal = "tmux-256color";
       };
+
+
+      # Enables stylix theme on the status bar and active pane.
+      programs.zsh.envExtra = ''
+        export TINTED_TMUX_OPTION_STATUSBAR=1
+        export TINTED_TMUX_OPTION_ACTIVE=1
+      '';
     };
 }

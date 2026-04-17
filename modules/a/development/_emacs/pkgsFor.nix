@@ -4,8 +4,8 @@ epkgs: with epkgs; [
   auctex-lua
   avy
   bind-key
+  cape
   cdlatex
-  company
   cond-let
   consult
   consult-dir
@@ -15,8 +15,6 @@ epkgs: with epkgs; [
   corfu
   delight
   diminish
-  dired-subtree
-  direnv
   doom-modeline
   embark
   embark-consult
@@ -36,6 +34,7 @@ epkgs: with epkgs; [
   move-text
   multiple-cursors
   nix-ts-mode
+  no-littering
   orderless
   simpleclip
   smartparens

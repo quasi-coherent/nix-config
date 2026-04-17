@@ -1,5 +1,4 @@
 {
-  den,
   inputs,
   ...
 }:
@@ -12,15 +11,15 @@
 
   # The stylix theme is automatically enabled where compatible.
   our.theme = {
-    includes = [ (den._.unfree [ "spicetify-nix" ]) ];
-
     darwin =
       { pkgs, ... }:
       {
         imports = [ inputs.stylix.darwinModules.stylix ];
 
         environment.systemPackages = [ pkgs.fontconfig ];
-        fonts.packages = [ pkgs.nerd-fonts.hasklug ];
+        fonts.packages = [
+          pkgs.nerd-fonts.hasklug
+        ];
 
         stylix = {
           base16Scheme = ./config/base16-scheme.yaml;
@@ -38,6 +37,14 @@
             sansSerif = {
               package = pkgs.nerd-fonts.hasklug;
               name = "Hasklug Nerd Font";
+            };
+            monospace = {
+              package = pkgs.nerd-fonts.hasklug;
+              name = "Hasklug Nerd Font Mono";
+            };
+            emoji = {
+              package = pkgs.beedii;
+              name = "Beedii Emoji";
             };
           };
         };

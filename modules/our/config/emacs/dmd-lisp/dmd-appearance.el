@@ -54,22 +54,23 @@
 ;; the mode-line face provided by doom-modeline even though that's certainly
 ;; available, not to mention the only thing it exists for.
 (use-package doom-modeline
-  :hook
-  ;; (doom-modeline-mode . size-indicator-mode)
-  (doom-modeline-mode . display-time-mode)
   :init
   (doom-modeline-mode 1)
-  (setq doom-modeline-time t
-	doom-modeline-check 'auto
-	doom-modeline-buffer-file-name-style 'relative-from-project
+  (setq doom-modeline-buffer-file-name-style 'relative-from-project
         doom-modeline-icon nil
-        doom-modeline-github nil
-	doom-modeline-mu4e nil
-	doom-modeline-persp-name nil
-	doom-modeline-major-mode-icon nil
-	doom-modeline-minor-modes nil
-        doom-modeline-window-width-limit nil
-        display-time-day-and-date t))
+        doom-modeline-unicode-number nil
+        doom-modeline-buffer-encoding nil
+        doom-modeline-check nil
+        doom-modeline-persp-icon nil
+        doom-modeline-modal nil
+        doom-modeline-modal-icon nil
+        doom-modeline-modal-modern-icon nil
+        doom-modeline-gnus nil
+        doom-modeline-irc nil
+        doom-modeline-display-misc-in-all-mode-lines nil
+        doom-modeline-remote-host nil
+        doom-modeline-env-version nil
+        nerd-icons-color-icons nil))
 
 ;; ;; Use the fontset we have elsewhere.
 ;; (set-face-attribute 'default nil

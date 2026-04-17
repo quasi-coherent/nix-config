@@ -2,77 +2,89 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; Personal defaults:
+(defvar emacs-d
+  (file-name-directory
+   (file-chase-links load-file-name))
+  "we should build a great bonfire
+we should congratulate ourselves on our
+endurance")
 
-(setq-default make-backup-files nil
-	      backup-inhibited nil
-	      create-lockfiles nil
-	      auto-save-default nil
-	      ad-redefinition-action 'accept
-	      view-read-only t
-	      load-prefer-newer 1
+(add-to-list 'load-path emacs-d)
+(add-to-list 'load-path (expand-file-name "dmd-lisp/" emacs-d))
 
-	      scroll-conservatively most-positive-fixnum
-	      cursor-in-non-selected-windows nil
+(setq byte-compile-warnings '(cl-functions))
+(setq enable-local-variables :all)
 
-	      history-length 1000
-	      kill-ring-max 64
-	      mark-ring-max 64
-
-	      fill-column 80
-	      indent-tabs-mode nil
-	      mode-line-end-spaces nil
-	      show-trailing-whitespace t)
-
-(setq-default backup-directory-alist `((".*" . ,temporary-file-directory)))
-(setq-default auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-(setq-default auto-save-default nil)
-
-;; Enable these.
-(mapc
- (lambda (command)
-   (put command 'disabled nil))
- '(narrow-to-region narrow-to-page upcase-region downcase-region))
-
-;; Disable these.
-(mapc
- (lambda (command)
-   (put command 'disabled t))
- '(eshell project-eshell overwrite-mode iconify-frame diary))
-
-;; Global modes.
-(delete-selection-mode 1) ; Yank replaces the region
-(global-auto-revert-mode t)
-(column-number-mode 1)
-(global-display-line-numbers-mode 1)
-(global-subword-mode 1) ; camelCase word boundaries
-(show-paren-mode 1)
-(global-hl-line-mode 1)
-(winner-mode 1)
-
-;; Hate whitespace.
-(add-hook 'before-save-hook #'delete-trailing-whitespace)
-
-(defun backward-delete-word (arg)
-  "Delete characters backward until encountering the beginning of a word.
-With argument ARG, do this that many times."
-  (interactive "p")
-  (delete-region (point) (progn (backward-word arg) (point))))
-
-;; To not have moving up directories contribute to the kill ring.
-(define-key minibuffer-local-map [M-backspace] #'backward-delete-word)
-
-(eval-when-compile
-  (require 'use-package)
-  (setq use-package-verbose nil))
-
+(require 'use-package)
 (require 'bind-key)
 (require 'delight)
 (require 'diminish)
 
-(declare-function cl-mapcar "cl-lib")
+(require 'dmd-lib)
 
+(setq use-package-verbose nil)
 (autoload #'use-package-autoload-keymap "use-package-bind-key")
+
+(use-package flycheck
+  :init (global-flycheck-mode)
+  :custom (flycheck-emacs-lisp-load-path 'inherit)
+  :config (setq flycheck-check-syntax-automatically '(mode-enabled save)))
+
+(defmacro csetq (variable value)
+  `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
+
+(defun dmd/advice-add (&rest args)
+  (when (fboundp 'advice-add)
+    (apply #'advice-add args)))
+
+;;;; Global defaults:
+
+(use-package emacs
+  :init
+  (csetq vc-follow-symlinks t)
+  (csetq vc-find-revisions-no-save t)
+  (csetq enable-recursive-minibuffers t)
+  (csetq show-trailing-whitespace t)
+  (csetq indent-tabs-mode nil)
+  ;; Don't need to (defalias 'yes-or-no-p 'y-or-n-p) anymore.
+  (csetq use-short-answers t)
+  (csetq make-backup-files nil)
+  (csetq backup-inhibited nil)
+  (csetq create-lockfiles nil)
+  (csetq auto-save-default nil)
+  (csetq load-prefer-newer t)
+  (csetq view-read-only t)
+  ;; Default is to write to init.el, but ours is in the nix store so that is
+  ;; not possible.
+  (csetq custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (csetq frame-title-format '(%b))
+  (csetq ring-bell-function 'ignore)
+  (csetq use-file-dialog nil))
+
+;;;; Global modes:
+
+(column-number-mode 1)
+(delete-selection-mode 1) ; Yank replaces the region
+(global-auto-revert-mode t)
+(global-display-line-numbers-mode 1)
+(global-git-gutter-mode 1)
+(global-hl-line-mode 1)
+(global-subword-mode 1) ; camelCase word boundaries
+(show-paren-mode 1)
+(simpleclip-mode 1) ; Bindings to OS-defined clipboard keys
+(winner-mode 1)
+
+;;;; Global keys:
+
+;; `keyboard-quit' that actually works.
+(global-set-key (kbd "C-g") #'dmd/keyboard-quit-dwim)
+(global-set-key (kbd "C-x b") #'ibuffer)
+
+;; Hate whitespace.
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
+
+;; Don't let moving up directories in the minibuffer add to the kill ring.
+(define-key minibuffer-local-map [M-backspace] #'dmd/backward-delete-word)
 
 (defmacro dmd-emacs-map (keymap &rest definitions)
   "Expand key binding DEFINITIONS for the given KEYMAP."
@@ -80,7 +92,6 @@ With argument ARG, do this that many times."
   (unless (zerop (% (length definitions) 2))
     (error "Uneven number of key+command pairs"))
   (let ((keys (seq-filter #'stringp definitions))
-        ;; We do accept nil as a definition: it unsets the given key.
         (commands (seq-remove #'stringp definitions)))
     `(when-let (((keymapp ,keymap))
                 (map ,keymap))
@@ -92,14 +103,24 @@ With argument ARG, do this that many times."
                 `(define-key map (kbd ,key) ,command))))
           (cl-mapcar #'cons keys commands)))))
 
-(dmd/add-to-list 'load-path (locate-user-emacs-file "dmd-lisp"))
-
 (require 'dmd-appearance)
-(require 'dmd-buffers)
 (require 'dmd-completion)
-(require 'dmd-general)
-(require 'dmd-lib)
+(require 'dmd-essentials)
 (require 'dmd-lsp)
+
+;; Set a GC strategy that will garbage collect more eagerly when idle.
+(use-package gcmh
+  :diminish
+  :config
+  (setopt gcmh-high-cons-threshold (* 256 1024 1024))
+  (setopt gcmh-low-cons-threshold (* 16 1024 1024))
+  (setopt gcmh-idle-delay 3)
+  (setopt gc-cons-percentage 0.2)
+  (add-hook 'after-init-hook #'gcmh-mode))
+
+;; Late binding with after-init-hook since other global minor modes _prepend_ to
+;; hooks and direnv may need something they put on the path to load envrc.
+(use-package envrc :hook (after-init . envrc-global-mode))
 
 (provide 'init)
 ;;; init.el ends here

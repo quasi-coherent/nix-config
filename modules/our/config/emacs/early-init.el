@@ -2,17 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun dmd/add-to-list (list element)
-  "Add to symbol of LIST the given ELEMENT.
-Simplified version of `add-to-list'."
-  (set list (cons element (symbol-value list))))
-
 (defvar inhibit-scratch-message)
 (setq frame-inhibit-implied-resize t
-      frame-title-format '(%b)
-      ring-bell-function 'ignore
-      use-file-dialog nil
-      use-short-answers t
       inhibit-startup-screen t
       inhibit-startup-buffer-menu t
       inhibit-splash-screen t
@@ -26,21 +17,14 @@ Simplified version of `add-to-list'."
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
-;; Overrides system-defined keystrokes for cut/copy/paste, e.g. Cmd-c copies to
-;; the clipboard and saves to the kill ring on OSX.
-(require 'simpleclip)
-(simpleclip-mode 1)
-
 ;; Seen it before.
 (defalias 'view-emacs-news 'ignore)
 (defalias 'describe-gnu-project 'ignore)
 
 ;; Temporarily increase the garbage collection threshold. It is belligerent to
-;; set the threshold to `most-positive-fixnum' but you only YOLO once.  Below we
-;; use `after-init-hook' to replace it.
-;;
-;; The `after-init-hook' adds a dynamic GC strategy that more eagerly runs
-;; when the program is idle.
+;; set the threshold to `most-positive-fixnum' but you only YOLO once.  It's
+;; set to something safe in the `after-init-hook' at the bottom, or on loading
+;; the gcmh package (used to set a dynamic GC strategy).
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.5)
 

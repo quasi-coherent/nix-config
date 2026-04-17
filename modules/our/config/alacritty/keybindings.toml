@@ -19,11 +19,6 @@
   chars = "\u001B[44;7u"
 
 [[keyboard.bindings]]
-  key = "<"
-  mods = "Alt|Shift"
-  chars = "\u001B[44;7u"
-
-[[keyboard.bindings]]
   key = "Enter"
   mods = "Command"
   action = "ToggleSimpleFullscreen"

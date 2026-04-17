@@ -3,6 +3,13 @@
 ;;; Code:
 
 ;;;###autoload
+(defun dmd/backward-delete-word (arg)
+  "Delete characters backward until encountering the beginning of a word.
+With argument ARG, do this that many times."
+  (interactive "p")
+  (delete-region (point) (progn (backward-word arg) (point))))
+
+;;;###autoload
 (defun dmd/minor-modes-active ()
   "Return list of active minor modes for the current buffer."
   (let ((active-modes))
@@ -143,6 +150,9 @@ Do not try to make a new directory or anything fancy."
 (defun dmd/orderless-fast-dispatch (word index total)
   (and (= index 0) (= total 1) (length< word 4)
        (cons 'orderless-literal-prefix word)))
+
+(defun dmd/orderless-flex-first-dispatch (_pattern index _basic)
+  (and (eq index 0) 'orderless-flex))
 
 (defun dmd/orderless-literal-dispatch (word _index _total)
   "Read WORD= as a literal string."

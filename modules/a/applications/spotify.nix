@@ -1,5 +1,5 @@
 {
-  # a,
+  a,
   den,
   inputs,
   ...
@@ -10,23 +10,26 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  # https://github.com/NixOS/nixpkgs/issues/465676
-  # our.nix-config.includes = [ a.spotify ];
+  our.nix-config.includes = [
+    a.spotify
+    (den._.unfree [
+      "spotify"
+      "spicetify-nix"
+    ])
+  ];
 
   a.spotify = {
-    includes = [ (den._.unfree [ "spotify" ]) ];
-
     homeManager =
       { inputs', ... }:
       let
-	spiceExts = inputs'.spicetify-nix.legacyPackages.extensions;
+        spiceExts = inputs'.spicetify-nix.legacyPackages.extensions;
       in
       {
         imports = [ inputs.spicetify-nix.homeManagerModules.spicetify ];
 
         programs.spicetify = {
-	  enable = true;
-	  enabledExtensions = with spiceExts; [
+          enable = true;
+          enabledExtensions = with spiceExts; [
             betterGenres
             focusMode
             fullAppDisplay
@@ -40,8 +43,8 @@
             songStats
             skipStats
             wikify
-	  ];
-	};
+          ];
+        };
       };
   };
 }

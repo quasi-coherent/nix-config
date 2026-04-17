@@ -1,0 +1,19 @@
+working_directory = "None"
+
+[mouse]
+hide_when_typing = true
+
+[bell]
+duration = 0
+
+[selection]
+save_to_clipboard = true
+
+[window]
+option_as_alt = "OnlyLeft"
+decorations = "Buttonless"
+startup_mode = "Windowed"
+
+[cursor.style]
+shape = "Block"
+blinking = "Never"

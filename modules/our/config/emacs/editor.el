@@ -1,12 +1,9 @@
+;;; Code:
+(require 'move-text)
+(require 'multiple-cursors)
 
-(eval-when-compile
-  (require 'use-package)
-  (setq use-package-verbose nil))
+(autoload #'mc/mark-next-like-this "multiple-cursors")
+(autoload #'mc/mark-previous-like-this "multiple-cursors")
 
-(autoload #'use-package-autoload-keymap "use-package-bind-key")
-
-(use-package move-text :config (move-text-default-bindings))
-
-(use-package multiple-cursors
-  :bind (("M-n" . mc/mark-next-like-this)
-         ("M-p" . mc/mark-previous-like-this)))
+(global-set-key "M-n" mc/mark-next-like-this)
+(global-set-key "M-p" mc/mark-previous-like-this)

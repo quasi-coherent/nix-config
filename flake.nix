@@ -41,6 +41,10 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixcord = {
+      url = "github:FlameFlag/nixcord";
+      inputs.flake-parts.follows = "flake-parts";
+    };
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     sops-nix = {
       url = "github:Mic92/sops-nix";

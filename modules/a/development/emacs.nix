@@ -20,24 +20,24 @@
         pkgs.emacs-lsp-booster
       ];
 
-      launchd.agents.emacs = {
-        enable = false;
-        config = {
-	  Label = "org.${config.home.username}.emacs";
-          ProgramArguments = [
-	    "${pkgs.runtimeShell}"
-            "-l"
-            "-c"
-            "${emacsPkg}/bin/emacs --fg-daemon"
-          ];
-          ProcessType = "Interactive";
-          RunAtLoad = true;
-          KeepAlive = {
-            Crashed = true;
-            SuccessfulExit = false;
-          };
-        };
-      };
+      # launchd.agents.emacs = {
+      #   enable = true;
+      #   config = {
+      #     Label = "org.${config.home.username}.emacs";
+      #     ProgramArguments = [
+      #       "${pkgs.runtimeShell}"
+      #       "-l"
+      #       "-c"
+      #       "${emacsPkg}/bin/emacs --fg-daemon"
+      #     ];
+      #     ProcessType = "Interactive";
+      #     RunAtLoad = true;
+      #     KeepAlive = {
+      #       Crashed = true;
+      #       SuccessfulExit = false;
+      #     };
+      #   };
+      # };
 
       programs.zsh = {
         siteFunctions.e = ''emacsclient -nw -q -u -c -a "" "''${@:-.}"'';
@@ -45,8 +45,8 @@
       };
 
       home.sessionVariables = {
-        EDITOR = ''emacs -nw -l "${config.xdg.configHome}/emacs/editor.el"'';
-        VISUAL = ''emacs -nw -l "${config.xdg.configHome}/emacs/editor.el"'';
+        EDITOR = ''emacs -t -nw -l "${config.xdg.configHome}/emacs/editor.el"'';
+        VISUAL = ''emacs -t -nw -l "${config.xdg.configHome}/emacs/editor.el"'';
       };
     };
 }

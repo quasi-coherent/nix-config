@@ -11,6 +11,7 @@
     includes = [
       den._.primary-user
       (den._.user-shell "zsh")
+
       our.nix-config
       our.secrets
       our.xdg
@@ -32,7 +33,7 @@
       };
       programs.ssh.matchBlocks."github.com" = {
         identityFile = "~/.ssh/id_ed25519";
-	addKeysToAgent = "yes";
+        addKeysToAgent = "yes";
         extraOptions.ControlPersist = "no";
       };
     };
