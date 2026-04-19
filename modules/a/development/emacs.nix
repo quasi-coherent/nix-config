@@ -1,4 +1,4 @@
-{ a, ... }:
+{ a, lib, ... }:
 {
   imports = [ ./_emacs ];
 
@@ -6,20 +6,20 @@
 
   a.emacs.homeManager =
     {
-      config,
       pkgs,
       self',
       ...
     }:
     let
-      emacsPkg = self'.packages.emacsForDaniel;
+      emacs = self'.packages.emacsForDaniel;
     in
     {
       home.packages = [
-        emacsPkg
+        emacs
         pkgs.emacs-lsp-booster
       ];
 
+      ## TODO: This crashes on occasion with some inscrutible error about treesitter.
       # launchd.agents.emacs = {
       #   enable = true;
       #   config = {
@@ -44,9 +44,13 @@
         shellAliases.ekill = "pkill emacs";
       };
 
-      home.sessionVariables = {
-        EDITOR = ''emacs -t -nw -l "${config.xdg.configHome}/emacs/editor.el"'';
-        VISUAL = ''emacs -t -nw -l "${config.xdg.configHome}/emacs/editor.el"'';
-      };
+      home.sessionVariables =
+        let
+          editor = lib.getBin (pkgs.writeShellScript "editor" ''exec emacsclient -nw -c -a "" "$@"'');
+        in
+        {
+          EDITOR = "${editor}";
+          VISUAL = "${editor}";
+        };
     };
 }

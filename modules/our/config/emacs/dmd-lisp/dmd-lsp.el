@@ -20,6 +20,7 @@
   :init
   (setq lsp-keymap-prefix "C-c C-l")
   :custom
+  (lsp-diagnostics-provider :flycheck)
   (lsp-completion-provider :none)       ; Using corfu
   :config
   (define-key lsp-mode-map (kbd "C-c C-l") lsp-command-map)
@@ -30,15 +31,12 @@
   :hook
   (lsp-mode . lsp-enable-which-key-integration))
 
-(use-package lsp-ivy)
-
 (use-package lsp-ui
   :hook (lsp-mode . lsp-ui-mode)
   :config
   (setq lsp-ui-doc-enable t
         lsp-ui-doc-use-webkit t
         lsp-ui-sideline-show-hover t
-        lsp-ui-doc-use-childframe nil
         lsp-ui-sideline-enable nil
         lsp-modeline-code-actions-mode nil))
 
@@ -48,8 +46,13 @@
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
-(use-package haskell-ts-mode :hook (haskell-ts-mode . lsp))
-(use-package lua-ts-mode :hook (lua-ts-mode . lsp))
+(use-package bash-ts-mode :hook (bash-ts-mode . lsp))
+
+(use-package haskell-ts-mode)
+(use-package lsp-haskell
+  :hook
+  (haskell-ts-mode . lsp))
+
 (use-package markdown-mode :hook (markdown-mode . lsp))
 
 (use-package nix-ts-mode
@@ -58,7 +61,15 @@
   :config
   (setq lsp-nix-nixd-formatting-command [ "nixfmt" ]))
 
-(use-package rust-ts-mode :hook (rust-ts-mode . lsp))
+(use-package rust-ts-mode)
+(use-package rustic
+  :hook
+  (rust-ts-mode . lsp)
+  :config
+  (setq compilation-scroll-output 'first-error)
+  (setq rustic-rustfmt-on-save-method 'rustic-cargo-fmt)
+  (setq rustic-format-trigger 'on-save))
+
 (use-package toml-ts-mode :hook (toml-ts-mode . lsp))
 (use-package yaml-ts-mode :hook (yaml-ts-mode . lsp))
 

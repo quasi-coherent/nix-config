@@ -18,35 +18,21 @@
       our.xdg
     ];
 
-    homeManager =
-      let
-        signingKey = builtins.readFile ./public_keys/signing_ed25519.pub;
-      in
-      {
-        programs.git = {
-          settings = {
-            user = {
-              inherit signingKey;
-              name = "Daniel Donohue";
-              email = "d.michael.donohue@gmail.com";
-            };
-            commit.gpgsign = true;
-            gpg.format = "ssh";
-            gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
-            github.user = "quasi-coherent";
-            gitlab.user = "quasi-coherent";
-          };
+    homeManager = {
+      programs.git = {
+        signing = {
+
         };
-        programs.ssh.matchBlocks."github.com" = {
-          identityFile = "~/.ssh/id_ed25519";
-          addKeysToAgent = "yes";
-          extraOptions.ControlPersist = "no";
-        };
-        home.file."allowed_signers" = {
-          target = ".ssh/allowed_signers";
-          text = signingKey;
+        settings = {
+          user.name = "Daniel Donohue";
+          user.email = "d.michael.donohue@gmail.com";
+          user.signingkey = "CEA9C9F18658A642";
+
+          github.user = "quasi-coherent";
+          gitlab.user = "quasi-coherent";
         };
       };
+    };
 
     darwin = {
       security.pam.services.sudo_local = {
@@ -55,7 +41,6 @@
         touchIdAuth = true;
         reattach = true;
       };
-
       users.users.daniel.openssh.authorizedKeys.keys = lib.pipe inputs.import-tree [
         (i: i.initFilter (lib.hasSuffix ".pub"))
         (i: i.map builtins.readFile)

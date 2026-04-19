@@ -9,6 +9,7 @@
 (declare-function no-littering-theme-backups "no-littering")
 
 (require 'use-package)
+(require 'dmd-lib)
 
 ;; Kitty keyboard protocol to work within tmux.  Responds to extended key
 ;; sequences.  TODO: It doesn't do a good job sometimes...  Figure out which
@@ -30,7 +31,7 @@
   (setq savehist-file (locate-user-emacs-file "savehist")
 	history-length 1000
 	savehist-save-minibuffer-history t
-	savehist-additional-variables '(register-alist kill-ring)))
+	dmd/add-to-list 'savehist-additional-variables '(register-alist kill-ring)))
 
 (use-package undo-tree
   :init
@@ -76,7 +77,7 @@
 
 (use-package avy
   :init
-  (global-set-key (kbd "C-c j") 'avy-goto-char-1)
+  (global-set-key (kbd "C-c j") 'avy-goto-char-2)
   :config
   (setq avy-all-windows t))
 

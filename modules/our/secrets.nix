@@ -25,10 +25,8 @@
           "id_ed25519" = {
             path = "${config.home.homeDirectory}/.ssh/id_ed25519";
           };
-          "signing_ed25519" = {
-            path = "${config.home.homeDirectory}/.ssh/signing_ed25519";
-          };
           "cachix_auth_token" = { };
+          "signing_asc" = { };
         };
         templates = {
           "CACHIX_AUTH_TOKEN".content = ''

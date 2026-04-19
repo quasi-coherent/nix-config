@@ -47,12 +47,5 @@
         shell = "${zshPkg}/bin/zsh";
         terminal = "tmux-256color";
       };
-
-
-      # Enables stylix theme on the status bar and active pane.
-      programs.zsh.envExtra = ''
-        export TINTED_TMUX_OPTION_STATUSBAR=1
-        export TINTED_TMUX_OPTION_ACTIVE=1
-      '';
     };
 }

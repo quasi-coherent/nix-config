@@ -53,14 +53,14 @@
 
 (use-package consult-flycheck)
 
-(use-package consult-lsp)
+(use-package consult-lsp
+  :config
+  (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
 
 (use-package consult-yasnippet)
 
 (use-package vertico
   :after consult
-  :hook
-  (rfn-eshadow-update-overlay . vertico-directory-tidy)
   :config
   (vertico-mode)
   (setq vertico-scroll-margin 0
@@ -103,7 +103,7 @@
   :config
   (marginalia-mode)
   (setq marginalia-max-relative-age 0)
-  (setq marginalia-annotator-registry
+  (setq marginalia-annotators
         '((buffer dmd/marginalia-buffer)
           (package dmd/marginalia-package)
           (function dmd/marginalia-symbol)
@@ -112,24 +112,15 @@
 
 (use-package corfu
   :hook (lsp-completion-mode . dmd/corfu-setup-lsp)
-  :custom
-  (tab-always-indent 'complete)
-  (completion-cycle-threshold nil)
-  (corfu-auto nil)
-  (corfu-auto-prefix 2)
-  (corfu-auto-delay 0.25)
-  (corfu-min-width 80)
-  (corfu-max-width corfu-max-width)
-  (corfu-count 14)
-  (corfu-scroll-margin 4)
-  (corfu-cycle nil)
-  (corfu-quit-at-boundary nil)
-  (corfu-separator ?\s)            ; space
-  (corfu-quit-no-match 'separator)
-  (corfu-preview-current 'insert)
-  (corfu-preselct-first t)
-  (corfu-echo-documentation nil)
-  (lsp-completion-provider :none)
+  :init
+  (global-corfu-mode)
+  (setq tab-always-indent 'complete
+        corfu-auto t
+        corfu-auto-prefix 2
+        corfu-auto-delay 0.25
+        corfu-cycle nil
+        corfu-preview-current t
+        corfu-preselect-first t)
   :bind
   (:map corfu-map
         ("M-n" . #'corfu-next)
@@ -140,8 +131,6 @@
         ("M-d" . #'corfu-info-documentation)
         ("M-l" . #'corfu-show-location)
         ("C-g" . #'corfu-quit))
-  :init
-  (corfu-global-mode)
   :config
   (defun corfu-enable-always-in-minibuffer ()
     "Enable Corfu in the minibuffer if Vertico/Mct are not active."
@@ -151,7 +140,7 @@
       (corfu-mode 1)))
   (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1)
 
-  (defun kb/corfu-setup-lsp ()
+  (defun dmd/corfu-setup-lsp ()
     "Use orderless completion style with lsp-capf instead of the
 default lsp-passthrough."
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
@@ -178,8 +167,8 @@ default lsp-passthrough."
 
 (use-package embark
   :bind
-  (("C-." . dmd/embark-act-quit)
-   ("C-," . dmd/embark-act-no-quit)
+  (("M-o" . dmd/embark-act-quit)
+   ("M-u" . dmd/embark-act-no-quit)
    ("C-h B" . embark-bindings))
   :config
   (setq prefix-help-command #'embark-prefix-help-command)

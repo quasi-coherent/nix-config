@@ -1,6 +1,9 @@
-{ a, ... }:
+{ a, den, ... }:
 {
-  our.nix-config.includes = [ a.dutils ];
+  our.nix-config.includes = [
+    a.dutils
+    (den._.unfree [ "claude-code" ])
+  ];
 
   # Developer CLI utils.
   a.dutils.homeManager =
@@ -9,6 +12,7 @@
       home.packages = with pkgs; [
         asciinema
         atac # Terminal Postman
+        claude-code
         clog-cli
         gdb
         gdb-dashboard

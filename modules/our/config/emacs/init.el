@@ -73,6 +73,11 @@ endurance")
 (show-paren-mode 1)
 (simpleclip-mode 1) ; Bindings to OS-defined clipboard keys
 (winner-mode 1)
+(menu-bar-mode -1)
+(mouse-wheel-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+
 
 ;;;; Global keys:
 

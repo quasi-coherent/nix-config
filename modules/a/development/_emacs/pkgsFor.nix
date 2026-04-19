@@ -24,18 +24,21 @@ epkgs: with epkgs; [
   just-ts-mode
   gcmh
   git-gutter
+  haskell-ts-mode
   helpful
   kkp
+  lsp-haskell
   lsp-mode
-  lsp-ivy
   lsp-ui
   marginalia
+  markdown-mode
   mct
   move-text
   multiple-cursors
   nix-ts-mode
   no-littering
   orderless
+  rustic
   simpleclip
   smartparens
   treesit-auto

@@ -2,6 +2,11 @@
 ;;; Commentary:
 ;;; Code:
 
+(defun dmd/add-to-list (listvar elements)
+  "Add multiple ELEMENTS to LISTVAR."
+  (dolist (elt elements)
+    (add-to-list listvar elt)))
+
 ;;;###autoload
 (defun dmd/backward-delete-word (arg)
   "Delete characters backward until encountering the beginning of a word.
@@ -87,13 +92,13 @@ Do not try to make a new directory or anything fancy."
   "Call `embark-act' but do not quit after the action."
   (interactive)
   (let ((embark-quit-after-action nil))
-    (call-interactibvely #'embark-act)))
+    (call-interactively #'embark-act)))
 
 (defun dmd/embark-act-quit ()
   "Call `embark-act' and quit after the action."
   (interactive)
   (let ((embark-quit-after-action 1))
-    (call-interactibvely #'embark-act)))
+    (call-interactively #'embark-act)))
 
 (defun dmd/marginalia-truncate (string)
   "Truncate STRING to `fill-column', if necessary."
@@ -106,14 +111,14 @@ Do not try to make a new directory or anything fancy."
   (when (stringp string)
     (format "%s%s"
             (propertize " " 'display `(space :align-to 40))
-            (propertize (dmd-marginalia-truncate string)
+            (propertize (dmd/marginalia-truncate string)
                         'face 'completions-annotations))))
 
 (defun dmd/marginalia-buffer (buffer)
   "Annotate BUFFER with the return value of function `buffer-file-name'."
   (if-let ((name (buffer-file-name (get-buffer buffer))))
-      (dmd-marginalia-display (abbreviate-file-name name))
-    (dmd-marginalia-display (format "%s" (buffer-local-value 'major-mode (get-buffer buffer))))))
+      (dmd/marginalia-display (abbreviate-file-name name))
+    (dmd/marginalia-display (format "%s" (buffer-local-value 'major-mode (get-buffer buffer))))))
 
 (defun dmd/marginalia-package (package)
   "Annotate PACKAGE with its summary."
@@ -124,7 +129,7 @@ Do not try to make a new directory or anything fancy."
                         (if-let (built-in (assq pkg package--builtins))
                             (package--from-builtin built-in)
                           (car (alist-get pkg package-archive-contents))))))
-    (dmd-marginalia-display (package-desc-summary desc))))
+    (dmd/marginalia-display (package-desc-summary desc))))
 
 (defun dmd/marginalia--get-symbol-doc (symbol)
   "Return documentation string according to SYMBOL type."
@@ -136,7 +141,7 @@ Do not try to make a new directory or anything fancy."
 
 (defun dmd/marginalia--first-line-documentation (symbol)
   "Return first line of SYMBOL documentation string."
-  (when-let ((doc-string (dmd-marginalia--get-symbol-doc symbol))
+  (when-let ((doc-string (dmd/marginalia--get-symbol-doc symbol))
              ((stringp doc-string))
              ((not (string-empty-p doc-string))))
     (car (split-string doc-string "[?!.\n]"))))
@@ -144,8 +149,8 @@ Do not try to make a new directory or anything fancy."
 (defun dmd/marginalia-symbol (symbol)
   "Annotate SYMBOL with its documentation string."
   (when-let ((sym (intern-soft symbol))
-             (doc-string (dmd-marginalia--first-line-documentation sym)))
-    (dmd-marginalia-display doc-string)))
+             (doc-string (dmd/marginalia--first-line-documentation sym)))
+    (dmd/marginalia-display doc-string)))
 
 (defun dmd/orderless-fast-dispatch (word index total)
   (and (= index 0) (= total 1) (length< word 4)

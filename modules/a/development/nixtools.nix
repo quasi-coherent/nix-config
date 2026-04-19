@@ -32,7 +32,7 @@
       ];
 
       programs.nix-index.enable = true;
-      programs.nix-index.enableFishIntegration = true;
+      programs.nix-index.enableZshIntegration = true;
       programs.nix-index-database.comma.enable = true;
     };
 }

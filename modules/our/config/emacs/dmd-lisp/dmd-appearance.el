@@ -18,8 +18,12 @@
 ;; NB: If we turn this back on, there is an obscure convention:
 ;; For `load-theme' to work, a file `my-cool-theme.el' must exist and contain a
 ;; theme `my-cool'.  Or `my-cool-theme-theme.el' could have `my-cool-theme' and
-;; that would work too.  So this needs to be in a different file with the name
-;; `our-base16-theme.el'.
+;; that would be ridiculous but also work.  So this section would need to be in
+;; a different file with the name `our-base16-theme.el'.
+;;
+;; Or, it's likely that this rule-that-isn't-stated-except-in-the-error is not
+;; strictly required and that there's some stuff you put between a ton of
+;; parentheses to do it a different way, but I'm just going to not dwell on it.
 ;;
 ;; (require 'base16-theme)
 ;;
@@ -52,7 +56,7 @@
 ;; The default has one bad thing, however, which is that the modeline is very
 ;; light orange on white a.k.a. not readable. Somehow that's being chosen over
 ;; the mode-line face provided by doom-modeline even though that's certainly
-;; available, not to mention the only thing it exists for.
+;; available, not to mention literally the only thing it exists for.
 (use-package doom-modeline
   :init
   (doom-modeline-mode 1)
@@ -60,7 +64,6 @@
         doom-modeline-icon nil
         doom-modeline-unicode-number nil
         doom-modeline-buffer-encoding nil
-        doom-modeline-check nil
         doom-modeline-persp-icon nil
         doom-modeline-modal nil
         doom-modeline-modal-icon nil
