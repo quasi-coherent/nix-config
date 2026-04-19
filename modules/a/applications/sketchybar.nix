@@ -2,25 +2,16 @@
 {
   our.nix-config.includes = [ a.sketchybar ];
 
-  a.sketchybar.homeManager =
-    { config, pkgs, ... }:
+  a.sketchybar.darwin =
+    { lib, pkgs, ... }:
     let
-      sketchybar = pkgs.sketchybar;
+      sketchybar-bin = pkgs.callPackage ./_sketchybar { };
     in
     {
-      home.packages = [ sketchybar ];
-
-      launchd.agents.sketchybar = {
+      services.sketchybar = {
         enable = true;
-        config = {
-          Label = "org.${config.home.username}.sketchybar";
-          ProgramArguments = [
-            "${sketchybar}/bin/sketchybar"
-            "--config"
-            "${config.xdg.configHome}/sketchybar/sketchybarrc"
-          ];
-          KeepAlive = true;
-        };
+        config = ''${lib.getBin sketchybar-bin}/bin/sketchybar.sh'';
+        extraPackages = [ pkgs.jq sketchybar-bin ];
       };
     };
 }
