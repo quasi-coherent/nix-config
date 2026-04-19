@@ -35,6 +35,11 @@
       };
 
       system.defaults.finder.AppleShowAllFiles = true;
+      system.defaults.finder.AppleShowAllExtensions = true;
+      system.defaults.finder.FXPreferredViewStyle = "clmv";
+      system.defaults.finder.NewWindowTarget = "Computer";
+      system.defaults.finder._FXShowPosixPathInTitle = true;
+
       system.defaults.hitoolbox.AppleFnUsageType = "Do Nothing";
       system.defaults.LaunchServices.LSQuarantine = false;
 
