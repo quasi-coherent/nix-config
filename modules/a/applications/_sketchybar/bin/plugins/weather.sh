@@ -3,7 +3,7 @@
 # Simple weather color buckets.
 
 # Get full temp string like "+76°F"
-raw=$(curl wttr.in/brooklyn,ny?format=1)    # format 1 gives something like “+76°F …”
+raw=$(curl 'wttr.in/brooklyn,ny?format=1')    # format 1 gives something like “+76°F …”
 if [ -z "$raw" ]; then
     exit 1
 fi

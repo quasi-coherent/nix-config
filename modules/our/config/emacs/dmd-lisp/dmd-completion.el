@@ -102,13 +102,7 @@
 (use-package marginalia
   :config
   (marginalia-mode)
-  (setq marginalia-max-relative-age 0)
-  (setq marginalia-annotators
-        '((buffer dmd/marginalia-buffer)
-          (package dmd/marginalia-package)
-          (function dmd/marginalia-symbol)
-          (symbol dmd/marginalia-symbol)
-          (variable dmd/marginalia-symbol))))
+  (setq marginalia-max-relative-age 0))
 
 (use-package corfu
   :hook (lsp-completion-mode . dmd/corfu-setup-lsp)

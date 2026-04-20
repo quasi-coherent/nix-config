@@ -7,10 +7,9 @@ stdenv.mkDerivation {
   installPhase = ''
     runHook preInstall
     mkdir -p $out/bin
-    cp ${./bin}/*.sh $out/bin/
-    cp ${./bin}/items/*.sh $out/bin/
-    cp ${./bin}/plugins/*.sh $out/bin/
-    cp ${./bin}/plugins/net/*.sh $out/bin/
+    cp $src/*.sh $out/bin/
+    cp $src/plugins/*.sh $out/bin/
+    cp $src/plugins/net/*.sh $out/bin/
     chmod +x $out/bin/*.sh
   '';
 }

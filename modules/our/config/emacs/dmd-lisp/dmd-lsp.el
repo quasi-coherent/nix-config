@@ -16,7 +16,7 @@
 (defvar lsp-nix-nixd-formatting-command)
 
 (use-package lsp-mode
-  :commands lsp
+  :commands lsp lsp-deferred
   :init
   (setq lsp-keymap-prefix "C-c C-l")
   :custom
@@ -46,32 +46,23 @@
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
-(use-package bash-ts-mode :hook (bash-ts-mode . lsp))
-
-(use-package haskell-ts-mode)
-(use-package lsp-haskell
-  :hook
-  (haskell-ts-mode . lsp))
-
-(use-package markdown-mode :hook (markdown-mode . lsp))
+(use-package bash-ts-mode :hook (bash-ts-mode . lsp-deferred))
+(use-package haskell-ts-mode :hook (haskell-ts-mode . lsp-deferred))
+(use-package json-ts-mode :hook (json-ts-mode . lsp-deferred))
+(use-package markdown-mode :hook (markdown-mode . lsp-deferred))
 
 (use-package nix-ts-mode
   :hook
-  (nix-ts-mode . lsp)
+  (nix-ts-mode . lsp-deferred)
   :config
   (setq lsp-nix-nixd-formatting-command [ "nixfmt" ]))
 
-(use-package rust-ts-mode)
-(use-package rustic
+(use-package rust-ts-mode
   :hook
-  (rust-ts-mode . lsp)
-  :config
-  (setq compilation-scroll-output 'first-error)
-  (setq rustic-rustfmt-on-save-method 'rustic-cargo-fmt)
-  (setq rustic-format-trigger 'on-save))
+  (rust-ts-mode . lsp-deferred))
 
-(use-package toml-ts-mode :hook (toml-ts-mode . lsp))
-(use-package yaml-ts-mode :hook (yaml-ts-mode . lsp))
+(use-package toml-ts-mode :hook (toml-ts-mode . lsp-deferred))
+(use-package yaml-ts-mode :hook (yaml-ts-mode . lsp-deferred))
 
 (define-derived-mode helm-mode yaml-ts-mode "helm"
   "Major mode for editing kubernetes helm templates.")

@@ -27,11 +27,11 @@
 (use-package savehist
   :init
   (savehist-mode)
+  (dmd/add-to-list 'savehist-additional-variables '(register-alist kill-ring))
   :config
   (setq savehist-file (locate-user-emacs-file "savehist")
 	history-length 1000
-	savehist-save-minibuffer-history t
-	dmd/add-to-list 'savehist-additional-variables '(register-alist kill-ring)))
+	savehist-save-minibuffer-history t))
 
 (use-package undo-tree
   :init

@@ -1,10 +1,10 @@
 export PADDINGS_SMALL=4
 export PADDINGS=8
 export PADDINGS_LARGE=16
-
-FONT="Hasklug Nerd Font"
+export FONT="Hasklug Nerd Font"
 
 source colors.sh
+source items.sh
 
 ##### Bar background appearance
 bar_config=(
@@ -54,15 +54,6 @@ popup_defaults=(
     popup.background.shadow.drawing=on
 )
 
-item_style=(
-    background.color="$(get_color GREY 20)"
-    background.corner_radius=12
-    background.height=28
-    background.drawing=on
-    background.padding_left=0
-    background.padding_right=0
-)
-
 # Setting up general bar appearance and defaults
 sketchybar --bar "${bar_config[@]}" \
 	   --default \
@@ -75,34 +66,30 @@ sketchybar --bar "${bar_config[@]}" \
 ##### Left area items
 LEFT_AREA=(
     "batt"
-    "public"
     "net"
+    "public"
 )
 
 CENTER_AREA=(
-    "datetime"
+    "notifs"
 )
 
 ##### Right area items
 RIGHT_AREA=(
     "weather"
     "datetime"
-    "notifs"
 )
 
 ##### Load items
 for item in "${LEFT_AREA[@]}"; do
-    source "${item}-item.sh"
     add_${item}_item left
 done
 
 for item in "${CENTER_AREA[@]}"; do
-    source "${item}-item.sh"
     add_${item}_item center
 done
 
 for item in "${RIGHT_AREA[@]}"; do
-    source "${item}-item.sh"
     add_${item}_item right
 done
 

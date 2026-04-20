@@ -11,15 +11,20 @@
 
   # The stylix theme is automatically enabled where compatible.
   our.theme = {
+    homeManager =
+      { pkgs, ... }:
+      {
+        fonts.fontconfig.enable = true;
+        home.packages = [
+          pkgs.beedii
+          pkgs.nerd-fonts.hasklug
+        ];
+      };
+
     darwin =
       { pkgs, ... }:
       {
         imports = [ inputs.stylix.darwinModules.stylix ];
-
-        environment.systemPackages = [ pkgs.fontconfig ];
-        fonts.packages = [
-          pkgs.nerd-fonts.hasklug
-        ];
 
         stylix = {
           base16Scheme = ./config/base16-scheme.yaml;

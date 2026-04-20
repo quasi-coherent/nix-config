@@ -18,21 +18,24 @@
       our.xdg
     ];
 
-    homeManager = {
-      programs.git = {
-        signing = {
-
-        };
-        settings = {
-          user.name = "Daniel Donohue";
-          user.email = "d.michael.donohue@gmail.com";
-          user.signingkey = "CEA9C9F18658A642";
-
-          github.user = "quasi-coherent";
-          gitlab.user = "quasi-coherent";
+    homeManager =
+      { config, ... }:
+      {
+        programs.git = {
+          signing = {
+            format = "openpgp";
+            key = "CEA9C9F18658A642";
+            signByDefault = true;
+            signer = "${config.programs.gpg.package}/bin/gpg";
+          };
+          settings = {
+            user.name = "Daniel Donohue";
+            user.email = "d.michael.donohue@gmail.com";
+            github.user = "quasi-coherent";
+            gitlab.user = "quasi-coherent";
+          };
         };
       };
-    };
 
     darwin = {
       security.pam.services.sudo_local = {

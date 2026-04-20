@@ -1,24 +1,14 @@
 
 colors=(
-    BLACK=0x131213
-    ASH=0x2f1823
-    GREY=0x472234
-    WHITE=0xffbee3
-    RED=0x74af68
-    GREEN=0xf15c99
-    LIME=0x81506a
-    DARK_GREEN=0x632227
-    BLUE=0xff3242
-    LIGHT_BLUE=0xff9153
-    YELLOW=0x87d75f
-    LIGHT_YELLOW=0x9ddf69
-    PURPLE=0x5fafd7
-    ORANGE=0xffd75f
-    MAGENTA=0x9413e5
-    SKY=0x7f2121
-
-    TRANSPARENT=0x00000000
-    TEXT=0xffcee0d2
+    BLUE=0x78c2ff
+    LIME=0xb1ff00
+    RED=0xffdff1
+    GREY=0xbecfdb
+    ASH=0xe6e6e6
+    GREEN=0xcee0d2
+    YELLOW=0xfff7e0
+    TRANSPARENT=0x000000
+    TEXT=0xcee0d2
 )
 
 get_color() {

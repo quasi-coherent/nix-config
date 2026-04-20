@@ -100,58 +100,6 @@ Do not try to make a new directory or anything fancy."
   (let ((embark-quit-after-action 1))
     (call-interactively #'embark-act)))
 
-(defun dmd/marginalia-truncate (string)
-  "Truncate STRING to `fill-column', if necessary."
-  (if (> (length string) fill-column)
-      (concat (substring string 0 fill-column) "...")
-    string))
-
-(defun dmd/marginalia-display (string)
-  "Propertize the display of STRING for completion annotation purposes."
-  (when (stringp string)
-    (format "%s%s"
-            (propertize " " 'display `(space :align-to 40))
-            (propertize (dmd/marginalia-truncate string)
-                        'face 'completions-annotations))))
-
-(defun dmd/marginalia-buffer (buffer)
-  "Annotate BUFFER with the return value of function `buffer-file-name'."
-  (if-let ((name (buffer-file-name (get-buffer buffer))))
-      (dmd/marginalia-display (abbreviate-file-name name))
-    (dmd/marginalia-display (format "%s" (buffer-local-value 'major-mode (get-buffer buffer))))))
-
-(defun dmd/marginalia-package (package)
-  "Annotate PACKAGE with its summary."
-  (when-let* ((pkg-alist (bound-and-true-p package-alist))
-              (pkg (intern-soft package))
-              (desc (or (when (package-desc-p pkg) pkg)
-                        (car (alist-get pkg pkg-alist))
-                        (if-let (built-in (assq pkg package--builtins))
-                            (package--from-builtin built-in)
-                          (car (alist-get pkg package-archive-contents))))))
-    (dmd/marginalia-display (package-desc-summary desc))))
-
-(defun dmd/marginalia--get-symbol-doc (symbol)
-  "Return documentation string according to SYMBOL type."
-  (cond
-   ((or (functionp symbol) (macrop symbol))
-    (documentation symbol))
-   (t
-    (get symbol 'variable-documentation))))
-
-(defun dmd/marginalia--first-line-documentation (symbol)
-  "Return first line of SYMBOL documentation string."
-  (when-let ((doc-string (dmd/marginalia--get-symbol-doc symbol))
-             ((stringp doc-string))
-             ((not (string-empty-p doc-string))))
-    (car (split-string doc-string "[?!.\n]"))))
-
-(defun dmd/marginalia-symbol (symbol)
-  "Annotate SYMBOL with its documentation string."
-  (when-let ((sym (intern-soft symbol))
-             (doc-string (dmd/marginalia--first-line-documentation sym)))
-    (dmd/marginalia-display doc-string)))
-
 (defun dmd/orderless-fast-dispatch (word index total)
   (and (= index 0) (= total 1) (length< word 4)
        (cons 'orderless-literal-prefix word)))

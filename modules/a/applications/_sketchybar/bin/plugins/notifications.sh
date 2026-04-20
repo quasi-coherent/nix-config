@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Source required files for colors and fonts
-source "$HOME/conf/sketchybar/colors.sh"
+source colors.sh
 
 # Get all visible apps from dock dynamically
 get_apps_from_dock() {
@@ -26,7 +26,7 @@ IFS=',' read -r -a APPS <<< "$APPS_STRING"
 
 # Remove the single leading space
 for i in "${!APPS[@]}"; do
-    APPS[$i]="${APPS[$i]# }"
+    APPS[i]="${APPS[$i]# }"
 done
 
 # Track if we have any notifications
