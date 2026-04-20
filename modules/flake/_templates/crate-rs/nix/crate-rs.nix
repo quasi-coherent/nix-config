@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  perSystem = { self', inputs', pkgs, ... }:
+  perSystem = { inputs', pkgs, ... }:
   let
     fenixPkgs = inputs'.fenix.packages;
 
@@ -23,22 +23,21 @@
       strictDeps = true;
     };
 
-    deps-only = craneLib.buildDepsOnly args;
+    cargoArtifacts = craneLib.buildDepsOnly args;
 
-    crate-rs = craneLib.buildPackage (args // {
-      inherit deps-only;
-    });
+    crateName = craneLib.crateNameFromCargoToml { inherit src; };
+
+    crate-rs = craneLib.buildPackage {
+      inherit (crateName) pname version;
+      inherit (args) src strictDeps;
+      inherit cargoArtifacts;
+    };
   in
     {
       packages = {
-        inherit crate-rs deps-only;
-        default = crate-rs;
-      };
-
-      checks = {
         inherit crate-rs;
-
-        fmt = self'.formatter;
+        default = crate-rs;
+        deps-only = cargoArtifacts;
       };
 
       devShells.default = pkgs.mkShell {

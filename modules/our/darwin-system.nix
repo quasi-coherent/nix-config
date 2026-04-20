@@ -48,7 +48,6 @@
       system.defaults.NSGlobalDomain.AppleICUForce24HourTime = true;
       system.defaults.NSGlobalDomain.AppleIconAppearanceTheme = "TintedDark";
       system.defaults.NSGlobalDomain.AppleInterfaceStyle = "Dark";
-      system.defaults.NSGlobalDomain._HIHideMenuBar = true;
       system.defaults.NSGlobalDomain.InitialKeyRepeat = 15;
       system.defaults.NSGlobalDomain.KeyRepeat = 2;
 

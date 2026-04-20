@@ -1,17 +1,6 @@
-{ a, ... }:
 {
-  our.nix-config.includes = [ a.sketchybar ];
-
-  a.sketchybar.darwin =
-    { pkgs, ... }:
-    let
-      sketchybar-bin = pkgs.callPackage ./_sketchybar { };
-    in
-    {
-      services.sketchybar = {
-        enable = true;
-        config = ''${sketchybar-bin}/bin/sketchybar.sh'';
-        extraPackages = [ pkgs.jq sketchybar-bin ];
-      };
-    };
+  # This is such a nightmare and I give up.
+  # https://github.com/FelixKratz/SketchyBar/issues/553
+  # our.nix-config.includes = [ a.sketchybar ];
+  a.sketchybar.homeManager.sketchybar.enable = false;
 }

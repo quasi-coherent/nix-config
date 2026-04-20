@@ -1,0 +1,259 @@
+# This is just being kept as a historical reference to the point where I gave up on
+# trying to make this work...  Many attempts with many more items organized neatly
+# into directories by item and plugin were wishful thinking.  You cannot reference
+# another file by relative path, and trying to get a variable into a launchd service
+# that is running in nix where all of these files are symlinks is an impossible task.
+#
+# But having it all in one file also doesn't work and I will actually lose it if I
+# don't just walk away right now. This describes only some of the issues I've seen:
+# https://github.com/FelixKratz/SketchyBar/issues/553
+
+export PADDINGS=8
+export FONT="Hasklug Nerd Font"
+
+colors=(
+    BLUE=0x78c2ff
+    LIME=0xb1ff00
+    RED=0xffdff1
+    GREY=0xbecfdb
+    ASH=0xe6e6e6
+    GREEN=0xcee0d2
+    YELLOW=0xfff7e0
+    TRANSPARENT=0x000000
+    TEXT=0xcee0d2
+)
+
+# Color creator
+get_color() {
+    local COLOR="$1"
+    local OPACITY="${2:-}"
+
+    # find the color value
+    local val=""
+    for entry in "${colors[@]}"; do
+        IFS='=' read -r name value <<< "$entry"
+        if [ "$name" = "$COLOR" ]; then
+            val="$value"
+            break
+        fi
+    done
+
+    if [ -z "$val" ]; then
+        echo "Color $COLOR not found" >&2
+        return 1
+    fi
+
+    # If no opacity specified, return the full color
+    if [ -z "$OPACITY" ]; then
+        echo "$val"
+        return 0
+    fi
+
+    local hexdec=$(( (OPACITY * 255 + 50) / 100 ))
+    # Format to two uppercase hex digits
+    local hex="${hexdec#0x}" # not strictly needed, just to be safe
+    printf -v hex "%02X" "$hexdec"
+
+    # Drop "0x" prefix, drop the first two hex digits (the AA), keep the rest
+    # val is "0xAARRGGBB" so:
+    local rgb="${val:4}"   # this removes "0xAA" → gives "RRGGBB"
+
+    # Construct new color
+    echo "0x${hex}${rgb}"
+}
+
+
+##### UI config defaults
+bar_config=(
+    blur_radius=0
+    color="$(get_color TRANSPARENT)"
+    corner_radius=0
+    height=38
+    margin=10
+    notch_width=200
+    padding_left=0
+    padding_right=0
+    position=top
+    shadow=off
+    sticky=on
+    topmost=window
+    y_offset=5
+)
+
+icon_defaults=(
+    icon.color="$(get_color TEXT 100)"
+    icon.font="$FONT:Bold:16.0"
+    icon.padding_left="$PADDINGS"
+    icon.padding_right=0
+)
+
+label_defaults=(
+    label.color="$(get_color TEXT 100)"
+    label.font="$FONT:Semibold:13.0"
+    label.padding_left="$PADDINGS"
+    label.padding_right="$PADDINGS"
+)
+
+background_defaults=(
+    background.corner_radius=9
+    background.height=30
+    background.padding_left="$PADDINGS"
+    background.padding_right="$PADDINGS"
+)
+
+item_style=(
+    background.color="$(get_color GREY 20)"
+    background.corner_radius=12
+    background.height=28
+    background.drawing=on
+    background.padding_left=0
+    background.padding_right=0
+)
+
+popup_defaults=(
+    popup.height=30
+    popup.horizontal=off
+    popup.background.border_color="$(get_color LIME 80)"
+    popup.background.border_width=2
+    popup.background.color="$(get_color ASH 80)"
+    popup.background.corner_radius=11
+    popup.background.shadow.drawing=on
+)
+
+##### General bar appearance setup
+sketchybar --bar "${bar_config[@]}" \
+	   --default \
+	   updates=when_shown \
+	   "${icon_defaults[@]}" \
+	   "${label_defaults[@]}" \
+	   "${background_defaults[@]}" \
+	   "${popup_defaults[@]}"
+
+##### Left area items
+batt_item () {
+    PERCENTAGE="$(pmset -g batt | grep -Eo "\d+%" | cut -d% -f1)"
+    CHARGING="$(pmset -g batt | grep 'AC Power')"
+
+    if [ "$PERCENTAGE" = "" ]; then
+        exit 0
+    fi
+
+    case "${PERCENTAGE}" in
+        9[0-9]|100) ICON=""
+                    ;;
+        [6-8][0-9]) ICON=""
+                    ;;
+        [3-5][0-9]) ICON=""
+                    ;;
+        [1-2][0-9]) ICON=""
+                    ;;
+        *) ICON=""
+    esac
+
+    if [[ "$CHARGING" != "" ]]; then
+        ICON=""
+    fi
+
+    # The item invoking this script (name $NAME) will get its icon and label
+    # updated with the current battery status
+    sketchybar --set "batt" icon="$ICON" label="${PERCENTAGE}%"
+}
+
+sketchybar --add item "batt" "left" \
+    --set "batt" \
+        "${item_style[@]}" \
+        icon.color="$(get_color GREY 100)" \
+        label.color="$(get_color GREY 100)" \
+        icon.padding_left=4 \
+        icon.padding_right=0 \
+        label.padding_left=0 \
+        label.padding_right=4 \
+        script="$(batt_item)" \
+        click_script="open /System/Library/PreferencePanes/Battery.prefPane"
+
+public_item() {
+    sketchybar --set "public" --label="$(curl -4 ifconfig.me)"
+}
+
+sketchybar --add item "public" "left" \
+           --set "public" \
+           "${item_style[@]}" \
+           label="0.0.0.0" \
+           icon.color="$(get_color YELLOW 100)" \
+           update_freq=600 \
+           script="$(public_item)" \
+           click_script="open /System/Library/PreferencePanes/Network.prefpane" \
+           --subscribe "public" wifi_change
+
+##### Right area items
+weather_item() {
+    # Get full temp string like "+76°F"
+    raw=$(curl 'wttr.in/brooklyn,ny?format=1')    # format 1 gives something like “+76°F …”
+    if [ -z "$raw" ]; then
+        exit 1
+    fi
+
+    # extract number: remove everything before + or -, then take digits
+    temp=$(echo "$raw" | grep -Eo '[-+]?[0-9]+' || echo "0")
+
+    # For testing: uncomment this to force a value
+    # temp=95
+
+    # Choose color by buckets
+    if [ "$temp" -gt 96 ]; then
+        color=0xffff0000
+    elif [ "$temp" -gt 90 ]; then
+        color=0xffee5511
+    elif [ "$temp" -gt 84 ]; then
+        color=0xffcc7700
+    elif [ "$temp" -gt 68 ]; then
+        color=0xffaacc00
+    elif [ "$temp" -gt 60 ]; then
+        color=0xff88cc00
+    elif [ "$temp" -gt 50 ]; then
+        color=0xff66cc88
+    elif [ "$temp" -gt 40 ]; then
+        color=0xff44ccff
+    elif [ "$temp" -gt 32 ]; then
+        color=0xff0066ff
+    elif [ "$temp" -gt 20 ]; then
+        color=0xff0044cc
+    else
+        color=0xff000088
+    fi
+
+    # Set SketchyBar alias color & also label with temp so you can see it
+    sketchybar --set "weather" alias.color=$color --label="$temp"
+}
+
+sketchybar --add item "weather" "right" \
+           --set "weather" \
+           "${item_style[@]}" \
+           icon.drawing=off \
+           label.drawing=off \
+           script="$(weather_item)" \
+           click_script="open -a Weather"
+
+datetime_item() {
+    DATE=$(date '+%Y %m %d')
+    TIME=$(date '+%H:%M')
+    sketchybar --set "datetime" label="${DATE} | ${TIME}"
+}
+
+# Datetime in one item
+sketchybar --add item "datetime" "right" \
+           --set "datetime" \
+           "${item_style[@]}" \
+           icon="󰃰" \
+           icon.drawing=off \
+           label="Loading..." \
+           update_freq=30 \
+           script="$(datetime_item)" \
+           click_script="open -a 'Notion Calendar.app'"
+
+# Subscribe to time changes
+sketchybar --subscribe "datetime" system_woke
+
+
+##### Force all scripts to run the first time #####
+sketchybar --update

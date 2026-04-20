@@ -7,13 +7,16 @@
     let
       tex = pkgs.texlive.combine {
         inherit (pkgs.texlive)
-          luatex
-          rsfs
           amsmath
-          wrapfig
-          scheme-medium
-          dvisvgm
           dvipng
+          dvisvgm
+          geometry
+          lm
+          luatex
+          moderncv
+          rsfs
+          scheme-medium
+          wrapfig
           ;
       };
     in
