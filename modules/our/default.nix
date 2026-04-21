@@ -14,6 +14,9 @@
       (den._.user-shell "zsh")
 
       our.nix-config
+      our.nix-config._.stable-emacs
+      # our.nix_config._.latest-emacs # latest git master
+
       our.secrets
       our.xdg
     ];
@@ -44,6 +47,7 @@
         touchIdAuth = true;
         reattach = true;
       };
+
       users.users.daniel.openssh.authorizedKeys.keys = lib.pipe inputs.import-tree [
         (i: i.initFilter (lib.hasSuffix ".pub"))
         (i: i.map builtins.readFile)

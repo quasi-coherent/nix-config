@@ -11,13 +11,14 @@ let
     { pkgs, ... }:
     let
       system = pkgs.stdenvNoCC.hostPlatform.system;
-      ePkgs = inputs.emacs-overlay.packages.${system}.emacs-unstable-pgtk.pkgs;
-      emacsForDaniel = ePkgs.emacsWithPackages (import ./pkgsFor.nix);
+      latestEpkgs = inputs.emacs-overlay.packages.${system}.emacs-git-pgtk.pkgs;
+      stableEpkgs = inputs.emacs-overlay.packages.${system}.emacs-unstable-pgtk.pkgs;
+      latestEmacsForDaniel = import ./pkgsFor.nix { epkgs = latestEpkgs; };
+      stableEmacsForDaniel = import ./pkgsFor.nix { epkgs = stableEpkgs; };
     in
     {
       packages = {
-        inherit emacsForDaniel;
-        default = emacsForDaniel;
+        inherit latestEmacsForDaniel stableEmacsForDaniel;
       };
     };
 in

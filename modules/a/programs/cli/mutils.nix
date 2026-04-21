@@ -9,6 +9,7 @@
     {
       home.packages = with pkgs; [
         calc
+        coreutils-prefixed
         curl
         curlie
         doggo

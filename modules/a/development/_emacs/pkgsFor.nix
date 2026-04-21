@@ -1,4 +1,5 @@
-epkgs: with epkgs; [
+{ epkgs }:
+epkgs.emacsWithPackages (with epkgs; [
   ace-window
   auctex
   auctex-lua
@@ -11,8 +12,9 @@ epkgs: with epkgs; [
   consult-dir
   consult-flycheck
   consult-lsp
-  consult-yasnippet
+  # consult-yasnippet
   corfu
+  corfu-terminal # TODO: Remove when on 31
   delight
   diminish
   doom-modeline
@@ -24,7 +26,6 @@ epkgs: with epkgs; [
   just-ts-mode
   gcmh
   git-gutter
-  haskell-ts-mode
   helpful
   kkp
   lsp-haskell
@@ -48,6 +49,6 @@ epkgs: with epkgs; [
   vertico
   wgrep
   which-key
-  yasnippet
-  yasnippet-snippets
-]
+  # yasnippet
+  # yasnippet-snippets
+])

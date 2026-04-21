@@ -59,7 +59,11 @@ endurance")
   (csetq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (csetq frame-title-format '(%b))
   (csetq ring-bell-function 'ignore)
-  (csetq use-file-dialog nil))
+  (csetq use-file-dialog nil)
+  (when (string= system-type "darwin")
+    (setq dired-use-ls-dired t
+          insert-directory-program "gls" ; Needs coreutils on the path
+          dired-listing-switches "-aBhl --group-directories-first")))
 
 ;;;; Global modes:
 

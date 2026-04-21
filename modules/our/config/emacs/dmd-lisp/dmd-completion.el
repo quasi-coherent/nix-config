@@ -57,8 +57,6 @@
   :config
   (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
 
-(use-package consult-yasnippet)
-
 (use-package vertico
   :after consult
   :config
@@ -100,9 +98,13 @@
   (completion-category-overrides '((file (styles partial-completion)))))
 
 (use-package marginalia
-  :config
+  :init
   (marginalia-mode)
-  (setq marginalia-max-relative-age 0))
+  :bind
+  (:map minibuffer-local-map
+        ("M-A" . #'marginalia-cycle))
+  :custom
+  (marginalia-max-relative-age 0))
 
 (use-package corfu
   :hook (lsp-completion-mode . dmd/corfu-setup-lsp)
@@ -139,6 +141,12 @@
 default lsp-passthrough."
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
           '(orderless))))
+
+;; Using emacs-unstable-pgtk until [1], but with emacs-git-pgtk and version 31
+;; this is no longer necessary.
+;;
+;; [1]: https://github.com/nix-community/emacs-overlay/issues/533
+(use-package corfu-terminal :init (corfu-terminal-mode +1))
 
 (use-package corfu-history
   :after corfu

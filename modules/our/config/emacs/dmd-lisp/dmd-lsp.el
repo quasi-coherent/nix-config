@@ -57,10 +57,7 @@
   :config
   (setq lsp-nix-nixd-formatting-command [ "nixfmt" ]))
 
-(use-package rust-ts-mode
-  :hook
-  (rust-ts-mode . lsp-deferred))
-
+(use-package rust-ts-mode :hook (rust-ts-mode . lsp-deferred))
 (use-package toml-ts-mode :hook (toml-ts-mode . lsp-deferred))
 (use-package yaml-ts-mode :hook (yaml-ts-mode . lsp-deferred))
 
