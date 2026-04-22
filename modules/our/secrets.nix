@@ -8,11 +8,13 @@
   imports = [ ./_secrets/sops-get.nix ];
 
   our.secrets.homeManager =
-    { config, ... }:
+    { config, self', ... }:
     {
       imports = [
         inputs.sops-nix.homeManagerModules.sops
       ];
+
+      home.packages = [ self'.packages.sops-get ];
 
       sops = {
         age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";

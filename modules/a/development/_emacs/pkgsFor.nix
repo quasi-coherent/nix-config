@@ -12,7 +12,6 @@ epkgs.emacsWithPackages (with epkgs; [
   consult-dir
   consult-flycheck
   consult-lsp
-  # consult-yasnippet
   corfu
   corfu-terminal # TODO: Remove when on 31
   delight
@@ -49,6 +48,6 @@ epkgs.emacsWithPackages (with epkgs; [
   vertico
   wgrep
   which-key
-  # yasnippet
-  # yasnippet-snippets
+  yasnippet
+  yasnippet-snippets
 ])

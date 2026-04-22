@@ -19,16 +19,10 @@ endurance")
 (require 'bind-key)
 (require 'delight)
 (require 'diminish)
-
 (require 'dmd-lib)
 
 (setq use-package-verbose nil)
 (autoload #'use-package-autoload-keymap "use-package-bind-key")
-
-(use-package flycheck
-  :init (global-flycheck-mode)
-  :custom (flycheck-emacs-lisp-load-path 'inherit)
-  :config (setq flycheck-check-syntax-automatically '(mode-enabled save)))
 
 (defmacro csetq (variable value)
   `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
@@ -64,8 +58,11 @@ endurance")
     (setq dired-use-ls-dired t
           insert-directory-program "gls" ; Needs coreutils on the path
           dired-listing-switches "-aBhl --group-directories-first")))
+  ;; (csetq lsp-use-plists t))
 
 ;;;; Global modes:
+(require 'git-gutter)
+(require 'simpleclip)
 
 (column-number-mode 1)
 (delete-selection-mode 1) ; Yank replaces the region
@@ -118,18 +115,17 @@ endurance")
 (require 'dmd-lsp)
 
 ;; Set a GC strategy that will garbage collect more eagerly when idle.
-(use-package gcmh
-  :diminish
-  :config
-  (setopt gcmh-high-cons-threshold (* 256 1024 1024))
-  (setopt gcmh-low-cons-threshold (* 16 1024 1024))
-  (setopt gcmh-idle-delay 3)
-  (setopt gc-cons-percentage 0.2)
-  (add-hook 'after-init-hook #'gcmh-mode))
+(require 'gcmh)
+(setopt gcmh-high-cons-threshold (* 256 1024 1024))
+(setopt gcmh-low-cons-threshold (* 16 1024 1024))
+(setopt gcmh-idle-delay 3)
+(setopt gc-cons-percentage 0.2)
+(add-hook 'after-init-hook #'gcmh-mode)
 
 ;; Late binding with after-init-hook since other global minor modes _prepend_ to
 ;; hooks and direnv may need something they put on the path to load envrc.
-(use-package envrc :hook (after-init . envrc-global-mode))
+(require 'envrc)
+(add-hook 'after-init-hook #'envrc-global-mode)
 
 (provide 'init)
 ;;; init.el ends here

@@ -1,4 +1,9 @@
 [[keyboard.bindings]]
+  key = "Enter"
+  mods = "Command"
+  action = "ToggleSimpleFullscreen"
+
+[[keyboard.bindings]]
   key = ";"
   mods = "Control"
   chars = "\u001B[59;5u"
@@ -9,16 +14,11 @@
   chars = "\u001B[47;5u"
 
 [[keyboard.bindings]]
-  key = ">"
-  mods = "Alt|Shift"
-  chars = "\u001B[46;7u"
+  key = "'"
+  mods = "Control"
+  chars = "\u001B[44;5u"
 
 [[keyboard.bindings]]
-  key = "<"
-  mods = "Alt|Shift"
-  chars = "\u001B[44;7u"
-
-[[keyboard.bindings]]
-  key = "Enter"
-  mods = "Command"
-  action = "ToggleSimpleFullscreen"
+  key = "."
+  mods = "Control"
+  chars = "\u001B[46;5u"

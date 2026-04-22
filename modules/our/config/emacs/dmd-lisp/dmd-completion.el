@@ -8,6 +8,8 @@
 (declare-function vertico-next "vertico")
 (declare-function vertico-mode "vertico")
 (declare-function marginalia-mode "marginalia")
+(declare-function global-corfu-mode "corfu")
+(declare-function corfu-terminal-mode "corfu-terminal")
 
 (use-package consult
   :init
@@ -38,11 +40,9 @@
    ("M-s e" . consult-isearch-history)
    ("M-s l" . consult-line-literal)
    ("M-s L" . consult-line-multi))
-   :config
-   (setq xref-show-xrefs-function #'consult-xref
-         xref-show-definitions-function #'consult-xref)
-   (setq consult-narrow-key "<")
-   (consult-customize consult-theme :preview-key '(:debounce 0.4 any)))
+  :config
+  (setq consult-narrow-key "<")
+  (consult-customize consult-theme :preview-key '(:debounce 0.4 any)))
 
 (use-package consult-dir
   :bind
@@ -50,12 +50,6 @@
    :map minibuffer-local-completion-map
    ("C-x C-d" . consult-dir)
    ("C-x C-j" . consult-dir-jump-file)))
-
-(use-package consult-flycheck)
-
-(use-package consult-lsp
-  :config
-  (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
 
 (use-package vertico
   :after consult
@@ -114,7 +108,7 @@
         corfu-auto t
         corfu-auto-prefix 2
         corfu-auto-delay 0.25
-        corfu-cycle nil
+        corfu-cycle t
         corfu-preview-current t
         corfu-preselect-first t)
   :bind
@@ -169,8 +163,8 @@ default lsp-passthrough."
 
 (use-package embark
   :bind
-  (("M-o" . dmd/embark-act-quit)
-   ("M-u" . dmd/embark-act-no-quit)
+  (("C-." . dmd/embark-act-quit)
+   ("M-." . dmd/embark-act-no-quit)
    ("C-h B" . embark-bindings))
   :config
   (setq prefix-help-command #'embark-prefix-help-command)
@@ -185,6 +179,16 @@ default lsp-passthrough."
   :demand t
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package yasnippet
+  :config
+  (yas-global-mode t)
+  (define-key yas-minor-mode-map (kbd "<tab>") nil)
+  (define-key yas-minor-mode-map (kbd "TAB") nil)
+  (define-key yas-minor-mode-map (kbd "C-c y") #'yas-expand)
+  (yas-reload-all))
+
+(use-package yasnippet-snippets)
 
 (provide 'dmd-completion)
 ;;; dmd-completion.el ends here

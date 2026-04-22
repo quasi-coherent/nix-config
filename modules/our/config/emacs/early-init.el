@@ -11,6 +11,10 @@
       inhibit-startup-echo-area-message user-login-name
       inhibit-scratch-message nil)
 
+;; Make `lsp-mode' be compiled in `plist' mode.  This provides better
+;; performance than the alternative `hash-table' compilation mode.
+;; (setenv "LSP_USE_PLISTS" "true")
+
 ;; Disable GUI elements.
 (menu-bar-mode -1)
 (mouse-wheel-mode -1)

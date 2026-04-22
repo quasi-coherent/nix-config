@@ -61,25 +61,14 @@
   :init
   (doom-modeline-mode 1)
   (setq doom-modeline-buffer-file-name-style 'relative-from-project
+        doom-modeline-height 15
+        doom-modeline-bar-width 6
         doom-modeline-icon nil
-        doom-modeline-unicode-number nil
-        doom-modeline-buffer-encoding nil
-        doom-modeline-persp-icon nil
+        doom-modeline-persp-name nil
         doom-modeline-modal nil
-        doom-modeline-modal-icon nil
-        doom-modeline-modal-modern-icon nil
         doom-modeline-gnus nil
         doom-modeline-irc nil
-        doom-modeline-display-misc-in-all-mode-lines nil
-        doom-modeline-remote-host nil
-        doom-modeline-env-version nil
         nerd-icons-color-icons nil))
-
-;; ;; Use the fontset we have elsewhere.
-;; (set-face-attribute 'default nil
-;;                     :font (font-spec
-;;                            :family "Hasklug Nerd Font"
-;;                            :size 12.0))
 
 (set-face-attribute 'mode-line nil
                     :background "#6e1641"

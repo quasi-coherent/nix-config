@@ -9,7 +9,6 @@
           declare -a args more
 
           dry=""
-          attr=""
 
           while test -n "''${1:-}"; do
             first="$1"
@@ -45,6 +44,7 @@
             exit 0
           else
             exec sops decrypt "''${args[@]}"
+          fi
         '';
       };
     in
