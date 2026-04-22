@@ -21,45 +21,68 @@
   (global-flycheck-mode)
   :config
   (setq flycheck-emacs-lisp-load-path 'inherit
+        flycheck-checker-error-threshold 1000
         flycheck-check-syntax-automatically '(mode-enabled save)))
 
+(use-package cape
+  :config
+  ;; NB: First one returning wins, so order matters.
+  ;;
+  ;; Use ~add-hook~ because it sets the global (default) value of capf.
+  ;; Using ~setq~ would be a mistake since that's buffer-local and capf is
+  ;; already buffer-local.
+  (add-hook 'completion-at-point-functions #'cape-history)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-keyword)
+  (add-hook 'completion-at-point-functions #'cape-dabbrev))
+
 (use-package lsp-mode
-  :commands lsp lsp-deferred
+  :commands (lsp lsp-deferred)
+  :custom
+  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
+  (lsp-completion-provider :none) ; Using corfu
+  (lsp-diagnostics-provider :flycheck)
+  (lsp-modeline-diagnostics-scope :workspace)
+  (when (lsp-feature? "textDocument/formatting")
+    (lsp-format-buffer-on-save t))
+  (lsp-enable-xref t)
+  (lsp-headerline-breadcrumb-enable t)
+  (lsp-headerline-breadcrumb-segments '(file symbols))
+  (lsp-idle-delay 0.5)
+  (lsp-before-save-edits nil)
+  (lsp-log-io nil)
+  (lsp-enable-links nil)
+  (lsp-server-trace nil)
+  (lsp-print-performance nil)
+  (lsp-report-if-no-buffer nil)
+  (lsp-keep-workspace-alive nil)
+  (lsp-eldoc-render-all nil)
   :init
   (setq lsp-keymap-prefix "C-c l")
-  :custom
-  (lsp-diagnostics-provider :flycheck)
-  (lsp-completion-provider :none)       ; Using corfu
-  :config
-  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
-  (setq lsp-headerline-breadcrumb-enable t
-        lsp-headerline-breadcrumb-segments '(file symbols)
-        lsp-modeline-diagnostics-scope :workspace
-        flycheck-checker-error-threshold 1000
-        lsp-idle-delay 0.5)
-  :hook
-  (lsp-mode . lsp-enable-which-key-integration))
+  (defun dmd/lsp-mode-completion-setup ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless))
+    (setq-local orderless-style-dispatchers (list #'dmd/orderless-flex-first-dispatch))
+    (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point)))))
 
 (use-package lsp-ui
-  :commands lsp-ui-mode
+  :commands (lsp-ui-mode)
   :hook (lsp-mode . lsp-ui-mode)
-  :config
-  (setq lsp-ui-doc-enable t
-        lsp-ui-doc-use-webkit t
-        lsp-ui-peek-always-show t
-        lsp-ui-sideline-show-hover t
-        lsp-ui-sideline-enable nil
-        lsp-modeline-code-actions-mode nil))
+  :custom
+  (lsp-ui-doc-enable t)
+  (lsp-ui-doc-use-webkit t)
+  (lsp-ui-peek-enable t)
+  (lsp-ui-peek-show-directory nil)
+  (lsp-ui-doc-enable t)
+  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-doc-delay 0.2))
 
 (use-package consult-flycheck)
 
 (use-package consult-lsp
   :after lsp-mode
   :config
-  (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
-  (setq completion-category-overrides
-        '((consult-lsp-symbols (orderless))
-          (consult-lsp-file-symbols (orderless)))))
+  (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
 
 (use-package treesit-auto
   :config

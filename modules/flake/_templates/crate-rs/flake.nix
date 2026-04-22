@@ -1,6 +1,8 @@
 {
   description = "crate-rs";
 
+  outputs = inputs: import ./. inputs;
+
   inputs = {
     crane.url = "github:ipetkov/crane";
     fenix = {
@@ -15,11 +17,4 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-
-  outputs =
-    inputs:
-    inputs.flake-parts.mkFlake { inherit inputs; } {
-      imports = [ ./nix ];
-      systems = import inputs.systems;
-    };
 }

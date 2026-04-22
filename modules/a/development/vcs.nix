@@ -45,6 +45,8 @@
         };
       };
 
+      programs.jujutsu.enable = true;
+
       programs.zsh.shellAliases = {
         g = "git";
         ga = "git add";

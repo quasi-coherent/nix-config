@@ -88,7 +88,6 @@
   :after consult
   :custom
   (completion-styles '(orderless partial-completion basic))
-  (completion-category-defaults nil)
   (completion-category-overrides '((file (styles partial-completion)))))
 
 (use-package marginalia
@@ -101,7 +100,6 @@
   (marginalia-max-relative-age 0))
 
 (use-package corfu
-  :hook (lsp-completion-mode . dmd/corfu-setup-lsp)
   :init
   (global-corfu-mode)
   (setq tab-always-indent 'complete
@@ -120,27 +118,7 @@
         ("M-SPC" . #'corfu-insert-separator)
         ("M-d" . #'corfu-info-documentation)
         ("M-l" . #'corfu-show-location)
-        ("C-g" . #'corfu-quit))
-  :config
-  (defun corfu-enable-always-in-minibuffer ()
-    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
-    (unless (or (bound-and-true-p mct--active) ; Useful if I ever use MCT
-                (bound-and-true-p vertico--input))
-      (setq-local corfu-auto nil)
-      (corfu-mode 1)))
-  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1)
-
-  (defun dmd/corfu-setup-lsp ()
-    "Use orderless completion style with lsp-capf instead of the
-default lsp-passthrough."
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless))))
-
-;; Using emacs-unstable-pgtk until [1], but with emacs-git-pgtk and version 31
-;; this is no longer necessary.
-;;
-;; [1]: https://github.com/nix-community/emacs-overlay/issues/533
-(use-package corfu-terminal :init (corfu-terminal-mode +1))
+        ("C-g" . #'corfu-quit)))
 
 (use-package corfu-history
   :after corfu
@@ -149,17 +127,7 @@ default lsp-passthrough."
   (savehist-mode 1)
   (add-to-list 'savehist-additional-variables 'corfu-history))
 
-(use-package cape
-  :config
-  ;; NB: First one returning wins, so order matters.
-  ;;
-  ;; Use ~add-hook~ because it sets the global (default) value of capf.
-  ;; Using ~setq~ would be a mistake since that's buffer-local and capf is
-  ;; already buffer-local.
-  (add-hook 'completion-at-point-functions #'cape-history)
-  (add-hook 'completion-at-point-functions #'cape-file)
-  (add-hook 'completion-at-point-functions #'cape-keyword)
-  (add-hook 'completion-at-point-functions #'cape-dabbrev))
+(use-package corfu-terminal :init (corfu-terminal-mode +1))
 
 (use-package embark
   :bind
@@ -180,15 +148,16 @@ default lsp-passthrough."
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+(use-package yasnippet-snippets)
+
 (use-package yasnippet
+  :diminish yas-minor-mode
   :config
   (yas-global-mode t)
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
   (define-key yas-minor-mode-map (kbd "C-c y") #'yas-expand)
   (yas-reload-all))
-
-(use-package yasnippet-snippets)
 
 (provide 'dmd-completion)
 ;;; dmd-completion.el ends here

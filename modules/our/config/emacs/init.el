@@ -110,8 +110,8 @@ endurance")
           (cl-mapcar #'cons keys commands)))))
 
 (require 'dmd-appearance)
-(require 'dmd-completion)
 (require 'dmd-essentials)
+(require 'dmd-completion)
 (require 'dmd-lsp)
 
 ;; Set a GC strategy that will garbage collect more eagerly when idle.

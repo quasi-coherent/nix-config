@@ -7,6 +7,7 @@ epkgs.emacsWithPackages (with epkgs; [
   bind-key
   cape
   cdlatex
+  chess
   cond-let
   consult
   consult-dir
@@ -27,6 +28,7 @@ epkgs.emacsWithPackages (with epkgs; [
   git-gutter
   helpful
   kkp
+  lichess
   lsp-haskell
   lsp-mode
   lsp-ui
