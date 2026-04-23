@@ -22,7 +22,18 @@
       environment.shellAliases.lctl = "launchctl";
 
       # Allows building Linux binaries.
-      nix.linux-builder.enable = true;
+      nix.linux-builder = {
+        enable = true;
+        ephemeral = true;
+        maxJobs = 4;
+        config.virtualisation = {
+          cores = 6;
+          darwin-builder.diskSize = 40 * 1024;
+          darwin-builder.memorySize = 8 * 1024;
+        };
+      };
+      # Required for the linux-builder.
+      nix.settings.trusted-users = [ "@admin" ];
 
       system.defaults.".GlobalPreferences"."com.apple.mouse.scaling" = 3.0;
 
