@@ -108,6 +108,7 @@ endurance")
 (require 'dmd-appearance)
 (require 'dmd-essentials)
 (require 'dmd-completion)
+(require 'dmd-misc)
 (require 'dmd-lsp)
 
 ;; Set a GC strategy that will garbage collect more eagerly when idle.

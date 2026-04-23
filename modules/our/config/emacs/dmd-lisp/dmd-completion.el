@@ -88,7 +88,10 @@
   :after consult
   :custom
   (completion-styles '(orderless partial-completion basic))
-  (completion-category-overrides '((file (styles partial-completion)))))
+  (completion-category-overrides '((file (styles partial-completion orderless))))
+  (orderless-matching-styles '(orderless-literal orderless-prefixes orderless-initialism orderless-regexp))
+  (orderless-style-dispatchers '(dmd/orderless-literal-dispatch dmd/orderless-file-ext-dispatch dmd/orderless-beg-or-end-dispatch))
+  (orderless-component-separator 'orderless-escapable-split-on-space))
 
 (use-package marginalia
   :init
@@ -99,16 +102,11 @@
   :custom
   (marginalia-max-relative-age 0))
 
+(use-package corfu-history)
+
 (use-package corfu
   :init
   (global-corfu-mode)
-  (setq tab-always-indent 'complete
-        corfu-auto t
-        corfu-auto-prefix 2
-        corfu-auto-delay 0.25
-        corfu-cycle t
-        corfu-preview-current t
-        corfu-preselect-first t)
   :bind
   (:map corfu-map
         ("M-n" . #'corfu-next)
@@ -118,14 +116,14 @@
         ("M-SPC" . #'corfu-insert-separator)
         ("M-d" . #'corfu-info-documentation)
         ("M-l" . #'corfu-show-location)
-        ("C-g" . #'corfu-quit)))
-
-(use-package corfu-history
-  :after corfu
-  :config
+        ("C-g" . #'corfu-quit))
+  :custom
+  (tab-always-indent 'complete)
+  (corfu-auto t)
+  (corfu-cycle t)
   (corfu-history-mode)
-  (savehist-mode 1)
-  (add-to-list 'savehist-additional-variables 'corfu-history))
+  (add-to-list 'savehist-additional-variables 'corfu-history)
+  (corfu-popupinfo-mode))
 
 (use-package corfu-terminal :init (corfu-terminal-mode +1))
 

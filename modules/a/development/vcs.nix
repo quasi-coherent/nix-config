@@ -60,8 +60,8 @@
         gcm = "git checkout master 2>/dev/null || git checkout main";
         gc = "git commit --verbose";
         gb = "git branch";
-        gbd = "$git branch -d";
-        gbD = "$git branch -D";
+        gbd = "git branch -d";
+        gbD = "git branch -D";
         gd = "git diff";
         gdc = "git diff --cached";
         gdup = "git diff @{upstream}";

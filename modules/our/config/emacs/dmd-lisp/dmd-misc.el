@@ -24,12 +24,9 @@
 
 (use-package lichess
   :commands (lichess lichess-tv lichess-game-watch)
-  :custom
   :config
   (advice-add 'lichess-http-request :before (lambda (&rest _) (dmd/load-lichess-oauth-token)))
-  (advice-add 'lichess-http-request :after (lambda (&rest _) (dmd/unload-lichess-oauth-token)))
-  (lichess-board-gui-light-square-color "#f0d9b5")
-  (lichess-board-gui-dark-square-color "#b58863"))
+  (advice-add 'lichess-http-request :after (lambda (&rest _) (dmd/unload-lichess-oauth-token))))
 
 (use-package chess)
 

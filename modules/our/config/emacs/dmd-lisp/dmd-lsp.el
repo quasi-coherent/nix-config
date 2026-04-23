@@ -40,9 +40,9 @@
   :commands (lsp lsp-deferred)
   :custom
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
-  (lsp-completion-provider :none) ; Using corfu
   (lsp-diagnostics-provider :flycheck)
   (lsp-modeline-diagnostics-scope :workspace)
+  (lsp-completion-provider :none) ; Using corfu
   (when (lsp-feature? "textDocument/formatting")
     (lsp-format-buffer-on-save t))
   (lsp-enable-xref t)
@@ -60,10 +60,12 @@
   :init
   (setq lsp-keymap-prefix "C-c l")
   (defun dmd/lsp-mode-completion-setup ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless))
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults)) '(orderless))
     (setq-local orderless-style-dispatchers (list #'dmd/orderless-flex-first-dispatch))
-    (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point)))))
+    (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point))))
+  :hook
+  (lsp-mode . lsp-enable-which-key-integration)
+  (lsp-completion-mode . dmd/lsp-mode-completion-setup))
 
 (use-package lsp-ui
   :commands (lsp-ui-mode)
