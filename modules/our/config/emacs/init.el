@@ -27,10 +27,6 @@ endurance")
 (defmacro csetq (variable value)
   `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
 
-(defun dmd/advice-add (&rest args)
-  (when (fboundp 'advice-add)
-    (apply #'advice-add args)))
-
 ;;;; Global defaults:
 
 (use-package emacs

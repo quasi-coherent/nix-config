@@ -8,13 +8,17 @@
   imports = [ ./_secrets/sops-get.nix ];
 
   our.secrets.homeManager =
-    { config, self', ... }:
+    { config, pkgs, self', ... }:
     {
       imports = [
         inputs.sops-nix.homeManagerModules.sops
       ];
 
-      home.packages = [ self'.packages.sops-get ];
+      home.packages = [
+        pkgs.age
+        pkgs.sops
+        self'.packages.sops-get
+      ];
 
       sops = {
         age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
@@ -29,11 +33,10 @@
           };
           "cachix_auth_token" = { };
           "signing_asc" = { };
+          "lichess_oauth_token" = { };
         };
         templates = {
-          "CACHIX_AUTH_TOKEN".content = ''
-            export CACHIX_AUTH_TOKEN="${config.sops.placeholder.cachix_auth_token}"
-          '';
+          "CACHIX_AUTH_TOKEN".content = ''"${config.sops.placeholder.cachix_auth_token}"'';
         };
       };
     };
