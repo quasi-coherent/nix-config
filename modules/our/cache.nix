@@ -1,7 +1,5 @@
 { ... }:
 {
-  imports = [ ./_cache/cachix-exec.nix ];
-
   our.cache = {
     os.nix.settings = {
       substituters = [
@@ -14,9 +12,19 @@
       ];
     };
 
-    homeManager = { self', ... }:
-    {
-      home.packages = [ self'.packages.cachix-exec ];
-    };
+    homeManager =
+      { config, pkgs, ... }:
+      let
+        cachix-exec = pkgs.writeShellApplication {
+          name = "cachix-push";
+          text = ''
+            CACHIX_AUTH_TOKEN=${config.sops.templates."CACHIX_AUTH_TOKEN".path} \
+              ${pkgs.lib.getBin pkgs.cachix} watch-exec quasi-coherent -- "$@"
+          '';
+        };
+      in
+      {
+        home.packages = [ pkgs.cachix cachix-exec ];
+      };
   };
 }
