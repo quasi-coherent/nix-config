@@ -25,18 +25,25 @@
       { config, ... }:
       {
         programs.git = {
-          signing = {
-            format = "openpgp";
-            key = "CEA9C9F18658A642";
-            signByDefault = true;
-            signer = "${config.programs.gpg.package}/bin/gpg";
-          };
           settings = {
-            user.name = "Daniel Donohue";
-            user.email = "d.michael.donohue@gmail.com";
             github.user = "quasi-coherent";
             gitlab.user = "quasi-coherent";
+            user.name = "Daniel Donohue";
+            user.email = "d.michael.donohue@gmail.com";
+
+            gpg.format = "ssh";
+            user.signingKey = "${config.home.homeDirectory}/.ssh/signing_ed25519";
+            gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.ssh/allowed_signers";
+
+            commit.gpgSign = true;
+            tag.gpgSign = true;
+            format.signoff = true;
           };
+        };
+
+        home.file.".ssh/allowed_signers" = {
+          text = ''d.michael.donohue@gmail.com namespaces="git" ${builtins.readFile ./public_keys/signing_ed25519.pub}'';
+          target = ".ssh/allowed_signers";
         };
       };
 
