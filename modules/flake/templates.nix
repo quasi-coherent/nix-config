@@ -1,13 +1,18 @@
 {
   flake.templates = {
     crate-rs = {
-      path = ./templates/crate-rs;
-      description = "Rust project flake with fenix and crane";
+      path = ./_templates/crate-rs;
+      description = "Single-crate rust project with fenix and crane";
     };
 
     latex = {
-      path = ./templates/latex;
-      description = "LaTeX template--nix run for PDF output of src/doc.tex";
+      path = ./_templates/latex;
+      description = "Flake app making the PDF output of src/doc.tex";
+    };
+
+    rust-shell = {
+      path = ./_devshells/rust-stable;
+      description = "Rust devshell with stable toolchain from fenix";
     };
   };
 }
