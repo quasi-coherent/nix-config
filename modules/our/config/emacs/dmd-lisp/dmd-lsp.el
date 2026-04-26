@@ -58,13 +58,15 @@
   (lsp-keep-workspace-alive nil)
   (lsp-eldoc-render-all nil)
   :init
-  (setq lsp-keymap-prefix "C-c l")
   (defun dmd/lsp-mode-completion-setup ()
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults)) '(orderless))
     (setq-local orderless-style-dispatchers (list #'dmd/orderless-flex-first-dispatch))
     (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point))))
+  :bind-keymap ("C-c l" . lsp-command-map)
   :hook
-  (lsp-mode . lsp-enable-which-key-integration)
+  (lsp-mode . (lambda ()
+                (let ((lsp-keymap-prefix "C-c l"))
+                  (lsp-enable-which-key-integration))))
   (lsp-completion-mode . dmd/lsp-mode-completion-setup))
 
 (use-package lsp-ui
@@ -84,7 +86,11 @@
 (use-package consult-lsp
   :after lsp-mode
   :config
-  (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
+  (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
+  :bind
+  (:map lsp-command-map
+        ("g e" . consult-lsp-diagnostics)
+        ("g a" . consult-lsp-symbols)))
 
 (use-package treesit-auto
   :config

@@ -109,21 +109,29 @@
   (global-corfu-mode)
   :bind
   (:map corfu-map
-        ("M-n" . #'corfu-next)
-        ("M-p" . #'corfu-previous)
-        ("M-TAB" . #'corfu-expand)
-        ("RET" . #'corfu-insert)
+        ("C-n" . #'corfu-next)
+        ("C-p" . #'corfu-previous)
+        ("C-g" . #'corfu-quit)
         ("M-SPC" . #'corfu-insert-separator)
         ("M-d" . #'corfu-info-documentation)
         ("M-l" . #'corfu-show-location)
-        ("C-g" . #'corfu-quit))
+        ("C-v" . #'corfu-scroll-down)   ; Corfu has these two backwards
+        ("M-v" . #'corfu-scroll-up)
+        ("RET" . nil)                   ; This gets in the way
+        ("M-h" . nil)                   ; Unset things we remapped
+        ("M-g" . nil))
   :custom
   (tab-always-indent 'complete)
   (corfu-auto t)
   (corfu-cycle t)
+  (corfu-auto-delay 0.67)
+  (corfu-auto-prefix 2)
+  (corfu-preselect 'directory)
   (corfu-history-mode)
   (add-to-list 'savehist-additional-variables 'corfu-history)
-  (corfu-popupinfo-mode))
+  (corfu-popupinfo-mode)
+  :config
+  (keymap-unset corfu-map "RET"))
 
 (use-package corfu-terminal :init (corfu-terminal-mode +1))
 

@@ -25,8 +25,6 @@
       allowAnyShortcut = 1;
       # I'll let the guy who made this manage launch agents.
       launchOnLogin = 1;
-      # Should be equal to sketchybar's background.height.
-      screenEdgeGapTop = 38;
 
       # cmd+option+ctrl + N, M
       cascadeActiveApp = {
@@ -74,7 +72,6 @@
         modifierFlags = 1966080;
       };
 
-
       # cmd+option+ctrl + C
       center = {
         keyCode = 8;
@@ -101,11 +98,11 @@
         modifierFlags = 1835008;
       };
       topHalf = {
-        keyCode = 124;
+        keyCode = 126;
         modifierFlags = 1835008;
       };
       rightHalf = {
-        keyCode = 126;
+        keyCode = 124;
         modifierFlags = 1835008;
       };
 
@@ -119,11 +116,11 @@
         modifierFlags = 1966080;
       };
       topRight = {
-        keyCode = 124;
+        keyCode = 126;
         modifierFlags = 1966080;
       };
       bottomRight = {
-        keyCode = 126;
+        keyCode = 124;
         modifierFlags = 1966080;
       };
     };

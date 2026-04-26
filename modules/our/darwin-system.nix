@@ -1,18 +1,31 @@
 { inputs, ... }:
 {
-  flake-file.inputs.darwin = {
-    url = "github:nix-darwin/nix-darwin";
-    inputs.nixpkgs.follows = "nixpkgs";
+  flake-file.inputs = {
+    darwin = {
+      url = "github:nix-darwin/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   our.darwin-system.darwin =
-    { pkgs, ... }:
+    { inputs', pkgs, ... }:
+    let
+      ndPkgs = inputs'.darwin.packages;
+      hmPkgs = inputs'.home-manager.packages;
+    in
     {
-      environment.systemPackages = with inputs.darwin.packages.${pkgs.stdenvNoCC.hostPlatform.system}; [
-        darwin-option
-        darwin-rebuild
-        darwin-version
-        darwin-uninstaller
+      environment.systemPackages = [
+        hmPkgs.home-manager
+
+        ndPkgs.darwin-option
+        ndPkgs.darwin-rebuild
+        ndPkgs.darwin-version
+        ndPkgs.darwin-uninstaller
+
         pkgs.age
         pkgs.cachix
         pkgs.reattach-to-user-namespace
