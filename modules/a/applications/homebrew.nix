@@ -21,6 +21,7 @@
         "1password"
         "1password-cli"
         "orion"
+        "slack"
       ];
 
       nix-homebrew = {
