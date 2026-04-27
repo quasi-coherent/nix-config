@@ -18,10 +18,7 @@
         cleanup = "zap";
       };
       homebrew.casks = [
-        "1password"
-        "1password-cli"
         "orion"
-        "slack"
       ];
 
       nix-homebrew = {

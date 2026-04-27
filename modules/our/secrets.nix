@@ -5,10 +5,11 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  imports = [ ./_secrets/sops-get.nix ];
-
   our.secrets.homeManager =
-    { config, pkgs, self', ... }:
+    { config, pkgs, ... }:
+    let
+      sops-get = pkgs.callPackage ./_secrets/sops-get.nix { };
+    in
     {
       imports = [
         inputs.sops-nix.homeManagerModules.sops
@@ -17,7 +18,7 @@
       home.packages = [
         pkgs.age
         pkgs.sops
-        self'.packages.sops-get
+        sops-get
       ];
 
       sops = {
