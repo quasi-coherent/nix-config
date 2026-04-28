@@ -61,10 +61,13 @@
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults)) '(orderless))
     (setq-local orderless-style-dispatchers (list #'dmd/orderless-flex-first-dispatch))
     (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point))))
-  :bind-keymap ("C-c l" . lsp-command-map)
+  :bind-keymap ("C-c C-l" . lsp-command-map)
+  :bind
+  (:map lsp-command-map
+        ("f f" . lsp-format-buffer))
   :hook
   (lsp-mode . (lambda ()
-                (let ((lsp-keymap-prefix "C-c l"))
+                (let ((lsp-keymap-prefix "C-c C-l"))
                   (lsp-enable-which-key-integration))))
   (lsp-completion-mode . dmd/lsp-mode-completion-setup))
 
@@ -112,8 +115,7 @@
 (use-package nix-ts-mode
   :hook (nix-ts-mode . lsp-deferred)
   :config
-  (setq lsp-nix-nixd-formatting-command ["nixfmt"])
-  (add-to-list 'lsp-format-buffer-on-save-list '(nix-ts-mode)))
+  (setq lsp-nix-nixd-formatting-command ["nixfmt"]))
 
 (use-package rust-ts-mode
   :hook
@@ -124,9 +126,7 @@
   (lsp-rust-analyzer-display-chaining-hints t)
   (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
   (lsp-rust-analyzer-display-closure-return-type-hints t)
-  (lsp-rust-analyzer-display-parameter-hints nil)
-  :config
-  (add-to-list 'lsp-format-buffer-on-save-list '(rust-ts-mode)))
+  (lsp-rust-analyzer-display-parameter-hints nil))
 
 (use-package toml-ts-mode :hook (toml-ts-mode . lsp-deferred))
 (use-package yaml-ts-mode :hook (yaml-ts-mode . lsp-deferred))
