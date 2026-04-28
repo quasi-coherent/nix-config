@@ -37,6 +37,7 @@
           };
           "cachix_auth_token" = { };
           "lichess_oauth_token" = { };
+          "cratesio_api_token" = { };
         };
         templates = {
           "CACHIX_AUTH_TOKEN".content = ''"${config.sops.placeholder.cachix_auth_token}"'';
