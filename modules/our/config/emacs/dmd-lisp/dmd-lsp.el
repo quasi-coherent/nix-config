@@ -43,8 +43,7 @@
   (lsp-diagnostics-provider :flycheck)
   (lsp-modeline-diagnostics-scope :workspace)
   (lsp-completion-provider :none) ; Using corfu
-  (when (lsp-feature? "textDocument/formatting")
-    (lsp-format-buffer-on-save t))
+  (lsp-format-buffer-on-save t)
   (lsp-enable-xref t)
   (lsp-headerline-breadcrumb-enable t)
   (lsp-headerline-breadcrumb-segments '(file symbols))
@@ -101,13 +100,20 @@
 (use-package bash-ts-mode :hook (bash-ts-mode . lsp-deferred))
 (use-package haskell-ts-mode :hook (haskell-ts-mode . lsp-deferred))
 (use-package json-ts-mode :hook (json-ts-mode . lsp-deferred))
-(use-package markdown-mode :hook (markdown-mode . lsp-deferred))
+
+(use-package markdown-mode
+  :hook (markdown-mode . lsp-deferred)
+  :bind
+  (:map markdown-mode-map
+        ("M-h" . nil) ; Pretty bold of markdown-mode to set these
+        ("M-n" . nil)
+        ("M-p" . nil)))
 
 (use-package nix-ts-mode
-  :hook
-  (nix-ts-mode . lsp-deferred)
+  :hook (nix-ts-mode . lsp-deferred)
   :config
-  (setq lsp-nix-nixd-formatting-command [ "nixfmt" ]))
+  (setq lsp-nix-nixd-formatting-command ["nixfmt"])
+  (add-to-list 'lsp-format-buffer-on-save-list '(nix-ts-mode)))
 
 (use-package rust-ts-mode
   :hook
@@ -118,7 +124,9 @@
   (lsp-rust-analyzer-display-chaining-hints t)
   (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
   (lsp-rust-analyzer-display-closure-return-type-hints t)
-  (lsp-rust-analyzer-display-parameter-hints nil))
+  (lsp-rust-analyzer-display-parameter-hints nil)
+  :config
+  (add-to-list 'lsp-format-buffer-on-save-list '(rust-ts-mode)))
 
 (use-package toml-ts-mode :hook (toml-ts-mode . lsp-deferred))
 (use-package yaml-ts-mode :hook (yaml-ts-mode . lsp-deferred))

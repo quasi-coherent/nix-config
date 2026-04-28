@@ -57,7 +57,6 @@
         gco = "git checkout";
         gcount = "git shortlog --summary --numbered";
         gcb = "git checkout -b";
-        gcm = "git checkout master 2>/dev/null || git checkout main";
         gc = "git commit --verbose";
         gb = "git branch";
         gbd = "git branch -d";
@@ -87,5 +86,12 @@
         grst = "git restore --staged";
         gwipe = "git reset --hard && git clean --force -df";
       };
+
+      programs.zsh.siteFunctions.gcm = ''
+        x=$(git checkout master 2>&1)
+        if [ $? -ne 0 ]; then
+          git checkout main 2>/dev/null || (echo "$x"; exit 1)
+        fi
+      '';
     };
 }

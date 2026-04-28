@@ -19,7 +19,7 @@
           name = "cachix-push";
           text = ''
             CACHIX_AUTH_TOKEN=${config.sops.templates."CACHIX_AUTH_TOKEN".path} \
-              ${pkgs.lib.getBin pkgs.cachix} watch-exec quasi-coherent -- "$@"
+              ${pkgs.lib.getBin pkgs.cachix}/bin/cachix watch-exec quasi-coherent -- "$@"
           '';
         };
       in
