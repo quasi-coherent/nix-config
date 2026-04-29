@@ -15,16 +15,13 @@
     homeManager =
       { config, pkgs, ... }:
       let
-        cachix-exec = pkgs.writeShellApplication {
-          name = "cachix-push";
-          text = ''
-            CACHIX_AUTH_TOKEN=${config.sops.templates."CACHIX_AUTH_TOKEN".path} \
-              ${pkgs.lib.getBin pkgs.cachix}/bin/cachix watch-exec quasi-coherent -- "$@"
-          '';
-        };
+        cachix-exec = pkgs.callPackage ./_pkgs/cachix-exec.nix { inherit config; };
       in
       {
-        home.packages = [ pkgs.cachix cachix-exec ];
+        home.packages = [
+          cachix-exec
+          pkgs.cachix
+        ];
       };
   };
 }

@@ -8,12 +8,10 @@
   our.secrets.homeManager =
     { config, pkgs, ... }:
     let
-      sops-get = pkgs.callPackage ./_secrets/sops-get.nix { };
+      sops-get = pkgs.callPackage ./_pkgs/sops-get.nix { };
     in
     {
-      imports = [
-        inputs.sops-nix.homeManagerModules.sops
-      ];
+      imports = [ inputs.sops-nix.homeManagerModules.sops ];
 
       home.packages = [
         pkgs.age
@@ -42,6 +40,7 @@
         };
         templates = {
           "CACHIX_AUTH_TOKEN".content = ''"${config.sops.placeholder.cachix_auth_token}"'';
+          "CARGO_REGISTRY_TOKEN".content = ''"${config.sops.placeholder.cratesio_api_token}"'';
         };
       };
     };

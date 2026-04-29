@@ -1,8 +1,12 @@
-{ sops, writeShellApplication }:
+{
+  lib,
+  sops,
+  writeShellApplication,
+}:
 writeShellApplication {
   name = "sops-get";
   text = ''
-    export PATH=${sops}/bin:$PATH
+    export PATH=${lib.getBin sops}/bin:$PATH
     declare -a args more
 
     dry=""

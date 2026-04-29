@@ -22,7 +22,6 @@
         ];
 
         cargoCmds = with pkgs; [
-          cargo-binstall
           cargo-expand
           cargo-flamegraph
           cargo-llvm-cov
@@ -30,7 +29,6 @@
           cargo-make
           cargo-show-asm
           cargo-sort
-          # cargo-valgrind
           cargo-watch
         ];
       in
