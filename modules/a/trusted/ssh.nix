@@ -19,6 +19,11 @@
           addKeysToAgent = "yes";
           extraOptions.ControlPersist = "no";
         };
+        matchBlocks."gitlab.com" = {
+          identityFile = "~/.ssh/gitlab_auth_ed25519";
+          addKeysToAgent = "yes";
+          extraOptions.ControlPersist = "no";
+        };
       };
 
       services.ssh-agent.enable = true;

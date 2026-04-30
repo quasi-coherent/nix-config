@@ -3,7 +3,7 @@
   our.nix-config.includes = [ a.vcs ];
 
   a.vcs.homeManager =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
     {
       home.packages = [ pkgs.difftastic ];
 
@@ -32,6 +32,11 @@
           diff.tool = "difftastic";
           difftool.prompt = false;
           difftool.difftastic.cmd = "${pkgs.difftastic}/bin/difft $LOCAL $REMOTE";
+          format.signoff = true;
+          commit.gpgSign = true;
+          tag.gpgSign = true;
+          gpg.format = "ssh";
+          gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.ssh/allowed_signers";
         };
       };
 
@@ -71,6 +76,7 @@
         gla = "git pull --autostash";
         glo = "git log --oneline --decorate";
         glog = "git log --graph";
+        glon = "git --no-pager log -n";
         gllog = "git log --graph --all";
         glogp = "git log --stat --patch";
         gp = "git push";

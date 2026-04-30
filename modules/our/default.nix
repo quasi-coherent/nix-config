@@ -24,25 +24,32 @@
     homeManager =
       { config, ... }:
       {
-        programs.git = {
-          settings = {
-            github.user = "quasi-coherent";
-            gitlab.user = "quasi-coherent";
-            user.name = "Daniel Donohue";
-            user.email = "d.michael.donohue@gmail.com";
-
-            gpg.format = "ssh";
-            user.signingKey = "${config.home.homeDirectory}/.ssh/signing_ed25519";
-            gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.ssh/allowed_signers";
-
-            commit.gpgSign = true;
-            tag.gpgSign = true;
-            format.signoff = true;
-          };
-        };
+        programs.git.includes = [
+          {
+            condition = "hasconfig:remote.*.url:git@github.com:*/**";
+            contentSuffix = "github";
+            contents = {
+              user.name = "Daniel Donohue";
+              user.email = "d.michael.donohue@gmail.com";
+              user.signingKey = "${config.home.homeDirectory}/.ssh/signing_ed25519";
+            };
+          }
+          {
+            condition = "hasconfig:remote.*.url:git@gitlab.com:*/**";
+            contentSuffix = "gitlab";
+            contents = {
+              user.name = "quasi-coherent";
+              user.email = "qcoh@gitlab";
+              user.signingKey = "${config.home.homeDirectory}/.ssh/gitlab_sign_ed25519";
+            };
+          }
+        ];
 
         home.file.".ssh/allowed_signers" = {
-          text = ''d.michael.donohue@gmail.com namespaces="git" ${builtins.readFile ./public_keys/signing_ed25519.pub}'';
+          text = ''
+            d.michael.donohue@gmail.com namespaces="git" ${builtins.readFile ./public_keys/signing_ed25519.pub}
+            qcoh@gitlab namespaces="git" ${builtins.readFile ./public_keys/gitlab_sign_ed25519.pub}
+          '';
           target = ".ssh/allowed_signers";
         };
       };

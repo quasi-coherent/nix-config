@@ -43,7 +43,6 @@
   (lsp-diagnostics-provider :flycheck)
   (lsp-modeline-diagnostics-scope :workspace)
   (lsp-completion-provider :none) ; Using corfu
-  (lsp-format-buffer-on-save t)
   (lsp-enable-xref t)
   (lsp-headerline-breadcrumb-enable t)
   (lsp-headerline-breadcrumb-segments '(file symbols))
