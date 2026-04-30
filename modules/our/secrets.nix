@@ -36,6 +36,9 @@
           "gitlab_auth_ed25519" = {
             path = "${config.home.homeDirectory}/.ssh/gitlab_auth_ed25519";
           };
+          "gitlab_sign_ed25519" = {
+            path = "${config.home.homeDirectory}/.ssh/gitlab_sign_ed25519";
+          };
           "cachix_auth_token" = { };
           "lichess_oauth_token" = { };
           "cratesio_api_token" = { };
