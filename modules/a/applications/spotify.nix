@@ -31,14 +31,10 @@
           enable = true;
           enabledExtensions = with spiceExts; [
             betterGenres
-            focusMode
-            fullAppDisplay
             groupSession
             history
             loopyLoop
-            phraseToPlaylist
             playlistIntersection
-            sessionStats
             shuffle
             songStats
             skipStats

@@ -1,6 +1,9 @@
-{ a, ... }:
+{ a, den, ... }:
 {
-  our.nix-profile.includes = [ a.desktop ];
+  our.nix-config.includes = [
+    a.desktop
+    (den._.unfree [ "1password" "1password-cli" "slack" ])
+  ];
 
   a.desktop.homeManager =
     { pkgs, ... }:

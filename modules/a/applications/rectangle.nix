@@ -23,6 +23,7 @@
     # See documentation: https://github.com/rxhanson/Rectangle/blob/main/TerminalCommands.md
     darwin.system.defaults.CustomUserPreferences."com.knollsoft.Rectangle" = {
       allowAnyShortcut = 1;
+      moveCursor = 1;
       # I'll let the guy who made this manage launch agents.
       launchOnLogin = 1;
 

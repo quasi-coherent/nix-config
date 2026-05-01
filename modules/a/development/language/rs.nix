@@ -27,8 +27,10 @@
           cargo-llvm-cov
           cargo-machete
           cargo-make
+          cargo-msrv
           cargo-show-asm
           cargo-sort
+          cargo-tauri_1
           cargo-watch
         ];
       in

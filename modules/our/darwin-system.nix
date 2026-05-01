@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ ... }:
 {
   flake-file.inputs = {
     darwin = {
@@ -33,6 +33,10 @@
 
       environment.enableAllTerminfo = true;
       environment.shellAliases.lctl = "launchctl";
+      environment.variables = {
+        LANG = "en_US.UTF-8";
+        LC_ALL = "en_US.UTF-8";
+      };
 
       # Allows building Linux binaries.
       nix.linux-builder = {
