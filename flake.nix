@@ -4,6 +4,13 @@
   outputs = inputs: import ./outputs.nix inputs;
 
   inputs = {
+    actions-nix = {
+      url = "github:nialov/actions.nix";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
     darwin = {
       url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
