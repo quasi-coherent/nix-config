@@ -6,19 +6,9 @@ system := `nix-instantiate --raw --strict --eval -E builtins.currentSystem`
 help:
   just -l
 
-# Regenerate flake.nix and lockfile
-inputs:
-    nix run .#write-flake
-    nix flake update
-    auto-follow -i
-
-# Format and lint
+# Run flake formatter
 fmt *args:
   fmtt {{args}}
-
-# Clean up nix store
-clean *args:
-  nh clean all --ask {{args}}
 
 # Activate only home-manager configuration
 home *args:
@@ -30,4 +20,21 @@ build host=hostname *args:
 
 # Activate host configuration
 switch host=hostname *args:
-  {{hostname}} switch --ask {{args}}
+    {{hostname}} switch --ask {{args}}
+
+# Clean up nix store
+clean *args:
+  nh clean all --ask {{args}}
+
+# `nix flake update [args]`
+update *args:
+    nix flake update {{args}}
+    auto-follow -i
+
+# Regenerate flake.nix
+flake:
+    nix run .#write-flake
+
+# Regenerate .gitlab/workflows
+ci:
+    nix run .#render-workflows

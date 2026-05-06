@@ -3,6 +3,7 @@
   imports = [ inputs.treefmt-nix.flakeModule ];
 
   flake-file.inputs = {
+    systems.url = "github:nix-systems/default";
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     treefmt-nix = {

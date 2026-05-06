@@ -1,5 +1,4 @@
 {
-  inputs,
   lib,
   den,
   ...
@@ -19,35 +18,33 @@
   };
 
   perSystem =
-    { pkgs, inputs', ... }:
+    {
+      pkgs,
+      inputs',
+      self',
+      ...
+    }:
     {
       devShells.default =
         let
-          system = pkgs.stdenvNoCC.targetPlatform.system;
-
           denApps = den.lib.nh.denApps {
             outPrefix = [ ];
             fromFlake = true;
           } pkgs;
 
-          formatter = inputs.self.formatter.${system};
-
           fmtt = pkgs.writeShellApplication {
             name = "fmtt";
             text = ''
-              ${lib.getExe formatter} "$@"
+              ${lib.getExe self'.formatter} "$@"
             '';
           };
 
           nix-fast-build = inputs'.nix-fast-build.packages.default;
-
           auto-follow = inputs'.nix-auto-follow.packages.default;
-
           shellHook = "export NH_SHOW_ACTIVATION_LOGS=true";
         in
         pkgs.mkShell {
           inherit shellHook;
-
           buildInputs = denApps ++ [
             auto-follow
             nix-fast-build
