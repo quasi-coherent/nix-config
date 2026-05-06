@@ -11,7 +11,7 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "aarch64-darwin" ];
       perSystem =
-        { self', pkgs, ... }:
+        { pkgs, ... }:
         let
           tex = pkgs.texlive.combine {
             # I dunno what you really need here.
