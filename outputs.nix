@@ -1,2 +1,5 @@
 inputs:
-inputs.flake-parts.lib.mkFlake { inherit inputs; } { imports = [ (inputs.import-tree ./modules) ]; systems = [ "aarch64-darwin" ]; }
+inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+  systems = import inputs.systems;
+  imports = [ (inputs.import-tree ./modules) ];
+}

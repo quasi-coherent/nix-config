@@ -41,58 +41,58 @@ let
 
   flakeRef = "git+file:.";
 in
-  {
-    flake-file.inputs = {
-      actions-nix = {
-        url = "github:nialov/actions.nix";
-        inputs = {
-          nixpkgs.follows = "nixpkgs";
-          flake-parts.follows = "flake-parts";
+{
+  flake-file.inputs = {
+    actions-nix = {
+      url = "github:nialov/actions.nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
+  };
+
+  imports = [ inputs.actions-nix.flakeModules.default ];
+
+  flake.actions-nix = {
+    defaultValues.jobs = {
+      timeout-minutes = 60;
+      runs-on = "ubuntu-24.04";
+    };
+
+    workflows = {
+      ".github/workflows/ci.yaml" = {
+        name = "ci";
+
+        on = {
+          push.branches = [ "master" ];
+          pull_request = { };
+          workflow_dispatch = { };
+        };
+
+        concurrency = {
+          group = "ci-\${{ github.head_ref || github.ref_name }}";
+          cancel-in-progress = "\${{ github.event_name == 'pull_request' }}";
+        };
+
+        permissions = { };
+
+        jobs = {
+          flake-check = {
+            name = "flake check";
+            steps = setupSteps ++ [
+              {
+                name = "nix flake check";
+                run = "nix flake check '${flakeRef}'";
+              }
+              {
+                name = "nix flake show";
+                run = "nix flake show '${flakeRef}'";
+              }
+            ];
+          };
         };
       };
     };
-
-    imports = [ inputs.actions-nix.flakeModules.default ];
-
-    flake.actions-nix = {
-      defaultValues.jobs = {
-        timeout-minutes = 60;
-        runs-on = "ubuntu-24.04";
-      };
-
-      workflows = {
-        ".github/workflows/ci.yaml" = {
-          name = "ci";
-
-          on = {
-            push.branches = [ "master" ];
-            pull_request = { };
-            workflow_dispatch = { };
-          };
-
-          concurrency = {
-            group = "ci-\${{ github.head_ref || github.ref_name }}";
-            cancel-in-progress = "\${{ github.event_name == 'pull_request' }}";
-          };
-
-          permissions = { };
-
-          jobs = {
-            flake-check = {
-              name = "flake check";
-              steps = setupSteps ++ [
-                {
-                  name = "nix flake check";
-                  run = "nix flake check '${flakeRef}'";
-                }
-                {
-                  name = "nix flake show";
-                  run = "nix flake show '${flakeRef}'";
-                }
-              ];
-            };
-          };
-        };
-      };
-    };
-  }
+  };
+}
