@@ -2,7 +2,11 @@
 {
   our.nix-config.includes = [
     a.desktop
-    (den._.unfree [ "1password" "1password-cli" "slack" ])
+    (den._.unfree [
+      "1password"
+      "1password-cli"
+      "slack"
+    ])
   ];
 
   a.desktop.homeManager =
@@ -11,6 +15,7 @@
       home.packages = with pkgs; [
         _1password-gui
         _1password-cli
+        en-croissant
         slack
         slack-cli
       ];

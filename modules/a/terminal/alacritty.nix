@@ -3,7 +3,7 @@
   our.nix-config.includes = [ a.alacritty ];
 
   a.alacritty.homeManager =
-    { lib, config, ... }:
+    { config, ... }:
     {
       programs.alacritty.enable = true;
       programs.alacritty.settings = {

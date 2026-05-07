@@ -22,6 +22,7 @@
         procs
         scc
         sd
+        stockfish
         wget
         yq
       ];
@@ -37,11 +38,11 @@
       programs.ripgrep.enable = true;
       programs.tealdeer.enable = true;
 
-      # programs.bat.extraPackages = with pkgs.bat-extras; [
-      #   batdiff
-      #   batgrep
-      #   batwatch
-      # ];
+      programs.bat.extraPackages = with pkgs.bat-extras; [
+        batdiff
+        batgrep
+        batwatch
+      ];
 
       programs.eza.enableZshIntegration = true;
 

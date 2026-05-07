@@ -8,6 +8,7 @@
   flake-file.inputs.nixcord = {
     url = "github:FlameFlag/nixcord";
     inputs.flake-parts.follows = "flake-parts";
+    inputs.nixpkgs.follows = "nixpkgs";
   };
 
   our.nix-config.includes = [
