@@ -16,7 +16,7 @@
       our.cache
       our.nix-config
       our.nix-config._.stable-emacs
-      # our.nix_config._.latest-emacs # latest git master
+      # our.nix-config._.latest-emacs # latest git master
       our.secrets
       our.xdg
     ];

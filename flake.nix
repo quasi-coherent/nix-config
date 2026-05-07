@@ -50,7 +50,10 @@
     };
     nixcord = {
       url = "github:FlameFlag/nixcord";
-      inputs.flake-parts.follows = "flake-parts";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+      };
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     sops-nix = {

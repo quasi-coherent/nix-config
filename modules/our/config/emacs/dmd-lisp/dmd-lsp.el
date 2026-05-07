@@ -125,7 +125,10 @@
   (lsp-rust-analyzer-display-chaining-hints t)
   (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
   (lsp-rust-analyzer-display-closure-return-type-hints t)
-  (lsp-rust-analyzer-display-parameter-hints nil))
+  (lsp-rust-analyzer-display-parameter-hints nil)
+  :config
+  (with-eval-after-load 'lsp-rust
+    (define-key lsp-command-map (kbd "C-c C-l a x") #'lsp-rust-analyzer-expand-macro)))
 
 (use-package toml-ts-mode :hook (toml-ts-mode . lsp-deferred))
 (use-package yaml-ts-mode :hook (yaml-ts-mode . lsp-deferred))
