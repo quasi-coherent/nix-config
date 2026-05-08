@@ -15,7 +15,7 @@ let
         inherit fmtt;
       };
 
-      nix-config = [
+      nix-config.primary-inputs = [
         "nixpkgs"
         "emacs-overlay"
         "fenix"

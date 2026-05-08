@@ -35,7 +35,19 @@
       programs.feh.enable = true;
       programs.fzf.enable = true;
       programs.jq.enable = true;
-      programs.ripgrep.enable = true;
+      programs.ripgrep = {
+        enable = true;
+        arguments = [
+          "--smart-case"
+          "--hidden"
+          "--glob=!.git/"
+          "--no-heading"
+          "--color=auto"
+          "--pcre2"
+          "--line-number"
+        ];
+      };
+      programs.ripgrep-all.enable = true;
       programs.tealdeer.enable = true;
 
       programs.bat.extraPackages = with pkgs.bat-extras; [
