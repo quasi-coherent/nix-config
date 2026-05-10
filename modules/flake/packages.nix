@@ -16,9 +16,9 @@ let
       };
 
       nix-config.primary-inputs = [
-        "nixpkgs"
         "emacs-overlay"
         "fenix"
+        "nixpkgs"
       ];
     };
 in

@@ -4,17 +4,11 @@
   ...
 }:
 {
-  flake-file.inputs = {
-    nix-auto-follow = {
-      url = "github:fzakaria/nix-auto-follow";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nix-fast-build = {
-      url = "github:Mic92/nix-fast-build";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.treefmt-nix.follows = "treefmt-nix";
-    };
+  flake-file.inputs.nix-fast-build = {
+    url = "github:Mic92/nix-fast-build";
+    inputs.nixpkgs.follows = "nixpkgs";
+    inputs.flake-parts.follows = "flake-parts";
+    inputs.treefmt-nix.follows = "treefmt-nix";
   };
 
   perSystem =
@@ -39,23 +33,29 @@
             '';
           };
 
+          replf = pkgs.writeShellApplication {
+            name = "nrepl";
+            text = ''nix repl --expr "builtins.getFlake \"${../..}\""'';
+          };
+
           nix-fast-build = inputs'.nix-fast-build.packages.default;
-          auto-follow = inputs'.nix-auto-follow.packages.default;
-          shellHook = "export NH_SHOW_ACTIVATION_LOGS=true";
+          trix = inputs'.trix.packages.default;
         in
         pkgs.mkShell {
-          inherit shellHook;
           buildInputs = denApps ++ [
-            auto-follow
-            nix-fast-build
             fmtt
+            nix-fast-build
             pkgs.age
             pkgs.cachix
             pkgs.git
             pkgs.just
             pkgs.nh
             pkgs.sops
+            replf
+            trix
           ];
+
+          shellHook = "export NH_SHOW_ACTIVATION_LOGS=true";
         };
     };
 }

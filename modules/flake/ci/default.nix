@@ -4,7 +4,8 @@ let
   actions = {
     checkout = "actions/checkout@v6";
     cachix = "cachix/cachix-action@v17";
-    install-nix = "cachix/install-nix-action@v30";
+    install-lix = "canidae-solutions/lix-quick-install-action@v4";
+    nix-flake-update = "DeterminateSystems/update-flake-lock@main";
   };
 
   # Step definitions.
@@ -13,9 +14,9 @@ let
       uses = actions.checkout;
     };
 
-    install-nix = {
-      uses = actions.install-nix;
-      "with".nix_path = "nixpkgs=channel:nixos-unstable";
+    install-lix = {
+      uses = actions.install-lix;
+      "with".lix_version = "2.94";
     };
 
     cachix = {
@@ -24,6 +25,16 @@ let
         name = "quasi-coherent";
         authToken = "\${{ secrets.CACHIX_AUTH_TOKEN }}";
       };
+    };
+
+    nix-flake-update = {
+      uses = actions.nix-flake-update;
+      "with".pr-title = "flake.lock update";
+    };
+
+    nix-flake-check = {
+      name = "nix flake check";
+      run = "nix flake check '${flakeRef}'";
     };
 
     # Helper to make a nix-fast-build step for a flake attribute expression.
@@ -35,13 +46,15 @@ let
 
   setupSteps = [
     steps.checkout
-    steps.install-nix
+    steps.install-lix
     steps.cachix
   ];
 
   flakeRef = "git+file:.";
 in
 {
+  imports = [ inputs.actions-nix.flakeModules.default ];
+
   flake-file.inputs = {
     actions-nix = {
       url = "github:nialov/actions.nix";
@@ -51,8 +64,6 @@ in
       };
     };
   };
-
-  imports = [ inputs.actions-nix.flakeModules.default ];
 
   flake.actions-nix = {
     defaultValues.jobs = {
@@ -81,14 +92,34 @@ in
           flake-check = {
             name = "flake check";
             steps = setupSteps ++ [
-              {
-                name = "nix flake check";
-                run = "nix flake check '${flakeRef}'";
-              }
+              steps.nix-flake-check
               {
                 name = "nix flake show";
                 run = "nix flake show '${flakeRef}'";
               }
+            ];
+          };
+        };
+      };
+      ".github/workflows/cd.yaml" = {
+        name = "cd";
+
+        on = {
+          push.branches = { };
+          pull_request = { };
+          workflow_dispatch = { };
+          schedule = [
+            { cron = "0 4 * * */3"; }
+          ];
+        };
+
+        jobs = {
+          flake-update = {
+            name = "flake update";
+            runs-on = "macos-26";
+            steps = setupSteps ++ [
+              steps.nix-flake-check
+              steps.nix-flake-update
             ];
           };
         };

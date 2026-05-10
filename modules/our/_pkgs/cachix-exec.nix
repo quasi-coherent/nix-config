@@ -1,13 +1,16 @@
 {
   cachix,
-  config,
+  sops-get,
   lib,
   writeShellApplication,
 }:
 writeShellApplication {
   name = "cachix-exec";
+  runtimeInputs = [
+    "cachix"
+    "sops-get"
+  ];
   text = ''
-    CACHIX_AUTH_TOKEN=${config.sops.templates."CACHIX_AUTH_TOKEN".path} \
-      ${lib.getBin cachix}/bin/cachix watch-exec quasi-coherent -- "$@"
+    CACHIX_AUTH_TOKEN=$(${lib.getExe sops-get} -a cachix_auth_token) ${lib.getExe cachix} watch-exec quasi-coherent -- "$@"
   '';
 }

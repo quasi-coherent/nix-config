@@ -13,9 +13,10 @@
     };
 
     homeManager =
-      { config, pkgs, ... }:
+      { pkgs, ... }:
       let
-        cachix-exec = pkgs.callPackage ./_pkgs/cachix-exec.nix { inherit config; };
+        sops-get = pkgs.callPackage ./_pkgs/sops-get.nix { };
+        cachix-exec = pkgs.callPackage ./_pkgs/cachix-exec.nix { inherit sops-get; };
       in
       {
         home.packages = [

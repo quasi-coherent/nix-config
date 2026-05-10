@@ -10,7 +10,11 @@ help:
 fmt *args:
   fmtt {{args}}
 
-# Activate only home-manager configuration
+# Regenerate .gitlab/workflows
+ci:
+    nix run .#render-workflows
+
+# Activate a new home configuration only
 home *args:
   {{username}}@{{hostname}} switch --ask {{args}}
 
@@ -22,19 +26,11 @@ build host=hostname *args:
 switch host=hostname *args:
     {{hostname}} switch --ask {{args}}
 
-# Clean up nix store
+# Clean up all old generations and store paths
 clean *args:
-  nh clean all --ask {{args}}
-
-# `nix flake update [args]`
-update *args:
-    nix flake update {{args}}
-    auto-follow -i
+    nh clean all --ask {{args}}
 
 # Regenerate flake.nix
 flake:
     nix run .#write-flake
-
-# Regenerate .gitlab/workflows
-ci:
-    nix run .#render-workflows
+    nix run .#write-lock

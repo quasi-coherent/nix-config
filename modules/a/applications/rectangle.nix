@@ -11,16 +11,17 @@
 
     # Options from Rectangle > Settings.
     #
-    # Modifier keys (combinations are the sum of values):
+    # Modifier keys:
     # * cmd: 1048576
     # * option: 524288
     # * ctrl: 262144
     # * shift: 131072
+    #
     # Activate multiple modifiers with the sum of their values, e.g.,
     # cmd+option+ctrl = 1835008
-    # Key code reference: https://eastmanreference.com/complete-list-of-applescript-key-codes
     #
-    # See documentation: https://github.com/rxhanson/Rectangle/blob/main/TerminalCommands.md
+    # Key code reference: https://eastmanreference.com/complete-list-of-applescript-key-codes
+    # Documentation: https://github.com/rxhanson/Rectangle/blob/main/TerminalCommands.md
     darwin.system.defaults.CustomUserPreferences."com.knollsoft.Rectangle" = {
       allowAnyShortcut = 1;
       moveCursor = 1;

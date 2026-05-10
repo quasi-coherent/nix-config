@@ -43,10 +43,12 @@
           "lichess_oauth_token" = { };
           "cratesio_api_token" = { };
           "github_actions_cachix_token" = { };
+          "github_personal_access_token" = { };
         };
         templates = {
           "CACHIX_AUTH_TOKEN".content = ''"${config.sops.placeholder.cachix_auth_token}"'';
           "CARGO_REGISTRY_TOKEN".content = ''"${config.sops.placeholder.cratesio_api_token}"'';
+          "GITHUB_API_TOKEN".content = ''"${config.sops.placeholder.github_personal_access_token}"'';
         };
       };
     };
