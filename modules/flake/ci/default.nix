@@ -14,10 +14,7 @@ let
       uses = actions.checkout;
     };
 
-    install-lix = {
-      uses = actions.install-lix;
-      "with".lix_version = "2.94";
-    };
+    install-lix.uses = actions.install-lix;
 
     cachix = {
       uses = actions.cachix;
