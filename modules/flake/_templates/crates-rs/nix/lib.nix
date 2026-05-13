@@ -32,15 +32,15 @@ in
           };
 
         filesetForCrate =
-        crate:
-        lib.fileset.toSource {
-          inherit root;
-          fileset = lib.fileset.union [
-            ../Cargo.toml
-            ../Cargo.lock
-            ../crates/other-rs
-          ];
-        };
+          _crate:
+          lib.fileset.toSource {
+            inherit root;
+            fileset = lib.fileset.union [
+              ../Cargo.toml
+              ../Cargo.lock
+              ../crates/other-rs
+            ];
+          };
 
         mkCratePackage =
           pname:

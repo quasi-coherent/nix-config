@@ -43,7 +43,7 @@
           ".ssh/allowed_signers" = {
             text = ''
               d.michael.donohue@gmail.com namespaces="git" ${builtins.readFile ./public_keys/signing_ed25519.pub}
-            qcoh@gitlab namespaces="git" ${builtins.readFile ./public_keys/gitlab_sign_ed25519.pub}
+              qcoh@gitlab namespaces="git" ${builtins.readFile ./public_keys/gitlab_sign_ed25519.pub}
             '';
             target = ".ssh/allowed_signers";
           };
