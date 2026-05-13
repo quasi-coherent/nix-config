@@ -6,8 +6,8 @@ let
       ...
     }:
     let
-      facade-rs = mkCratePackage "facade-rs";
-      other-rs = mkCratePackage "other-rs";
+      facade-rs = mkCratePackage ../.;
+      other-rs = mkCratePackage ../crates/other-rs;
     in
     {
       packages = {

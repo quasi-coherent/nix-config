@@ -13,8 +13,14 @@ in
         # `default` is the nightly toolchain.
         crane = crane'.overrideToolchain inputs'.fenix.packages.default.toolchain;
 
+        src = crane.cleanCargoSource root;
+
         # The root crate name and version.
-        manifest = crane.crateNameFromCargoToml { src = crane.cleanCargoSource root; };
+        crateName =
+          {
+            crate ? root,
+          }:
+          crane.crateNameFromCargoToml { src = crane.cleanCargoSource crate; };
 
         # Build just dependencies for the cache.
         cargoArtifacts =
@@ -23,7 +29,7 @@ in
             cargoTomlAndLock = crane.fileset.cargoTomlAndLock root;
           in
           crane.buildDepsOnly {
-            inherit (manifest) pname version;
+            inherit (crateName { }) pname version;
             src = lib.fileset.toSource {
               inherit root;
               fileset = cargoTomlAndLock;
@@ -32,21 +38,24 @@ in
           };
 
         filesetForCrate =
-          _crate:
+          crate:
           lib.fileset.toSource {
             inherit root;
             fileset = lib.fileset.union [
               ../Cargo.toml
               ../Cargo.lock
-              ../crates/other-rs
+              (crane.fileset.commonCargoSources crate)
             ];
           };
 
         mkCratePackage =
-          pname:
+          crate:
+          let
+            inherit (crateName { inherit crate; }) pname version;
+          in
           crane.buildPackage {
-            inherit (manifest) version;
-            inherit pname cargoArtifacts src;
+            inherit cargoArtifacts pname version;
+            src = filesetForCrate crate;
             strictDeps = true;
             cargoBuildExtraArgs = "--all-features -p ${pname}";
           };
