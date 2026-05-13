@@ -4,7 +4,7 @@ let
   actions = {
     checkout = "actions/checkout@v6";
     cachix = "cachix/cachix-action@v17";
-    install-lix = "canidae-solutions/lix-quick-install-action@v4";
+    install-nix = "cachix/install-nix-action@v30";
     nix-flake-update = "DeterminateSystems/update-flake-lock@main";
   };
 
@@ -14,7 +14,7 @@ let
       uses = actions.checkout;
     };
 
-    install-lix.uses = actions.install-lix;
+    install-nix.uses = actions.install-nix;
 
     cachix = {
       uses = actions.cachix;
@@ -43,7 +43,7 @@ let
 
   setupSteps = [
     steps.checkout
-    steps.install-lix
+    steps.install-nix
     steps.cachix
   ];
 

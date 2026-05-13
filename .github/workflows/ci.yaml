@@ -5,16 +5,14 @@
 # Or commit to trigger the pre-commit hook if enabled.
 concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-  group: ci-${{ github.head_ref || github.ref_name }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
 jobs:
   flake-check:
     name: flake check
     runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v6
-    - uses: canidae-solutions/lix-quick-install-action@v4
-      with:
-        lix_version: '2.94'
+    - uses: cachix/install-nix-action@v30
     - uses: cachix/cachix-action@v17
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}

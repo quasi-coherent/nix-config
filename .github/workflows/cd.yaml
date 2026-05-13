@@ -3,15 +3,16 @@
 # (typically under flake.actions-nix.workflows.".github/workflows/cd.yaml") and run:
 #   nix run .#render-workflows
 # Or commit to trigger the pre-commit hook if enabled.
+concurrency:
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
 jobs:
   flake-update:
     name: flake update
     runs-on: macos-26
     steps:
     - uses: actions/checkout@v6
-    - uses: canidae-solutions/lix-quick-install-action@v4
-      with:
-        lix_version: '2.94'
+    - uses: cachix/install-nix-action@v30
     - uses: cachix/cachix-action@v17
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
