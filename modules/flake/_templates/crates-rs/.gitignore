@@ -1,0 +1,6 @@
+.direnv/
+target/
+.DS_Store
+!.github
+.dir-locals.el
+result

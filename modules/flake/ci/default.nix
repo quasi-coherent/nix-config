@@ -47,6 +47,11 @@ let
     steps.cachix
   ];
 
+  concurrency = {
+    group = "\${{ github.workflow }}-\${{ github.head_ref || github.ref_name }}";
+    cancel-in-progress = "\${{ github.event_name == 'pull_request' }}";
+  };
+
   flakeRef = "git+file:.";
 in
 {
@@ -70,21 +75,14 @@ in
 
     workflows = {
       ".github/workflows/ci.yaml" = {
+        inherit concurrency;
         name = "ci";
-
         on = {
           push.branches = [ "master" ];
           pull_request = { };
           workflow_dispatch = { };
         };
-
-        concurrency = {
-          group = "ci-\${{ github.head_ref || github.ref_name }}";
-          cancel-in-progress = "\${{ github.event_name == 'pull_request' }}";
-        };
-
         permissions = { };
-
         jobs = {
           flake-check = {
             name = "flake check";
@@ -98,9 +96,10 @@ in
           };
         };
       };
-      ".github/workflows/cd.yaml" = {
-        name = "cd";
 
+      ".github/workflows/cd.yaml" = {
+        inherit concurrency;
+        name = "cd";
         on = {
           push.branches = { };
           pull_request = { };
@@ -109,7 +108,6 @@ in
             { cron = "0 4 * * */3"; }
           ];
         };
-
         jobs = {
           flake-update = {
             name = "flake update";

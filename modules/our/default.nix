@@ -26,31 +26,42 @@
       {
         programs.git.includes = [
           {
+            condition = "gitdir:~/d/github/";
+            path = "${config.xdg.configHome}/git/gitconfig_gh";
+          }
+          {
             condition = "hasconfig:remote.*.url:git@github.com:*/**";
-            contentSuffix = "github";
-            contents = {
-              user.name = "Daniel Donohue";
-              user.email = "d.michael.donohue@gmail.com";
-              user.signingKey = "${config.home.homeDirectory}/.ssh/signing_ed25519";
-            };
+            path = "${config.xdg.configHome}/git/gitconfig_gh";
           }
           {
             condition = "hasconfig:remote.*.url:git@gitlab.com:*/**";
-            contentSuffix = "gitlab";
-            contents = {
-              user.name = "quasi-coherent";
-              user.email = "qcoh@gitlab";
-              user.signingKey = "${config.home.homeDirectory}/.ssh/gitlab_sign_ed25519";
-            };
+            path = "${config.xdg.configHome}/git/gitconfig_gl";
           }
         ];
 
-        home.file.".ssh/allowed_signers" = {
-          text = ''
-            d.michael.donohue@gmail.com namespaces="git" ${builtins.readFile ./public_keys/signing_ed25519.pub}
+        home.file = {
+          ".ssh/allowed_signers" = {
+            text = ''
+              d.michael.donohue@gmail.com namespaces="git" ${builtins.readFile ./public_keys/signing_ed25519.pub}
             qcoh@gitlab namespaces="git" ${builtins.readFile ./public_keys/gitlab_sign_ed25519.pub}
+            '';
+            target = ".ssh/allowed_signers";
+          };
+        };
+
+        xdg.configFile = {
+          "git/gitconfig_gh".text = ''
+            [user]
+                   email = "d.michael.donohue@gmail.com"
+                   name = "Daniel Donohue"
+                   signingKey = ${config.home.homeDirectory}/.ssh/signing_ed25519
           '';
-          target = ".ssh/allowed_signers";
+          "git/gitconfig_gl".text = ''
+            [user]
+                   email = "qcoh@gitlab"
+                   name = "quasi-coherent"
+                   signingKey = ${config.home.homeDirectory}/.ssh/gitlab_sign_ed25519
+          '';
         };
       };
 

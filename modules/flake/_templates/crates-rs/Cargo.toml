@@ -1,0 +1,28 @@
+[workspace]
+members = ["crates/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+
+[package]
+name = "facade-rs"
+description = "The main crate of all crates-rs"
+readme = "README.md"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+name = "facade"
+path = "src/lib.rs"
+
+[dependencies]
+other-rs = { version = "=0.1.0", path = "crates/other-rs" }
+thiserror = { workspace = true }
+
+[workspace.dependencies]
+thiserror = "2.0"
+tracing = "0.1.44"
+
+[workspace.metadata.crane]
+name = "crates-rs"

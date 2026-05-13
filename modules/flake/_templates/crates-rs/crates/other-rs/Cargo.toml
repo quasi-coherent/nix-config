@@ -1,0 +1,12 @@
+[package]
+name = "other-rs"
+description = "Another crate"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+name = "other"
+path = "src/lib.rs"
+
+[dependencies]
+thiserror = { workspace = true }

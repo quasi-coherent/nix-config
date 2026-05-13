@@ -1,0 +1,3 @@
+pub fn f<T>(x: T) -> T {
+    x
+}
