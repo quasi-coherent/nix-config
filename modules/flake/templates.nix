@@ -5,6 +5,11 @@
       description = "Single-crate rust project with fenix and crane";
     };
 
+    crates-rs = {
+      path = ./_templates/crates-rs;
+      description = "Cargo workspace with fenix and crane";
+    };
+
     latex = {
       path = ./_templates/latex;
       description = "Flake app making the PDF output of src/doc.tex";
