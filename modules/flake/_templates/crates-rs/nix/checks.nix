@@ -18,13 +18,23 @@
         inherit (self'.packages) facade-rs other-rs;
 
         cargo-clippy = crane.cargoClippy {
-          inherit pname version cargoArtifacts src;
+          inherit
+            pname
+            version
+            cargoArtifacts
+            src
+            ;
           strictDeps = true;
           cargoClippyExtraArgs = "--all-features --all-targets -- -Dwarnings";
         };
 
         cargo-test = crane.cargoTest {
-          inherit pname version cargoArtifacts src;
+          inherit
+            pname
+            version
+            cargoArtifacts
+            src
+            ;
           strictDeps = true;
           cargoTestExtraArgs = "--all-features --all-targets";
         };
