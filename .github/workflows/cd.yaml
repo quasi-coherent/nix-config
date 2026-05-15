@@ -25,9 +25,5 @@ jobs:
     timeout-minutes: 60
 name: cd
 'on':
-  pull_request: {}
-  push:
-    branches: {}
   schedule:
-  - cron: 0 4 * * */3
-  workflow_dispatch: {}
+  - cron: 0 4 * * */5

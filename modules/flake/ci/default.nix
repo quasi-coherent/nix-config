@@ -100,14 +100,9 @@ in
       ".github/workflows/cd.yaml" = {
         inherit concurrency;
         name = "cd";
-        on = {
-          push.branches = { };
-          pull_request = { };
-          workflow_dispatch = { };
-          schedule = [
-            { cron = "0 4 * * */3"; }
-          ];
-        };
+        on.schedule = [
+          { cron = "0 4 * * */5"; }
+        ];
         jobs = {
           flake-update = {
             name = "flake update";
