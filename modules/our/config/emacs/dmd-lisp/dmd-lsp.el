@@ -130,7 +130,11 @@
   (with-eval-after-load 'lsp-rust
     (define-key lsp-command-map (kbd "C-c C-l a x") #'lsp-rust-analyzer-expand-macro)))
 
-(use-package toml-ts-mode :hook (toml-ts-mode . lsp-deferred))
+(use-package toml-ts-mode
+  :hook (toml-ts-mode . lsp-deferred)
+  :config
+  (setq toml-ts-mode-indent-offset 0))
+
 (use-package yaml-ts-mode :hook (yaml-ts-mode . lsp-deferred))
 
 (define-derived-mode helm-mode yaml-ts-mode "helm"

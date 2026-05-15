@@ -44,6 +44,7 @@ endurance")
   (csetq auto-save-default nil)
   (csetq load-prefer-newer t)
   (csetq view-read-only t)
+  (csetq tab-width 4)
   ;; Default is to write to init.el, but ours is in the nix store so that is
   ;; not possible.
   (csetq custom-file (expand-file-name "custom.el" user-emacs-directory))
