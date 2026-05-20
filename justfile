@@ -30,7 +30,7 @@ switch host=hostname *args:
 clean *args:
     nh clean all --ask {{args}}
 
-# Update inputs listed in `nix-config.primary-inputs`.
+# Update inputs listed in `nix-config.primary-inputs`
 update:
     nix run .#update
 

@@ -52,8 +52,8 @@
         historySubstringSearch.searchDownKey = "^N";
         historySubstringSearch.searchUpKey = "^P";
         dirHashes = {
+          d = "${config.home.homeDirectory}/d";
           cfg = "${config.home.homeDirectory}/nix-config";
-          dd = "${config.home.homeDirectory}/d";
           vc = "${config.home.homeDirectory}/d/git";
           ghub = "${config.home.homeDirectory}/d/git/hub";
           glab = "${config.home.homeDirectory}/d/git/lab";

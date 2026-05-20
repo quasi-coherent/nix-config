@@ -12,7 +12,6 @@ let
       rust-stable = inputs'.fenix.packages.stable;
       craneLib = (inputs.crane.mkLib pkgs).overrideToolchain rust-stable.toolchain;
       src = craneLib.cleanCargoSource ../.;
-
       inherit (craneLib.crateNameFromCargoToml { inherit src; }) pname version;
 
       args = {
@@ -35,12 +34,11 @@ let
     {
       packages = {
         inherit crate-rs;
-        default = crate-rs;
         target = cargoArtifacts;
       };
 
-      devShells.default = craneLib.mkShell {
-        inputsFrom = [ crate-rs ];
+      devShells.default = craneLib.devShell {
+        # inputsFrom = [ crate-rs ];
         packages = [
           fmtt
           pkgs.cachix

@@ -27,15 +27,15 @@
         programs.git.includes = [
           {
             condition = "hasconfig:remote.*.url:git@github.com:*/**";
-            path = "${config.xdg.configHome}/git/gitconfig_gh";
-          }
-          {
-            condition = "gitdir:~/d/github/";
-            path = "${config.xdg.configHome}/git/gitconfig_gh";
+            path = "${config.xdg.configHome}/git/githubconfig";
           }
           {
             condition = "hasconfig:remote.*.url:git@gitlab.com:*/**";
-            path = "${config.xdg.configHome}/git/gitconfig_gl";
+            path = "${config.xdg.configHome}/git/gitlabconfig";
+          }
+          {
+            condition = "gitdir:~/d/git/hub/**";
+            path = "${config.xdg.configHome}/git/githubconfig";
           }
         ];
 
@@ -50,13 +50,13 @@
         };
 
         xdg.configFile = {
-          "git/gitconfig_gh".text = ''
+          "git/githubconfig".text = ''
             [user]
                    email = "d.michael.donohue@gmail.com"
                    name = "Daniel Donohue"
                    signingKey = ${config.home.homeDirectory}/.ssh/signing_ed25519
           '';
-          "git/gitconfig_gl".text = ''
+          "git/gitlabconfig".text = ''
             [user]
                    email = "qcoh@gitlab"
                    name = "quasi-coherent"
