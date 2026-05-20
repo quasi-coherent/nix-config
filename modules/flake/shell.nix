@@ -18,44 +18,40 @@
       self',
       ...
     }:
+    let
+      denApps = den.lib.nh.denApps {
+        outPrefix = [ ];
+        fromFlake = true;
+      } pkgs;
+
+      fmtt = pkgs.writeShellApplication {
+        name = "fmtt";
+        text = ''${lib.getExe self'.formatter} "$@"'';
+      };
+
+      replf = pkgs.writeShellApplication {
+        name = "nrepl";
+        text = ''nix repl --expr "builtins.getFlake \"${../..}\""'';
+      };
+
+      nix-fast-build = inputs'.nix-fast-build.packages.default;
+      trix = inputs'.trix.packages.default;
+    in
     {
-      devShells.default =
-        let
-          denApps = den.lib.nh.denApps {
-            outPrefix = [ ];
-            fromFlake = true;
-          } pkgs;
-
-          fmtt = pkgs.writeShellApplication {
-            name = "fmtt";
-            text = ''
-              ${lib.getExe self'.formatter} "$@"
-            '';
-          };
-
-          replf = pkgs.writeShellApplication {
-            name = "nrepl";
-            text = ''nix repl --expr "builtins.getFlake \"${../..}\""'';
-          };
-
-          nix-fast-build = inputs'.nix-fast-build.packages.default;
-          trix = inputs'.trix.packages.default;
-        in
-        pkgs.mkShell {
-          buildInputs = denApps ++ [
-            fmtt
-            nix-fast-build
-            pkgs.age
-            pkgs.cachix
-            pkgs.git
-            pkgs.just
-            pkgs.nh
-            pkgs.sops
-            replf
-            trix
-          ];
-
-          shellHook = "export NH_SHOW_ACTIVATION_LOGS=true";
-        };
+      devShells.default = pkgs.mkShell {
+        shellHook = "export NH_SHOW_ACTIVATION_LOGS=true";
+        buildInputs = denApps ++ [
+          fmtt
+          nix-fast-build
+          pkgs.age
+          pkgs.cachix
+          pkgs.git
+          pkgs.just
+          pkgs.nh
+          pkgs.sops
+          replf
+          trix
+        ];
+      };
     };
 }

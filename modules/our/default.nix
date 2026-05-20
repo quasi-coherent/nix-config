@@ -26,11 +26,11 @@
       {
         programs.git.includes = [
           {
-            condition = "gitdir:~/d/github/";
+            condition = "hasconfig:remote.*.url:git@github.com:*/**";
             path = "${config.xdg.configHome}/git/gitconfig_gh";
           }
           {
-            condition = "hasconfig:remote.*.url:git@github.com:*/**";
+            condition = "gitdir:~/d/github/";
             path = "${config.xdg.configHome}/git/gitconfig_gh";
           }
           {

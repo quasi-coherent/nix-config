@@ -53,7 +53,10 @@
         historySubstringSearch.searchUpKey = "^P";
         dirHashes = {
           cfg = "${config.home.homeDirectory}/nix-config";
-          d = "${config.home.homeDirectory}/d";
+          dd = "${config.home.homeDirectory}/d";
+          vc = "${config.home.homeDirectory}/d/git";
+          ghub = "${config.home.homeDirectory}/d/git/hub";
+          glab = "${config.home.homeDirectory}/d/git/lab";
         };
         shellGlobalAliases = {
           "..." = "../..";
@@ -73,7 +76,8 @@
           "8" = "cd -8";
           "9" = "cd -9";
           cdc = "cd ~cfg";
-          cdd = "cd ~d";
+          cdd = "cd ~dd";
+          cdg = "cd ~vc";
           md = "mkdir -p";
           rd = "rmdir";
         };
