@@ -7,8 +7,7 @@
   ];
 
   flake-file.inputs = {
-    # @@@@@(qcoh)
-    den.url = "github:vic/den/0af82e24be89b9fd400bd0b58b0fed5ea0f269ad";
+    den.url = "github:vic/den";
     flake-file.url = "github:vic/flake-file";
     import-tree.url = "github:vic/import-tree";
     treefmt-nix = {

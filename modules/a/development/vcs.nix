@@ -84,6 +84,7 @@
         gpF = "git push --force";
         gpsup = "git push --set-upstream origin";
         gst = "git status";
+        gsp = "git stash push";
         grb = "git rebase";
         grbi = "git rebase -i origin/@{upstream}";
         grh = "git reset";

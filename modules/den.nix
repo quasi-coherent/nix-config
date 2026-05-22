@@ -11,18 +11,20 @@
   ];
 
   den = {
-    ctx.user.includes = [ den._.mutual-provider ];
-    schema.user.classes = lib.mkDefault [ "homeManager" ];
+    schema.user = {
+      classes = lib.mkDefault [ "homeManager" ];
+      includes = [ den.batteries.mutual-provider ];
+    };
 
     default = {
       homeManager.home.stateVersion = lib.mkDefault "26.05";
       darwin.system.stateVersion = lib.mkDefault 6;
 
       includes = [
-        den._.define-user
-        den._.hostname
-        den._.inputs'
-        den._.self'
+        den.batteries.define-user
+        den.batteries.hostname
+        den.batteries.inputs'
+        den.batteries.self'
       ];
     };
 

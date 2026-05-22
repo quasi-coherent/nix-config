@@ -12,6 +12,16 @@
       hmPkgs = inputs'.home-manager.packages;
     in
     {
+      # 2026-05-23: Changed to `false` because enableAllTerminfo brings in
+      # `termite.terminfo`, which requires VTE to build, which fails on MacOS
+      # Tahoe 26.x.
+      environment.enableAllTerminfo = false;
+      environment.shellAliases.lctl = "launchctl";
+      environment.variables = {
+        LANG = "en_US.UTF-8";
+        LC_ALL = "en_US.UTF-8";
+      };
+
       environment.systemPackages = [
         hmPkgs.home-manager
 
@@ -23,14 +33,13 @@
         pkgs.age
         pkgs.cachix
         pkgs.reattach-to-user-namespace
-      ];
 
-      environment.enableAllTerminfo = true;
-      environment.shellAliases.lctl = "launchctl";
-      environment.variables = {
-        LANG = "en_US.UTF-8";
-        LC_ALL = "en_US.UTF-8";
-      };
+        # Add back terminfo that we needed from `enableAllTerminfo = true`.
+        # We have to do this here because `programs.alacritty.enable` etc. adds
+        # terminfo in the wrong place.
+        pkgs.alacritty.terminfo
+        pkgs.tmux.terminfo
+      ];
 
       # Allows building Linux binaries.
       nix.linux-builder = {

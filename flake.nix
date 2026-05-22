@@ -24,7 +24,7 @@
       url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    den.url = "github:vic/den/0af82e24be89b9fd400bd0b58b0fed5ea0f269ad";
+    den.url = "github:vic/den";
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";

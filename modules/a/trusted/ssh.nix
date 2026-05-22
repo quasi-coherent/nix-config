@@ -7,22 +7,25 @@
       programs.ssh = {
         enable = true;
         enableDefaultConfig = false;
-
-        matchBlocks."*" = {
-          controlMaster = "auto";
-          controlPath = "~/.ssh/socket-%r@%h:%p";
-          controlPersist = "10m";
-          addKeysToAgent = "yes";
-        };
-        matchBlocks."github.com" = {
-          identityFile = "~/.ssh/id_ed25519";
-          addKeysToAgent = "yes";
-          extraOptions.ControlPersist = "no";
-        };
-        matchBlocks."gitlab.com" = {
-          identityFile = "~/.ssh/gitlab_auth_ed25519";
-          addKeysToAgent = "yes";
-          extraOptions.ControlPersist = "no";
+        settings = {
+          "github.com" = {
+            HostName = "github.com";
+            IdentityFile = "~/.ssh/id_ed25519";
+            AddKeysToAgent = "yes";
+            ControlPersist = "yes";
+          };
+          "gitlab.com" = {
+            HostName = "github.com";
+            IdentityFile = "~/.ssh/gitlab_auth_ed25519";
+            AddKeysToAgent = "yes";
+            ControlPersist = "yes";
+          };
+          "*" = {
+            AddKeysToAgent = "yes";
+            ControlMaster = "auto";
+            ControlPath = "~/.ssh/socket-%r@%h:%p";
+            ControlPersist = "10m";
+          };
         };
       };
 

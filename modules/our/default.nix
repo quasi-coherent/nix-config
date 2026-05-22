@@ -10,8 +10,8 @@
 
   den.aspects.daniel = {
     includes = [
-      den._.primary-user
-      (den._.user-shell "zsh")
+      den.batteries.primary-user
+      (den.batteries.user-shell "zsh")
 
       our.cache
       our.nix-config
@@ -30,11 +30,15 @@
             path = "${config.xdg.configHome}/git/githubconfig";
           }
           {
+            condition = "gitdir:~/d/git/hub/**";
+            path = "${config.xdg.configHome}/git/githubconfig";
+          }
+          {
             condition = "hasconfig:remote.*.url:git@gitlab.com:*/**";
             path = "${config.xdg.configHome}/git/gitlabconfig";
           }
           {
-            condition = "gitdir:~/d/git/hub/**";
+            condition = "gitdir:~/d/git/lab/**";
             path = "${config.xdg.configHome}/git/githubconfig";
           }
         ];

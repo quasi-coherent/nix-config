@@ -76,7 +76,7 @@
           "8" = "cd -8";
           "9" = "cd -9";
           cdc = "cd ~cfg";
-          cdd = "cd ~dd";
+          cdd = "cd ~d";
           cdg = "cd ~vc";
           md = "mkdir -p";
           rd = "rmdir";

@@ -128,7 +128,7 @@
   (lsp-rust-analyzer-display-parameter-hints nil)
   :config
   (with-eval-after-load 'lsp-rust
-    (define-key lsp-command-map (kbd "C-c C-l a x") #'lsp-rust-analyzer-expand-macro)))
+    (define-key lsp-command-map (kbd "a x") #'lsp-rust-analyzer-expand-macro)))
 
 (use-package toml-ts-mode
   :hook (toml-ts-mode . lsp-deferred)

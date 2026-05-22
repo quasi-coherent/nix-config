@@ -5,7 +5,7 @@ let
     checkout = "actions/checkout@v6";
     cachix = "cachix/cachix-action@v17";
     install-nix = "cachix/install-nix-action@v30";
-    nix-flake-update = "DeterminateSystems/update-flake-lock@main";
+    update-flake-lock = "DeterminateSystems/update-flake-lock@main";
   };
 
   # Step definitions.
@@ -14,7 +14,10 @@ let
       uses = actions.checkout;
     };
 
-    install-nix.uses = actions.install-nix;
+    install-nix = {
+      uses = actions.install-nix;
+      "with".nix_path = "nixpkgs=channel:nixos-unstable";
+    };
 
     cachix = {
       uses = actions.cachix;
@@ -24,20 +27,19 @@ let
       };
     };
 
-    nix-flake-update = {
-      uses = actions.nix-flake-update;
-      "with".pr-title = "flake.lock update";
-    };
-
-    nix-flake-check = {
+    flake-check = {
       name = "nix flake check";
-      run = "nix flake check '${flakeRef}'";
+      run = "nix -Lv flake check '${flakeRef}'";
     };
 
-    # Helper to make a nix-fast-build step for a flake attribute expression.
-    nix-fast-build = flakeAttr: {
-      name = "nix-fast-build";
-      run = "nix run '${flakeRef}#nix-fast-build' -- --no-nom --skip-cached --retries=3 --option accept-flake-config true --flake='${flakeRef}#${flakeAttr}'";
+    flake-update = {
+      uses = actions.update-flake-lock;
+      "with" = {
+        commit-msg = "Update flake.lock";
+        pr-title = "Update flake.lock";
+        pr-labels = "automated";
+        branch = "ci/update-flake-lock";
+      };
     };
   };
 
@@ -77,17 +79,13 @@ in
       ".github/workflows/ci.yaml" = {
         inherit concurrency;
         name = "ci";
-        on = {
-          push.branches = [ "master" ];
-          pull_request = { };
-          workflow_dispatch = { };
-        };
-        permissions = { };
+        on.push.branches = [ "master" ];
         jobs = {
           flake-check = {
             name = "flake check";
+            runs-on = "macos-26";
             steps = setupSteps ++ [
-              steps.nix-flake-check
+              steps.flake-check
               {
                 name = "nix flake show";
                 run = "nix flake show '${flakeRef}'";
@@ -100,16 +98,17 @@ in
       ".github/workflows/cd.yaml" = {
         inherit concurrency;
         name = "cd";
-        on.schedule = [
-          { cron = "0 4 * * */5"; }
-        ];
+        on = {
+          workflow_dispatch = { };
+          schedule = [ { cron = "0 0 * * 0"; } ];
+        };
         jobs = {
           flake-update = {
             name = "flake update";
             runs-on = "macos-26";
             steps = setupSteps ++ [
-              steps.nix-flake-check
-              steps.nix-flake-update
+              steps.flake-update
+              steps.flake-check
             ];
           };
         };

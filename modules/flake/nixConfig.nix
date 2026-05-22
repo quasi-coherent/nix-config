@@ -1,5 +1,10 @@
-# { inputs, ... }:
 {
+  nix-config.primaryInputs = [
+    "darwin"
+    "home-manager"
+    "nixpkgs"
+  ];
+
   flake-file = {
     description = "my nix-config";
 

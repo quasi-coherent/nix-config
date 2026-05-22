@@ -42,7 +42,6 @@ epkgs.emacsWithPackages (
     nix-ts-mode
     no-littering
     orderless
-    rustic
     simpleclip
     smartparens
     treesit-auto

@@ -10,15 +10,16 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  our.nix-config.includes = [
-    a.spotify
-    (den._.unfree [
-      "spotify"
-      "spicetify-nix"
-    ])
-  ];
+  our.nix-config.includes = [ a.spotify ];
 
   a.spotify = {
+    includes = [
+      (den.batteries.unfree [
+        "spotify"
+        "spicetify-nix"
+      ])
+    ];
+
     homeManager =
       { inputs', ... }:
       let

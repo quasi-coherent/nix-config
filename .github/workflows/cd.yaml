@@ -13,17 +13,23 @@ jobs:
     steps:
     - uses: actions/checkout@v6
     - uses: cachix/install-nix-action@v30
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
     - uses: cachix/cachix-action@v17
       with:
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
         name: quasi-coherent
-    - name: nix flake check
-      run: nix flake check 'git+file:.'
     - uses: DeterminateSystems/update-flake-lock@main
       with:
-        pr-title: flake.lock update
+        branch: ci/update-flake-lock
+        commit-msg: Update flake.lock
+        pr-labels: automated
+        pr-title: Update flake.lock
+    - name: nix flake check
+      run: nix -Lv flake check 'git+file:.'
     timeout-minutes: 60
 name: cd
 'on':
   schedule:
-  - cron: 0 4 * * */5
+  - cron: 0 0 * * 0
+  workflow_dispatch: {}

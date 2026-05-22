@@ -11,17 +11,20 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  our.nix-config.includes = [
-    a.discord
-    (den._.unfree [ "discord" ])
-  ];
+  our.nix-config.includes = [ a.discord ];
 
-  a.discord.homeManager = {
-    imports = [ inputs.nixcord.homeModules.nixcord ];
+  a.discord = {
+    includes = [
+      (den.batteries.unfree [ "discord" ])
+    ];
 
-    programs.nixcord = {
-      enable = true;
-      discord.vencord.enable = true;
+    homeManager = {
+      imports = [ inputs.nixcord.homeModules.nixcord ];
+
+      programs.nixcord = {
+        enable = true;
+        discord.vencord.enable = true;
+      };
     };
   };
 }
