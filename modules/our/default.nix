@@ -13,7 +13,6 @@
       den.batteries.primary-user
       (den.batteries.user-shell "zsh")
 
-      our.cache
       our.nix-config
       our.nix-config._.stable-emacs
       # our.nix-config._.latest-emacs # latest git master
@@ -22,8 +21,17 @@
     ];
 
     homeManager =
-      { config, ... }:
+      { config, pkgs, ... }:
+      let
+        sops-get = pkgs.callPackage ./_pkgs/sops-get.nix { };
+        cachix-push = pkgs.callPackage ./_pkgs/cachix-push.nix { inherit sops-get; };
+      in
       {
+        home.packages = [
+          cachix-push
+          sops-get
+        ];
+
         programs.git.includes = [
           {
             condition = "hasconfig:remote.*.url:git@github.com:*/**";

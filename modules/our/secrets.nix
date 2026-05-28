@@ -7,16 +7,12 @@
 
   our.secrets.homeManager =
     { config, pkgs, ... }:
-    let
-      sops-get = pkgs.callPackage ./_pkgs/sops-get.nix { };
-    in
     {
       imports = [ inputs.sops-nix.homeManagerModules.sops ];
 
       home.packages = [
         pkgs.age
         pkgs.sops
-        sops-get
       ];
 
       sops = {

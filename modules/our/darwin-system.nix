@@ -94,10 +94,10 @@
       system.defaults.trackpad.Clicking = false;
       system.defaults.trackpad.TrackpadThreeFingerTapGesture = 0;
 
-      # These have to be set together to enable the gesture.
       system.defaults.dock.autohide = true;
       system.defaults.dock.static-only = true;
       system.defaults.dock.tilesize = 32;
+      # These have to be set together to enable the gesture.
       system.defaults.dock.showAppExposeGestureEnabled = true;
       system.defaults.dock.showMissionControlGestureEnabled = true;
       system.defaults.trackpad.TrackpadThreeFingerHorizSwipeGesture = 2;

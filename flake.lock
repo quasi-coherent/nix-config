@@ -539,6 +539,26 @@
         "type": "github"
       }
     },
+    "ocaml-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1779726024,
+        "narHash": "sha256-udrhVKBm/4sJUoKviaeSumcgjqJpw/5KIX4qBjLK66c=",
+        "owner": "nix-ocaml",
+        "repo": "nix-overlays",
+        "rev": "7d6c6d6e8a985e5e62f2148e2349a4f9a4fc5482",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-ocaml",
+        "repo": "nix-overlays",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "actions-nix": "actions-nix",
@@ -558,6 +578,7 @@
         "nixpkgs-lib": [
           "nixpkgs"
         ],
+        "ocaml-overlay": "ocaml-overlay",
         "sops-nix": "sops-nix",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",

@@ -116,6 +116,8 @@
   :config
   (setq lsp-nix-nixd-formatting-command ["nixfmt"]))
 
+(use-package ocaml-mode :hook (ocaml-mode . lsp-deferred))
+
 (use-package rust-ts-mode
   :hook
   (rust-ts-mode . lsp-deferred)
