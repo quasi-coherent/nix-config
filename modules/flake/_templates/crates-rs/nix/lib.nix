@@ -11,7 +11,8 @@ in
     {
       _module.args = rec {
         # `default` is the nightly toolchain.
-        crane = crane'.overrideToolchain inputs'.fenix.packages.default.toolchain;
+        rustTools = inputs'.fenix.packages.default;
+        crane = crane'.overrideToolchain rustTools.toolchain;
 
         src = crane.cleanCargoSource root;
 

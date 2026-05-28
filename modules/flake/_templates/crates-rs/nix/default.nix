@@ -10,7 +10,7 @@
   perSystem =
     {
       crane,
-      rsPkgs,
+      rustTools,
       lib,
       pkgs,
       self',
@@ -29,15 +29,15 @@
       };
 
       devShells.default = crane.devShell {
-        inputsFrom = [ self'.packages.crates-rs ];
-        RUST_SRC_PATH = "${rsPkgs.rust-src}/lib/rustlib/src/rust/library";
+        inputsFrom = [ self'.formatter ];
+        RUST_SRC_PATH = "${rustTools.rust-src}/lib/rustlib/src/rust/library";
         packages = [
           fmtt
           pkgs.cachix
           pkgs.just
           pkgs.nixd
           pkgs.nix-output-monitor
-          rsPkgs.toolchain
+          rustTools.toolchain
         ];
       };
 
