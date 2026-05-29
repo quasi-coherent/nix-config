@@ -116,7 +116,7 @@
   :config
   (setq lsp-nix-nixd-formatting-command ["nixfmt"]))
 
-(use-package ocaml-mode :hook (ocaml-mode . lsp-deferred))
+(use-package neocaml :hook (neocaml . lsp-deferred))
 
 (use-package rust-ts-mode
   :hook
@@ -137,7 +137,10 @@
   :config
   (setq toml-ts-mode-indent-offset 0))
 
-(use-package yaml-ts-mode :hook (yaml-ts-mode . lsp-deferred))
+(use-package yaml-pro
+  :hook (yaml-pro . lsp-deferred)
+  :config
+  (require 'yaml-pro-ts-mode))
 
 (define-derived-mode helm-mode yaml-ts-mode "helm"
   "Major mode for editing kubernetes helm templates.")

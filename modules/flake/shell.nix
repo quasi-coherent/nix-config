@@ -39,7 +39,7 @@
     in
     {
       devShells.default = pkgs.mkShell {
-        shellHook = "export NH_SHOW_ACTIVATION_LOGS=true";
+        NH_SHOW_ACTIVATION_LOGS = "1";
         buildInputs = denApps ++ [
           fmtt
           nix-fast-build

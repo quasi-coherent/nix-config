@@ -39,6 +39,7 @@ epkgs.emacsWithPackages (
     mct
     move-text
     multiple-cursors
+    neocaml
     nix-ts-mode
     no-littering
     orderless

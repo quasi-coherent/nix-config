@@ -40,6 +40,8 @@
           "cratesio_api_token" = { };
           "github_actions_cachix_token" = { };
           "github_personal_access_token" = { };
+          "anthropic_api_key" = { };
+          "openai_api_key" = { };
         };
         templates = {
           "CACHIX_AUTH_TOKEN".content = ''"${config.sops.placeholder.cachix_auth_token}"'';
