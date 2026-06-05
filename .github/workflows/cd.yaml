@@ -9,9 +9,14 @@ concurrency:
 jobs:
   flake-update:
     name: flake update
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: macos-26
     steps:
     - uses: actions/checkout@v6
+      with:
+        ref: unstable
     - uses: cachix/install-nix-action@v30
       with:
         nix_path: nixpkgs=channel:nixos-unstable
@@ -21,12 +26,8 @@ jobs:
         name: quasi-coherent
     - uses: DeterminateSystems/update-flake-lock@main
       with:
-        branch: ci/update-flake-lock
+        branch: unstable
         commit-msg: Update flake.lock
-        pr-labels: automated
-        pr-title: Update flake.lock
-    - name: nix flake check
-      run: nix -Lv flake check 'git+file:.'
     timeout-minutes: 60
 name: cd
 'on':
