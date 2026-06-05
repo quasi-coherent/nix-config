@@ -22,6 +22,7 @@
         ocamlPackages.ocamlformat
         ocamlPackages.odoc
         ocamlPackages.melange
+        ocamlPackages.merlin
         ocamlPackages.reason
         ocamlPackages.rtop
         ocamlPackages.utop

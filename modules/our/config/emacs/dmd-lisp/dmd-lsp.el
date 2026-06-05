@@ -111,23 +111,35 @@
         ("M-n" . nil)
         ("M-p" . nil)))
 
+
+(use-package tuareg
+  :hook
+  (tuareg-mode . lsp-deferred)
+  :mode
+  (("\\.re\\'" . tuareg-mode)))
+
+(use-package merlin
+  :config
+  (add-hook 'tuareg-mode-hook #'merlin-mode)
+  (setq merlin-error-after-save nil))
+
 (use-package nix-ts-mode
   :hook (nix-ts-mode . lsp-deferred)
   :config
   (setq lsp-nix-nixd-formatting-command ["nixfmt"]))
-
-(use-package neocaml :hook (neocaml . lsp-deferred))
 
 (use-package rust-ts-mode
   :hook
   (rust-ts-mode . lsp-deferred)
   :custom
   (lsp-rust-analyzer-cargo-watch-command "check")
+  (lsp-rust-analyzer-checkonsave-features "all")
   (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
   (lsp-rust-analyzer-display-chaining-hints t)
   (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
   (lsp-rust-analyzer-display-closure-return-type-hints t)
   (lsp-rust-analyzer-display-parameter-hints nil)
+  (lsp-rust-analyzer-rustfmt-rangeformatting-enable t)
   :config
   (with-eval-after-load 'lsp-rust
     (define-key lsp-command-map (kbd "a x") #'lsp-rust-analyzer-expand-macro)))

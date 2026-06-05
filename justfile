@@ -16,7 +16,7 @@ ci:
 
 # Activate a new home configuration only
 home *args:
-  {{username}}@{{hostname}} switch --ask {{args}}
+  {{username}}@{{hostname}} switch --ask --show-activation-logs {{args}}
 
 # Build host configuration
 build host=hostname *args:
@@ -24,7 +24,7 @@ build host=hostname *args:
 
 # Activate host configuration
 switch host=hostname *args:
-    {{hostname}} switch --ask {{args}}
+    {{hostname}} switch --ask --show-activation-logs {{args}}
 
 # Clean up all old generations and store paths
 clean *args:

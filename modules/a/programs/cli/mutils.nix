@@ -15,6 +15,7 @@
         doggo
         duf
         dust
+        graphviz
         httpie
         just
         jless

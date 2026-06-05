@@ -14,6 +14,11 @@ let
       uses = actions.checkout;
     };
 
+    checkoutBranch = branch: {
+      uses = actions.checkout;
+      "with".ref = branch;
+    };
+
     install-nix = {
       uses = actions.install-nix;
       "with".nix_path = "nixpkgs=channel:nixos-unstable";
@@ -30,16 +35,6 @@ let
     flake-check = {
       name = "nix flake check";
       run = "nix -Lv flake check '${flakeRef}'";
-    };
-
-    flake-update = {
-      uses = actions.update-flake-lock;
-      "with" = {
-        commit-msg = "Update flake.lock";
-        pr-title = "Update flake.lock";
-        pr-labels = "automated";
-        branch = "ci/update-flake-lock";
-      };
     };
   };
 
@@ -79,7 +74,10 @@ in
       ".github/workflows/ci.yaml" = {
         inherit concurrency;
         name = "ci";
-        on.push.branches = [ "master" ];
+        on.push.branches = [
+          "master"
+          "unstable"
+        ];
         jobs = {
           flake-check = {
             name = "flake check";
@@ -106,9 +104,21 @@ in
           flake-update = {
             name = "flake update";
             runs-on = "macos-26";
-            steps = setupSteps ++ [
-              steps.flake-update
-              steps.flake-check
+            permissions = {
+              contents = "write";
+              pull-requests = "write";
+            };
+            steps = [
+              (steps.checkoutBranch "unstable")
+              steps.install-nix
+              steps.cachix
+              {
+                uses = actions.update-flake-lock;
+                "with" = {
+                  commit-msg = "Update flake.lock";
+                  branch = "unstable";
+                };
+              }
             ];
           };
         };

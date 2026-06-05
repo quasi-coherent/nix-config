@@ -6,6 +6,7 @@
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
+        dive
         dockerfile-language-server
         docker
         docker-compose

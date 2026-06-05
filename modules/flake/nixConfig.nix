@@ -1,6 +1,7 @@
 {
   nix-config.primaryInputs = [
     "darwin"
+    "fenix"
     "home-manager"
     "nixpkgs"
   ];

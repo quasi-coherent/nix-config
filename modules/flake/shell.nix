@@ -36,10 +36,12 @@
 
       nix-fast-build = inputs'.nix-fast-build.packages.default;
       trix = inputs'.trix.packages.default;
+
+      shellHook = "export NH_SHOW_ACTIVATION_LOGS=1";
     in
     {
       devShells.default = pkgs.mkShell {
-        NH_SHOW_ACTIVATION_LOGS = "1";
+        inherit shellHook;
         buildInputs = denApps ++ [
           fmtt
           nix-fast-build

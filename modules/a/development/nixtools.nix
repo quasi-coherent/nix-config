@@ -25,10 +25,14 @@
         trix
         pkgs.deadnix
         pkgs.nh
+        pkgs.nix-du
+        pkgs.nix-inspect
         pkgs.nix-output-monitor
         pkgs.nix-tree
+        pkgs.nix-web
         pkgs.nixd
         pkgs.nixfmt
+        pkgs.nixtract
       ];
 
       programs.nix-index.enable = true;

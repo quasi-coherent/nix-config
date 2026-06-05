@@ -7,6 +7,7 @@ epkgs.emacsWithPackages (
     auctex-lua
     avy
     bind-key
+    caml
     cape
     cdlatex
     chess
@@ -39,7 +40,6 @@ epkgs.emacsWithPackages (
     mct
     move-text
     multiple-cursors
-    neocaml
     nix-ts-mode
     no-littering
     orderless
@@ -47,6 +47,7 @@ epkgs.emacsWithPackages (
     smartparens
     treesit-auto
     treesit-grammars.with-all-grammars
+    tuareg
     undo-tree
     use-package
     vertico

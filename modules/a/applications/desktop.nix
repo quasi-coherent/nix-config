@@ -14,7 +14,6 @@
           slack
           slack-cli
         ];
-        programs.element-desktop.enable = true;
       };
   };
 }

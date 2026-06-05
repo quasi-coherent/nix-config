@@ -10,41 +10,40 @@
   a.rust = {
     homeManager =
       { pkgs, ... }:
-      let
-        fPkgs = inputs.fenix.packages.${pkgs.stdenvNoCC.hostPlatform.system};
-
-        toolchain = with fPkgs.complete; [
-          cargo
-          clippy
-          rustc
-          rustfmt
-          rust-src
-        ];
-
-        cargoCmds = with pkgs; [
-          cargo-expand
-          cargo-flamegraph
-          cargo-llvm-cov
-          cargo-machete
-          cargo-make
-          cargo-msrv
-          cargo-show-asm
-          cargo-sort
-          cargo-tauri_1
-          cargo-watch
-        ];
-      in
       {
+        nixpkgs.overlays = [ inputs.fenix.overlays.default ];
+
         home.packages =
-          toolchain
-          ++ cargoCmds
-          ++ [
-            fPkgs.rust-analyzer
-            pkgs.sccache
+          let
+            nightly = with pkgs; [
+              (fenix.complete.withComponents [
+                "cargo"
+                "clippy"
+                "rust-src"
+                "rustc"
+                "rustfmt"
+              ])
+              rust-analyzer-nightly
+            ];
+          in
+          with pkgs;
+          [
+            sccache
+            cargo-expand
+            cargo-flamegraph
+            cargo-llvm-cov
+            cargo-machete
+            cargo-make
+            cargo-msrv
+            cargo-show-asm
+            cargo-sort
+            cargo-tauri_1
+            cargo-watch
 
             # Occasionally useful command to clean up Rust target bloat.
             (pkgs.writeShellScriptBin "cargo-clean-all" ''fd -g Cargo.toml -X sh -c 'cd {//} && rm -rf target/' "$1"'')
-          ];
+          ]
+          ++ nightly;
       };
 
     # Always forward additional Rust cache config.
