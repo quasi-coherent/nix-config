@@ -4,6 +4,7 @@
     inputs.den.flakeModules.default
     inputs.flake-file.flakeModules.default
     inputs.treefmt-nix.flakeModule
+    (inputs.import-tree ../modules)
   ];
 
   flake-file.inputs = {
