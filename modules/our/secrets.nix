@@ -35,15 +35,16 @@
           "gitlab_sign_ed25519" = {
             path = "${config.home.homeDirectory}/.ssh/gitlab_sign_ed25519";
           };
-          "cachix_auth_token" = { };
-          "lichess_oauth_token" = { };
-          "cratesio_api_token" = { };
           "github_actions_ed25519" = { };
-          "github_actions_cachix_token" = { };
+          "cachix_auth_token" = { };
+          "cratesio_api_token" = { };
           "github_personal_access_token" = { };
+          "lichess_oauth_token" = { };
           "anthropic_api_key" = { };
           "openai_api_key" = { };
           "cloudflared_token" = { };
+          "gh_cachix" = { };
+          "gh_limavm_cachix" = { };
         };
         templates = {
           "CACHIX_AUTH_TOKEN".content = ''"${config.sops.placeholder.cachix_auth_token}"'';
