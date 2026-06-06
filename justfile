@@ -10,6 +10,10 @@ help:
 fmt *args:
   fmtt {{args}}
 
+# Run checks
+ck *args:
+    nix flake check {{args}}
+
 # Regenerate .gitlab/workflows
 ci:
     nix run .#render-workflows

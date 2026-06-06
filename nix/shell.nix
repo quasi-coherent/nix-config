@@ -31,7 +31,7 @@
 
       replf = pkgs.writeShellApplication {
         name = "nrepl";
-        text = ''nix repl --expr "builtins.getFlake \"${../..}\""'';
+        text = ''nix repl --expr "builtins.getFlake \"${../.}\""'';
       };
 
       nix-fast-build = inputs'.nix-fast-build.packages.default;
