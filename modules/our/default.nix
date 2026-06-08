@@ -47,7 +47,7 @@
           }
           {
             condition = "gitdir:~/d/git/lab/**";
-            path = "${config.xdg.configHome}/git/githubconfig";
+            path = "${config.xdg.configHome}/git/gitlabconfig";
           }
         ];
 

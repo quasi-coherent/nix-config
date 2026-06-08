@@ -43,6 +43,7 @@ epkgs.emacsWithPackages (
     nix-ts-mode
     no-littering
     orderless
+    reason-mode
     simpleclip
     smartparens
     treesit-auto

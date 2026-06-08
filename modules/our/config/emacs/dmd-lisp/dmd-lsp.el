@@ -111,17 +111,16 @@
         ("M-n" . nil)
         ("M-p" . nil)))
 
-
-(use-package tuareg
+(use-package reason-mode
   :hook
-  (tuareg-mode . lsp-deferred)
-  :mode
-  (("\\.re\\'" . tuareg-mode)))
-
-(use-package merlin
+  (reason-mode . lsp-deferred)
+  :custom
+  (tuareg-mode)
+  (merlin-mode)
   :config
-  (add-hook 'tuareg-mode-hook #'merlin-mode)
-  (setq merlin-error-after-save nil))
+  (setq lsp-ocaml-lsp-server-command '("ocamllsp" "--stdio")
+        merlin-error-after-save nil
+        tuareg-match-patterns-aligned t))
 
 (use-package nix-ts-mode
   :hook (nix-ts-mode . lsp-deferred)
