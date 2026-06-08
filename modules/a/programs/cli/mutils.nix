@@ -83,7 +83,7 @@
         lsa = "${la}";
         ll = "eza -lahomb --group --group-directories-first --color-scale=all --sort=modified";
         llg = "${ll} --git";
-        tree = "eza --tree";
+        tree = "eza --tree --git-ignore";
       };
     };
 }
