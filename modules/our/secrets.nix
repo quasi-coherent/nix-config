@@ -29,16 +29,10 @@
           "signing_ed25519" = {
             path = "${config.home.homeDirectory}/.ssh/signing_ed25519";
           };
-          "gitlab_auth_ed25519" = {
-            path = "${config.home.homeDirectory}/.ssh/gitlab_auth_ed25519";
-          };
-          "gitlab_sign_ed25519" = {
-            path = "${config.home.homeDirectory}/.ssh/gitlab_sign_ed25519";
-          };
           "github_actions_ed25519" = { };
+          "github_personal_access_token" = { };
           "cachix_auth_token" = { };
           "cratesio_api_token" = { };
-          "github_personal_access_token" = { };
           "lichess_oauth_token" = { };
           "anthropic_api_key" = { };
           "openai_api_key" = { };

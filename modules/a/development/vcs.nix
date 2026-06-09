@@ -3,7 +3,7 @@
   our.nix-config.includes = [ a.vcs ];
 
   a.vcs.homeManager =
-    { config, pkgs, ... }:
+    { pkgs, ... }:
     {
       home.packages = [ pkgs.difftastic ];
 
@@ -14,8 +14,8 @@
         ignores = [
           ".*"
           "!.gitignore"
-          "!.envrc"
           "!.gitkeep"
+          "!.envrc"
           "!.dir-locals.el"
           "!.sops.yaml"
           "*.swp"
@@ -35,11 +35,6 @@
           diff.tool = "difftastic";
           difftool.prompt = false;
           difftool.difftastic.cmd = "${pkgs.difftastic}/bin/difft $LOCAL $REMOTE";
-          format.signoff = true;
-          commit.gpgSign = true;
-          tag.gpgSign = true;
-          gpg.format = "ssh";
-          gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.ssh/allowed_signers";
         };
       };
 

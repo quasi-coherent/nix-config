@@ -1,7 +1,5 @@
 {
   den,
-  inputs,
-  lib,
   our,
   ...
 }:
@@ -32,48 +30,26 @@
           sops-get
         ];
 
-        programs.git.includes = [
-          {
-            condition = "hasconfig:remote.*.url:git@github.com:*/**";
-            path = "${config.xdg.configHome}/git/githubconfig";
-          }
-          {
-            condition = "gitdir:~/d/git/hub/**";
-            path = "${config.xdg.configHome}/git/githubconfig";
-          }
-          {
-            condition = "hasconfig:remote.*.url:git@gitlab.com:*/**";
-            path = "${config.xdg.configHome}/git/gitlabconfig";
-          }
-          {
-            condition = "gitdir:~/d/git/lab/**";
-            path = "${config.xdg.configHome}/git/gitlabconfig";
-          }
-        ];
+        programs.git.settings = {
+          user = {
+            name = "Daniel Donohue";
+            email = "d.michael.donohue@gmail.com";
+            signingKey = "${config.home.homeDirectory}/.ssh/signing_ed25519";
+          };
+          format.signoff = true;
+          commit.gpgSign = true;
+          tag.gpgSign = true;
+          gpg.format = "ssh";
+          gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.ssh/allowed_signers";
+        };
 
         home.file = {
           ".ssh/allowed_signers" = {
             text = ''
               d.michael.donohue@gmail.com namespaces="git" ${builtins.readFile ./public_keys/signing_ed25519.pub}
-              qcoh@gitlab namespaces="git" ${builtins.readFile ./public_keys/gitlab_sign_ed25519.pub}
             '';
             target = ".ssh/allowed_signers";
           };
-        };
-
-        xdg.configFile = {
-          "git/githubconfig".text = ''
-            [user]
-                   email = "d.michael.donohue@gmail.com"
-                   name = "Daniel Donohue"
-                   signingKey = ${config.home.homeDirectory}/.ssh/signing_ed25519
-          '';
-          "git/gitlabconfig".text = ''
-            [user]
-                   email = "qcoh@gitlab"
-                   name = "quasi-coherent"
-                   signingKey = ${config.home.homeDirectory}/.ssh/gitlab_sign_ed25519
-          '';
         };
       };
 
@@ -85,11 +61,8 @@
         reattach = true;
       };
 
-      users.users.daniel.openssh.authorizedKeys.keys = lib.pipe inputs.import-tree [
-        (i: i.initFilter (lib.hasSuffix ".pub"))
-        (i: i.map builtins.readFile)
-        (i: i.withLib lib)
-        (i: i.leafs ./public_keys)
+      users.users.daniel.openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBgWmNMzpX3gRErytAME4KH+i00AYMeZ7JXJnKt21dm4"
       ];
     };
   };

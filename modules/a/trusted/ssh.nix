@@ -14,8 +14,8 @@
             AddKeysToAgent = "yes";
           };
           "gitlab.com" = {
-            HostName = "github.com";
-            IdentityFile = "~/.ssh/gitlab_auth_ed25519";
+            HostName = "gitlab.com";
+            IdentityFile = "~/.ssh/id_ed25519";
             AddKeysToAgent = "yes";
           };
           "*" = {
