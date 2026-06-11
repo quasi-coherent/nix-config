@@ -1,20 +1,15 @@
-{ a, den, ... }:
+{ a, ... }:
 {
   our.nix-config.includes = [ a.dutils ];
 
   # Developer CLI utils.
   a.dutils = {
-    includes = [
-      (den.batteries.unfree [ "claude-code" ])
-    ];
-
     homeManager =
       { pkgs, ... }:
       {
         home.packages = with pkgs; [
           asciinema
           atac # Terminal Postman
-          claude-code
           clog-cli
           gdb
           gdb-dashboard

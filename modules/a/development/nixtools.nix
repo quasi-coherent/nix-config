@@ -14,9 +14,9 @@
   our.nix-config.includes = [ a.nixtools ];
 
   a.nixtools.homeManager =
-    { pkgs, ... }:
+    { inputs', pkgs, ... }:
     let
-      trix = inputs.trix.packages.${pkgs.stdenvNoCC.hostPlatform.system}.trix;
+      trix = inputs'.trix.packages.trix;
     in
     {
       imports = [ inputs.nix-index-database.homeModules.nix-index ];

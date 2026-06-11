@@ -20,6 +20,10 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+    claude = {
+      url = "github:sadjow/claude-code-nix?ref=v2.1.71";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     darwin = {
       url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
