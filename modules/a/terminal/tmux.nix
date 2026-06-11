@@ -6,6 +6,15 @@
     { config, pkgs, ... }:
     let
       plugins = with pkgs.tmuxPlugins; [
+        copycat
+        {
+          plugin = fpp;
+          extraConfig = ''
+            set -g @fpp-bind off
+            # TODO: This is bad practice; not portable.
+            bind-key e run-shell "e"
+          '';
+        }
         logging
         pain-control
         {

@@ -76,6 +76,11 @@
 
       programs.tealdeer.settings.updates.auto_update = true;
 
+      programs.zoxide = {
+        enable = true;
+        enableZshIntegration = true;
+      };
+
       programs.zsh.shellAliases = rec {
         l = "eza";
         ls = "eza";
