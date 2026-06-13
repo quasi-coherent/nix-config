@@ -10,11 +10,13 @@
 (declare-function treesit-auto-add-to-auto-mode-alist "treesit-auto")
 (declare-function global-treesit-auto-mode "treesit-auto")
 (declare-function consult-lsp-symbols "consult-lsp")
+(declare-function lazy-ruff-mode "lazy-ruff")
 
 (defvar lsp-modeline-diagnostics-scope)
 (defvar lsp-headerline-breadcrumb-segments)
 (defvar lsp-modeline-code-actions-mode)
 (defvar lsp-nix-nixd-formatting-command)
+(defvar lsp-rust-analyzer-expand-macro)
 
 (use-package flycheck
   :init
@@ -142,6 +144,14 @@
   :config
   (with-eval-after-load 'lsp-rust
     (define-key lsp-command-map (kbd "a x") #'lsp-rust-analyzer-expand-macro)))
+
+(use-package lazy-ruff)
+
+(use-package python-ts-mode
+  :hook
+  (python-ts-mode . lsp-deferred)
+  :config
+  (lazy-ruff-mode 1))
 
 (use-package toml-ts-mode
   :hook (toml-ts-mode . lsp-deferred)

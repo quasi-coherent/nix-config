@@ -32,6 +32,7 @@ epkgs.emacsWithPackages (
     helpful
     kkp
     lichess
+    lazy-ruff
     lsp-haskell
     lsp-mode
     lsp-ui

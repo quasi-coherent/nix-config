@@ -21,7 +21,7 @@
       };
     };
     claude = {
-      url = "github:sadjow/claude-code-nix?ref=v2.1.71";
+      url = "github:sadjow/claude-code-nix?ref=v2.1.172";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     darwin = {
