@@ -1,5 +1,5 @@
 [package]
-name = "crate-rs"
+name = "eg-rs"
 version = "0.1.0"
 edition = "2024"
 readme = "README.md"
@@ -13,5 +13,5 @@ path = "src/lib.rs"
 criterion = { version = "0.5", features = ["html_reports"] }
 
 [[bench]]
-  name = "main"
-  harness = false
+name = "main"
+harness = false

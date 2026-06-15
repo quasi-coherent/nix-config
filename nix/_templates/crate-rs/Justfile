@@ -1,0 +1,7 @@
+system := `nix-instantiate --raw --strict --eval -E builtins.currentSystem`
+
+c:
+    nix flake check
+
+reload:
+    nix build .#devShells

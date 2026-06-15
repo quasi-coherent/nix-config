@@ -29,7 +29,6 @@
       };
 
       devShells.default = crane.devShell {
-        inputsFrom = [ self'.formatter ];
         RUST_SRC_PATH = "${rustTools.rust-src}/lib/rustlib/src/rust/library";
         packages = [
           fmtt
@@ -42,18 +41,15 @@
       };
 
       treefmt = {
-        projectRootFile = "flake.nix";
+        projectRootFile = ".git/config";
         programs = {
           rustfmt.enable = true;
           nixfmt.enable = true;
           typos.enable = true;
         };
-        settings.formatter.rustfmt = {
-          options = [
-            "--config-path"
-            "rustfmt.toml"
-          ];
-        };
+        settings.excludes = [
+          ".direnv/*"
+        ];
       };
     };
 }
