@@ -1,7 +1,12 @@
 {
   description = "crate-rs";
 
-  outputs = inputs: import ./. inputs;
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = import inputs.systems;
+      imports = [ ./. ];
+    };
 
   inputs = {
     crane.url = "github:ipetkov/crane";
