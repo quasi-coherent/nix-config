@@ -44,6 +44,7 @@ epkgs.emacsWithPackages (
     nix-ts-mode
     no-littering
     orderless
+    purescript-mode
     reason-mode
     simpleclip
     smartparens

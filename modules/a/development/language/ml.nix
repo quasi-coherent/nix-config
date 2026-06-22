@@ -10,9 +10,7 @@
   a.ocaml.homeManager =
     { pkgs, ... }:
     {
-      nixpkgs.overlays = [
-        inputs.ocaml-overlay.overlays.default
-      ];
+      nixpkgs.overlays = [ inputs.ocaml-overlay.overlays.default ];
 
       home.packages = with pkgs; [
         dune_3

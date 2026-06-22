@@ -113,6 +113,11 @@
         ("M-n" . nil)
         ("M-p" . nil)))
 
+(use-package purescript-mode
+  :hook (purescript-mode . lsp-deferred)
+  :custom
+  (turn-on-purescript-indentation))
+
 (use-package reason-mode
   :hook
   (reason-mode . lsp-deferred)

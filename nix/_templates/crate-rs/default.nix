@@ -65,7 +65,7 @@ let
           pkgs.cargo-sort-derives
           pkgs.cachix
           pkgs.just
-          pkgs.rust-stable.toolchain
+          rust-stable.toolchain
         ];
         RUST_SRC_PATH = "${rust-stable.rust-src}/lib/rustlib/src/rust/library";
       };
