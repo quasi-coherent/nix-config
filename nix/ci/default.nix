@@ -116,7 +116,8 @@ in
                 uses = actions.update-flake-lock;
                 "with" = {
                   sign-commits = true;
-                  gpg-private-key = "\${{ secrets.GH_ACTIONS_SIGNING_KEY }}";
+                  gpg-private-key = "\${{ secrets.PGP_PRIVATE_KEY }}";
+                  gpg-passphrase = "\${{ secrets.PGP_PASSPHRASE }}";
                   commit-msg = "Update flake.lock";
                   branch = "unstable";
                 };

@@ -30,6 +30,8 @@
             path = "${config.home.homeDirectory}/.ssh/signing_ed25519";
           };
           "github_actions_ed25519" = { };
+          "github_actions_pgp_private_key" = { };
+          "github_actions_pgp_passphrase" = { };
           "github_personal_access_token" = { };
           "cachix_auth_token" = { };
           "cratesio_api_token" = { };

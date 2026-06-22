@@ -28,7 +28,8 @@ jobs:
       with:
         branch: unstable
         commit-msg: Update flake.lock
-        gpg-private-key: ${{ secrets.GH_ACTIONS_SIGNING_KEY }}
+        gpg-passphrase: ${{ secrets.PGP_PASSPHRASE }}
+        gpg-private-key: ${{ secrets.PGP_PRIVATE_KEY }}
         sign-commits: true
     timeout-minutes: 60
 name: cd
