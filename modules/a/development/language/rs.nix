@@ -37,7 +37,6 @@
             cargo-msrv
             cargo-show-asm
             cargo-sort
-            cargo-tauri_1
             cargo-watch
 
             # Occasionally useful command to clean up Rust target bloat.
