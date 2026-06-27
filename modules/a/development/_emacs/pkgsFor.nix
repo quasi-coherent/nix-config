@@ -17,7 +17,6 @@ epkgs.emacsWithPackages (
     consult-flycheck
     consult-lsp
     corfu
-    corfu-terminal # TODO: Remove when on 31
     delight
     diminish
     doom-modeline

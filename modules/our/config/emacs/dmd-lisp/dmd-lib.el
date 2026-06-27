@@ -123,7 +123,7 @@ Do not try to make a new directory or anything fancy."
 
 (defun dmd/orderless-beg-or-end-dispatch (word _index _total)
   "Expand WORD~ to \\(^WORD\\|WORD$\\)."
-  (when-let (((string-suffix-p "~" word))
+  (when-let* (((string-suffix-p "~" word))
              (word (substring word 0 -1)))
     `(orderless-regexp . ,(format "\\(^%s\\|%s$\\)" word word))))
 

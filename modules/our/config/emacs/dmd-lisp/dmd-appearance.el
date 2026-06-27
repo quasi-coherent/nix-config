@@ -70,7 +70,7 @@
         doom-modeline-irc nil
         nerd-icons-color-icons nil))
 
-(set-face-attribute 'mode-line nil
+(set-face-attribute 'mode-line-active nil
                     :background "#6e1641"
                     :foreground "#0aa3ec"
                     :inherit 'mode-line)

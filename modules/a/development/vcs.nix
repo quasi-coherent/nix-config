@@ -16,7 +16,6 @@
           "!.gitignore"
           "!.gitkeep"
           "!.envrc"
-          "!.dir-locals.el"
           "!.sops.yaml"
           "*.swp"
           "*.key"

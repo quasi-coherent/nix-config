@@ -9,7 +9,6 @@
 (declare-function vertico-mode "vertico")
 (declare-function marginalia-mode "marginalia")
 (declare-function global-corfu-mode "corfu")
-(declare-function corfu-terminal-mode "corfu-terminal")
 
 (use-package consult
   :init
@@ -132,8 +131,6 @@
   (corfu-popupinfo-mode)
   :config
   (keymap-unset corfu-map "RET"))
-
-(use-package corfu-terminal :init (corfu-terminal-mode +1))
 
 (use-package embark
   :bind

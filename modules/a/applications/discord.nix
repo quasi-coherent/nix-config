@@ -18,7 +18,7 @@
           autoUpdate = false;
           autoUpdateNotification = false;
           disableMinSize = true;
-          notifyAbountUpdates = false;
+          notifyAboutUpdates = false;
         };
       };
     };

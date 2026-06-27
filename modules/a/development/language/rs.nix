@@ -54,10 +54,5 @@
         "http://fenix.cachix.org"
       ];
     };
-
-    # This aspect requires this overlay or else `home.packages` doesn't work.
-    ourOverlays = {
-
-    };
   };
 }
