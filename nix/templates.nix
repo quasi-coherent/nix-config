@@ -16,8 +16,8 @@
     };
 
     rust-shell = {
-      path = ./_devshells/rust-stable;
-      description = "Rust devshell with stable toolchain from fenix";
+      path = ./_devshells/rust;
+      description = "Rust devshell with fenix and crane";
     };
   };
 }

@@ -1,28 +1,33 @@
 \documentclass[10pt,a4paper,sans]{moderncv}
 
-\moderncvtheme[grey]{classic}
+\moderncvstyle{classic}
+\moderncvcolor{grey}
 
 \usepackage[utf8]{inputenc}
 
-\usepackage[scale=0.8,margin=.75in]{geometry}
-\setlength{\footskip}{136.00005pt}
-\recomputelengths
+\renewcommand*{\labelitemi}{\strut\textcolor{color1}{\large\rmfamily\textbullet}}
+\usepackage[top=.3in, bottom=.3in, left=.4in, right=.5in]{geometry}
+\usepackage{outlines}
 
-\usepackage{lmodern}
-% \setmainfont{Latin Modern Roman}
-% \setsansfont{Latin Modern Sans}
-% \setmonofont{Latin Modern Mono}
-% \setmathfont{Latin Modern Math}
+\nopagenumbers{}
 
 \firstname{J.J.}
 \lastname{Fishhouse-Michaelsternstromsen Jr., Esq., DDS, DMD}
 \phone[mobile]{+1 281 330 8004}
 \email{j@gmail.com}
+\social[github]{j}
 
 \begin{document}
 \makecvtitle
 
 \vspace{-.5in}
 \section{Experience}
-\cventry{31/12/1969 to Present}{Senior Director of Sales and Marketing Project and/or Product Management}{NYC}{}{}{Synergy, interfacing with engineering, product roadmap market fit analysis development tracking, labeling tickets, etc.}
+\cventry{31/12/1969--Present}{Senior Director}{gobbledygook.ai}{New York, NY}{}{
+  \begin{itemize}
+    \item Streamlined our GTM product roadmap market fit development lifecycle story tracking processes, leading to a 50\% increase in user journey click-through capture retention.
+    \item Led the effort to completely change every aspect of project management at GG.ai, leading to a 50\% increase in labels and categories for engineering tickets.
+    \item Drove a 50\% QoQ increase in synergy
+  \end{itemize}
+}
+
 \end{document}

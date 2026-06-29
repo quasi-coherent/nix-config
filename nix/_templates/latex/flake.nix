@@ -23,26 +23,15 @@
               lm
               luatex
               moderncv
+              outlines
               rsfs
               scheme-medium
               wrapfig
               ;
           };
-
-          program = pkgs.writeShellApplication {
-            name = "gen";
-            runtimeInputs = [ tex ];
-            text = ''
-              TS="$(date '+%s')"
-
-              cd ./src \
-                && pdflatex doc.tex \
-                && mv doc.pdf "../doc-$TS.pdf"
-            '';
-          };
         in
         {
-          apps.default = { inherit program; };
+          packages.default = pkgs.callPackage ./doc.nix { inherit tex; };
         };
     };
 }
