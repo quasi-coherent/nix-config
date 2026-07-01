@@ -19,5 +19,10 @@
       path = ./_devshells/rust;
       description = "Rust devshell with fenix and crane";
     };
+
+    python-shell = {
+      path = ./_devshells/python;
+      description = "Python devshell with pyproject-nix";
+    };
   };
 }
