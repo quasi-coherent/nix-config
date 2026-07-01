@@ -1,4 +1,3 @@
-
 ;;; dmd-lsp.el --- -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
