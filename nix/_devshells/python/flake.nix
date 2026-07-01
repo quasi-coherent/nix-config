@@ -25,7 +25,7 @@
         let
           projectRoot = ./.;
           pyPkgs = pkgs.python314Packages;
-          prj = inputs.pyproject.lib.project.loadPyProject { inherit projectRoot; };
+          prj = inputs.pyproject.lib.project.loadPyproject { inherit projectRoot; };
           arg = prj.renderers.withPackages { inherit (pyPkgs) python; };
           pythonEnv = pyPkgs.python.withPackages arg;
         in

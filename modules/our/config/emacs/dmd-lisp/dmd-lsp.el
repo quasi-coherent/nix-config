@@ -1,3 +1,4 @@
+
 ;;; dmd-lsp.el --- -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
@@ -76,6 +77,10 @@
   :commands (lsp-ui-mode)
   :hook (lsp-mode . lsp-ui-mode)
   :custom
+  (lsp-ui-sideline-enable t)
+  (lsp-ui-sideline-show-diagnostics t)
+  (lsp-ui-sideline-show-hover nil)
+  (lsp-ui-sideline-show-code-actions nil)
   (lsp-ui-doc-enable t)
   (lsp-ui-doc-use-webkit t)
   (lsp-ui-peek-enable t)
@@ -157,6 +162,11 @@
   (python-ts-mode . lsp-deferred)
   :config
   (lazy-ruff-mode 1))
+
+;; Ton of useless key bindings that start with C-c.
+;; Rather just turn off the whole mode map.
+(with-eval-after-load 'python
+  (setcdr python-base-mode-map nil))
 
 (use-package toml-ts-mode
   :hook (toml-ts-mode . lsp-deferred)
