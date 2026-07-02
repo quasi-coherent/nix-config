@@ -16,15 +16,4 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-
-  perSystem.treefmt = {
-    projectRootFile = ".envrc";
-    programs = {
-      nixfmt = {
-        enable = true;
-        excludes = [ ".direnv" ];
-      };
-      deadnix.enable = true;
-    };
-  };
 }

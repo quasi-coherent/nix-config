@@ -14,6 +14,10 @@ fmt *args:
 ck *args:
     nix flake check {{args}}
 
+# Build default shell
+reload *args:
+    nix build .#devShells.{{system}}.default {{args}}
+
 # Regenerate .gitlab/workflows
 ci:
     nix run .#render-workflows
