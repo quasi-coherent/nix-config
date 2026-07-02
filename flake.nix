@@ -47,14 +47,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:vic/import-tree";
-    nix-fast-build = {
-      url = "github:Mic92/nix-fast-build";
-      inputs = {
-        flake-parts.follows = "flake-parts";
-        nixpkgs.follows = "nixpkgs";
-        treefmt-nix.follows = "treefmt-nix";
-      };
-    };
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";

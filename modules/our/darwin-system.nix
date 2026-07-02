@@ -8,6 +8,7 @@
   our.darwin-system.darwin =
     { inputs', pkgs, ... }:
     let
+      # typos:off
       ndPkgs = inputs'.darwin.packages;
       hmPkgs = inputs'.home-manager.packages;
     in
@@ -29,6 +30,7 @@
         ndPkgs.darwin-rebuild
         ndPkgs.darwin-version
         ndPkgs.darwin-uninstaller
+        # typos:on
 
         pkgs.age
         pkgs.cachix
