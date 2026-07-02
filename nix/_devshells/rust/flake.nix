@@ -8,12 +8,13 @@
     nixpkgs-lib.follows = "nixpkgs";
   };
 
-  nixConfig = {
-    extra-substituters = [ "https://fenix.cachix.org" ];
-    extra-trusted-public-keys = [
-      "fenix.cachix.org-1:ecJhr+RdYEdcVgUkjruiYhjbBloIEGov7bos90cZi0Q="
-    ];
-  };
+  ## Uncomment to add the fenix binary cache to trusted substituters.
+  # nixConfig = {
+  #   extra-substituters = [ "https://fenix.cachix.org" ];
+  #   extra-trusted-public-keys = [
+  #     "fenix.cachix.org-1:ecJhr+RdYEdcVgUkjruiYhjbBloIEGov7bos90cZi0Q="
+  #   ];
+  # };
 
   outputs =
     inputs:
@@ -28,7 +29,7 @@
       perSystem =
         { inputs', pkgs, ... }:
         let
-          # inputs'.fenix.packages.default is the nightly toolchain.
+          # inputs'.fenix.packages.latest is the nightly toolchain.
           #
           # If switching to stable, it is common to want `rustfmt` from nightly
           # still, since it's pretty much useless otherwise.  In this case, use
