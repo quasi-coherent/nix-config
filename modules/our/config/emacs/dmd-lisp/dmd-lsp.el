@@ -6,17 +6,20 @@
 (require 'flycheck)
 (require 'use-package)
 
+(declare-function lazy-ruff-mode "lazy-ruff")
 (declare-function lsp-enable-which-key-integration "lsp")
 (declare-function treesit-auto-add-to-auto-mode-alist "treesit-auto")
 (declare-function global-treesit-auto-mode "treesit-auto")
 (declare-function consult-lsp-symbols "consult-lsp")
-(declare-function lazy-ruff-mode "lazy-ruff")
 
-(defvar lsp-modeline-diagnostics-scope)
 (defvar lsp-headerline-breadcrumb-segments)
 (defvar lsp-modeline-code-actions-mode)
+(defvar lsp-modeline-diagnostics-scope)
 (defvar lsp-nix-nixd-formatting-command)
+(defvar lsp-ocaml-lsp-server-command)
 (defvar lsp-rust-analyzer-expand-macro)
+(defvar merlin-error-after-save)
+(defvar tuareg-match-patterns-aligned)
 
 (use-package flycheck
   :init
@@ -167,10 +170,7 @@
 (with-eval-after-load 'python
   (setcdr python-base-mode-map nil))
 
-(use-package toml-ts-mode
-  :hook (toml-ts-mode . lsp-deferred)
-  :config
-  (setq toml-ts-mode-indent-offset 0))
+(use-package toml-ts-mode :hook (toml-ts-mode . lsp-deferred))
 
 (use-package yaml-pro
   :hook (yaml-pro . lsp-deferred)

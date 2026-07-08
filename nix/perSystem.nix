@@ -15,7 +15,6 @@ let
     let
       # All host/home activation wrapper packages.
       activatePkgs = den.lib.nh.denPackages { fromFlake = true; } pkgs;
-
       update = pkgs.writeShellApplication {
         name = "update-primary";
         meta.description = "Update primary flake inputs";
@@ -38,8 +37,7 @@ let
       };
 
       devShells.default = pkgs.mkShell {
-        NH_SHOW_ACTIVATION_LOGS = "1";
-
+        env.NH_SHOW_ACTIVATION_LOGS = "1";
         packages = [
           fmtt
           inputs'.trix.packages.default
@@ -61,6 +59,7 @@ let
         programs = {
           deadnix.enable = true;
           nixfmt.enable = true;
+          statix.enable = true;
           typos.enable = true;
         };
         settings.global.exclude = [

@@ -1,4 +1,4 @@
-{ ... }:
+_:
 let
   flake-file.inputs = {
     emacs-overlay = {
