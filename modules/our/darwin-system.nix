@@ -1,5 +1,4 @@
-_:
-{
+_: {
   flake-file.inputs.darwin = {
     url = "github:nix-darwin/nix-darwin";
     inputs.nixpkgs.follows = "nixpkgs";
@@ -11,6 +10,7 @@ _:
       # typos:off
       ndPkgs = inputs'.darwin.packages;
       hmPkgs = inputs'.home-manager.packages;
+      # typos:on
     in
     {
       # 2026-05-23: Changed to `false` because enableAllTerminfo brings in
@@ -26,6 +26,7 @@ _:
       environment.systemPackages = [
         hmPkgs.home-manager
 
+        # typos:off
         ndPkgs.darwin-option
         ndPkgs.darwin-rebuild
         ndPkgs.darwin-version

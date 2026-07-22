@@ -21,7 +21,7 @@
         url = "github:hercules-ci/flake-parts";
         inputs.nixpkgs-lib.follows = "nixpkgs-lib";
       };
-      nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
+      nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
       nixpkgs-lib.follows = "nixpkgs";
       systems.url = "github:nix-systems/default";
       home-manager = {

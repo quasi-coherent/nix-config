@@ -5,7 +5,8 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  our.nix-config.includes = [ a.ocaml ];
+  # @@@@@
+  our.disabled.includes = [ a.ocaml ];
 
   a.ocaml.homeManager =
     { pkgs, ... }:
@@ -16,9 +17,9 @@
         dune_3
         ocaml
         ocamlPackages.findlib
-        ocamlPackages.ocaml-lsp
         ocamlPackages.ocamlformat
         ocamlPackages.odoc
+        ocamlPackages.lsp
         ocamlPackages.melange
         ocamlPackages.merlin
         ocamlPackages.reason

@@ -37,7 +37,7 @@
             cargo-msrv
             cargo-show-asm
             cargo-sort
-            cargo-watch
+            # cargo-watch
 
             # Occasionally useful command to clean up Rust target bloat.
             (pkgs.writeShellScriptBin "cargo-clean-all" ''fd -g Cargo.toml -X sh -c 'cd {//} && rm -rf target/' "$1"'')

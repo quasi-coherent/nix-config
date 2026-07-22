@@ -21,7 +21,7 @@
       };
     };
     claude = {
-      url = "github:sadjow/claude-code-nix?ref=v2.1.172";
+      url = "github:sadjow/claude-code-nix?ref=v2.1.217";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     darwin = {
@@ -52,7 +52,7 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-lib.follows = "nixpkgs";
     ocaml-overlay = {
       url = "github:nix-ocaml/nix-overlays";

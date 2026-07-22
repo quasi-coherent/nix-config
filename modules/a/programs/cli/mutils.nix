@@ -34,7 +34,6 @@
       programs.fastfetch.enable = true;
       programs.fd.enable = true;
       programs.feh.enable = true;
-      programs.fzf.enable = true;
       programs.jq.enable = true;
       programs.ripgrep = {
         enable = true;
@@ -60,18 +59,19 @@
       programs.eza.enableZshIntegration = true;
 
       programs.fzf = {
+        enable = true;
         enableZshIntegration = true;
         defaultCommand = "fd -t f";
         defaultOptions = [
           "--height 40%"
           "--border"
         ];
-        fileWidgetCommand = "fd -t f";
-        historyWidgetOptions = [
+        fileWidget.command = "fd -t f";
+        historyWidget.options = [
           "--sort"
           "--exact"
         ];
-        changeDirWidgetCommand = "fd -t d";
+        changeDirWidget.command = "fd -t d";
       };
 
       programs.tealdeer.settings.updates.auto_update = true;

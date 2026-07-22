@@ -9,6 +9,7 @@
   a.discord = {
     includes = [
       (den.batteries.unfree [ "discord" ])
+      (den.batteries.insecure [ "electron-40.10.5" ])
     ];
 
     homeManager = {

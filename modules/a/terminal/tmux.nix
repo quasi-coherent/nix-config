@@ -7,14 +7,6 @@
     let
       plugins = with pkgs.tmuxPlugins; [
         copycat
-        {
-          plugin = fpp;
-          extraConfig = ''
-            set -g @fpp-bind off
-            # TODO: This is bad practice; not portable.
-            bind-key e run-shell "e"
-          '';
-        }
         logging
         pain-control
         {
@@ -24,6 +16,14 @@
             set -g @thumbs-key F
           '';
         }
+        {
+          plugin = tmux-fzf;
+          extraConfig = ''
+            TMUX_FZF_LAUNCH_KEY="C-f"
+            TMUX_FZF_ORDER="session|window|pane|clipboard|keybinding|command|process"
+            TMUX_FZF_PANE_FORMAT="[#{window_name}] #{pane_current_command}  [#{pane_width}x#{pane_height}] [history #{history_size}/#{history_limit}, #{history_bytes} bytes] #{?pane_active,[active],[inactive]}"
+          '';
+        }
         tmux-which-key
         {
           plugin = yank;
@@ -31,16 +31,15 @@
             set -g @yank-action copy-pipe
           '';
         }
-        yank
       ];
       zshPkg = if config.programs.zsh.enable then config.programs.zsh.package else pkgs.zsh;
     in
     {
-      programs.tmux.enable = true;
+      programs.fzf.tmux.enableShellIntegration = true;
 
       programs.tmux = {
         inherit plugins;
-
+        enable = true;
         aggressiveResize = true;
         baseIndex = 1;
         clock24 = true;

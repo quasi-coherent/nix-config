@@ -7,7 +7,8 @@
     {
       home.packages = with pkgs; [
         helm-ls
-        kubectl
+        # @@@@@ minikube provides this and you get conflicting subpaths.
+        # kubectl
         kubectl-neat
         kubectl-validate
         kubectx

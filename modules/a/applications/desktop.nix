@@ -5,6 +5,7 @@
   a.desktop = {
     includes = [
       (den.batteries.unfree [
+        "linear"
         "slack"
         "zoom-us"
       ])
@@ -23,10 +24,12 @@
       in
       {
         home.packages =
-          with pkgs;
+          # with pkgs;
           [
-            slack
-            slack-cli
+            # @@@@@
+            # linear
+            # slack
+            # slack-cli
             # zoom-us
           ]
           ++ lib.optional pkgs.stdenv.isDarwin zoom-bullshit;

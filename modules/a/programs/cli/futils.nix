@@ -8,7 +8,8 @@
     {
       home.packages = with pkgs; [
         ouch
-        parquet-tools
+        # @@@@@
+        # parquet-tools
         snappy
         tree-sitter
       ];
