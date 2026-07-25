@@ -81,7 +81,8 @@
         gpF = "git push --force";
         gpsup = "git push --set-upstream origin";
         gst = "git status";
-        gsp = "git stash push";
+        gsph = "git stash push";
+        gspp = "git stash pop";
         grb = "git rebase";
         grbi = "git rebase -i origin/@{upstream}";
         grh = "git reset";
@@ -91,11 +92,21 @@
         gwipe = "git reset --hard && git clean --force -df";
       };
 
-      programs.zsh.siteFunctions.gcm = ''
-        x=$(git checkout master 2>&1)
-        if [ $? -ne 0 ]; then
-          git checkout main 2>/dev/null || (echo "$x"; exit 1)
-        fi
-      '';
+      programs.zsh.siteFunctions = {
+        gcm = ''
+          x=$(git checkout master 2>&1)
+          if [ $? -ne 0 ]; then
+            git checkout main 2>/dev/null || (echo "$x"; exit 1)
+          fi
+        '';
+        gssh = ''
+          if [[ -z "$1" ]]; then
+            git stash list
+          else
+            git stash list | tail -n "$1" | head -1
+            git stash show "$1"
+          fi
+        '';
+      };
     };
 }
