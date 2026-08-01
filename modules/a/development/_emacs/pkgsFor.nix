@@ -40,7 +40,7 @@ epkgs.emacsWithPackages (
     mct
     move-text
     multiple-cursors
-    nix-mode
+    nix-ts-mode
     no-littering
     orderless
     purescript-mode

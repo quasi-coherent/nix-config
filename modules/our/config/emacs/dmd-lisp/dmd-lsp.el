@@ -68,7 +68,7 @@
   :bind-keymap ("C-c C-l" . lsp-command-map)
   :bind
   (:map lsp-command-map
-        ("f f" . lsp-format-buffer))
+        ("f" . lsp-format-buffer))
   :hook
   (lsp-mode . (lambda ()
                 (let ((lsp-keymap-prefix "C-c C-l"))
@@ -136,8 +136,8 @@
         merlin-error-after-save nil
         tuareg-match-patterns-aligned t))
 
-(use-package nix-mode
-  :hook (nix-mode . lsp-deferred)
+(use-package nix-ts-mode
+  :hook (nix-ts-mode . lsp-deferred)
   :config
   (setq lsp-nix-nixd-formatting-command ["nixfmt"]))
 
