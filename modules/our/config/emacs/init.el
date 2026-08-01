@@ -25,6 +25,7 @@ endurance")
 (autoload #'use-package-autoload-keymap "use-package-bind-key")
 
 (defmacro csetq (variable value)
+  "This is a dumb sentence with VARIABLE and VALUE in it."
   `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
 
 ;;;; Global defaults:
@@ -75,7 +76,6 @@ endurance")
 (mouse-wheel-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-
 
 ;;;; Global keys:
 

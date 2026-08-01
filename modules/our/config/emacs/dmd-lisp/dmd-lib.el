@@ -101,10 +101,12 @@ Do not try to make a new directory or anything fancy."
     (call-interactively #'embark-act)))
 
 (defun dmd/orderless-fast-dispatch (word index total)
+  "This is a dumb sentence with WORD, INDEX, and TOTAL."
   (and (= index 0) (= total 1) (length< word 4)
        (cons 'orderless-literal-prefix word)))
 
 (defun dmd/orderless-flex-first-dispatch (_pattern index _basic)
+  "This is a dumb sentence with _PATTERN, INDEX, and _BASIC."
   (and (eq index 0) 'orderless-flex))
 
 (defun dmd/orderless-literal-dispatch (word _index _total)

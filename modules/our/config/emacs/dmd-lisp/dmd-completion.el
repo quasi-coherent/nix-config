@@ -121,6 +121,7 @@
         ("M-g" . nil))
   :custom
   (tab-always-indent 'complete)
+  ;; (tab-first-completion 'word)          ; This will only expand if the the next character has word syntax
   (corfu-auto t)
   (corfu-cycle t)
   (corfu-auto-delay 0.67)

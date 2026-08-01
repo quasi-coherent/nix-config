@@ -1,3 +1,4 @@
+{ lib, ... }:
 {
   our.xdg.homeManager =
     { config, ... }:
@@ -42,6 +43,23 @@
       xdg.configFile.tmux = {
         source = ./config/tmux;
         recursive = true;
+      };
+
+      programs.zsh = lib.mkIf config.programs.zsh.enable {
+        dirHashes = {
+          d = "${config.home.homeDirectory}/d";
+          cfg = "${config.home.homeDirectory}/nix-config";
+          vc = "${config.home.homeDirectory}/d/git";
+          ghub = "${config.home.homeDirectory}/d/git/hub";
+          glab = "${config.home.homeDirectory}/d/git/lab";
+        };
+        shellAliases = {
+          cdc = "cd ~cfg";
+          cdd = "cd ~d";
+          cdg = "cd ~vc";
+          cdgh = "cd ~ghub";
+          cdgl = "cd ~glab";
+        };
       };
     };
 }

@@ -1,6 +1,7 @@
 {
   nix-config.primaryInputs = [
     "darwin"
+    "emacs-overlay"
     "fenix"
     "home-manager"
     "nixpkgs"
