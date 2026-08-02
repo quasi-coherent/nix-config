@@ -24,7 +24,6 @@
       };
       nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
       nixpkgs-lib.follows = "nixpkgs";
-      systems.url = "github:nix-systems/default";
       home-manager = {
         url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs";
