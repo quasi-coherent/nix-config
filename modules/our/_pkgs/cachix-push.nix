@@ -17,6 +17,18 @@ writeShellApplication {
         cachix
       ]
     }:$PATH
-    CACHIX_AUTH_TOKEN=$(sops-get -a cachix_auth_token) cachix watch-exec quasi-coherent -- "$@"
+
+    cache="quasi-coherent"
+    args=()
+
+    while [[ $# -gt 0 ]]; do
+      case "$1" in
+        -c|--cache) cache="$2"; shift 2 ;;
+        --) shift; args+=("$@"); break ;;
+        *) echo "Usage: cachix-push [-c/--cache <CACHE>] -- [COMMAND]" >&2; exit 1 ;;
+      esac
+    done
+
+    CACHIX_AUTH_TOKEN=$(sops-get -a cachix_auth_token) cachix watch-exec "$cache" -- "''${args[@]}"
   '';
 }

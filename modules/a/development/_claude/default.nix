@@ -135,7 +135,7 @@ let
               ;
             permissions = {
               inherit (config.permissions) allow deny;
-              defaultMode = config.defaultMode;
+              inherit (config) defaultMode;
             };
           }
           // config.extraSettings
