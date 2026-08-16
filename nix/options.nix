@@ -1,14 +1,20 @@
-{ lib, ... }:
-{
+{lib, ...}: {
   options.nix-config = lib.mkOption {
     type = lib.types.submodule {
       options = {
         primaryInputs = lib.mkOption {
-          type = with lib.types; listOf str;
+          default = [];
           description = "Flake inputs that should be updated regularly.";
-          default = [ ];
+          type = with lib.types; listOf str;
         };
       };
     };
   };
+  config.nix-config.primaryInputs = [
+    "darwin"
+    "emacs-overlay"
+    "fenix"
+    "home-manager"
+    "nixpkgs"
+  ];
 }

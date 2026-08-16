@@ -1,20 +1,23 @@
 {
+  lib,
   a,
   den,
-  lib,
   ...
-}:
-{
-  a.cls.includes = [ a.nixpkgs ];
+}: {
+  a = {
+    cls.includes = [a.nixpkgs];
 
-  a.nixpkgs =
-    { class, aspect-chain }:
-    den.batteries.forward {
-      each = [ class ];
-      fromClass = _: "nixpkgs";
-      intoClass = { class, ... }: class;
-      intoPath = _: [ "nixpkgs" ];
-      fromAspect = _: lib.head aspect-chain;
-      adaptArgs = lib.id;
-    };
+    nixpkgs = {
+      aspect-chain,
+      class,
+    }:
+      den.batteries.forward {
+        adaptArgs = lib.id;
+        each = [class];
+        fromAspect = _: lib.head aspect-chain;
+        fromClass = _: "nixpkgs";
+        intoClass = {class, ...}: class;
+        intoPath = _: ["nixpkgs"];
+      };
+  };
 }

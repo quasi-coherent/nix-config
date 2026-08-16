@@ -1,3 +1,0 @@
-[default]
-extend-ignore-identifiers-re = ["^[a-zA-Z]{1,4}$"]
-extend-ignore-re = ["(?s)(#|//)\\s*typos:off.*?\\n\\s*(#|//)\\s*typos:on"]

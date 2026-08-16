@@ -1,7 +1,6 @@
-{ epkgs }:
+{epkgs}:
 epkgs.emacsWithPackages (
-  with epkgs;
-  [
+  with epkgs; [
     ace-window
     auctex
     auctex-lua
@@ -29,7 +28,7 @@ epkgs.emacsWithPackages (
     gcmh
     git-gutter
     helpful
-    kkp
+    # kkp # https://github.com/tmux/tmux/issues/4196
     lichess
     lazy-ruff
     lsp-haskell

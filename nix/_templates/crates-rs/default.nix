@@ -1,5 +1,5 @@
 inputs:
-inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+  imports = [./nix];
   systems = import inputs.systems;
-  imports = [ ./nix ];
 }

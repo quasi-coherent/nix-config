@@ -1,10 +1,7 @@
-{ a, ... }:
-{
-  our.nix-config.includes = [ a.gpg ];
+{a, ...}: {
+  a.gpg.homeManager = {pkgs, ...}: {
+    home.packages = [pkgs.gnupg];
+  };
 
-  a.gpg.homeManager =
-    { pkgs, ... }:
-    {
-      home.packages = [ pkgs.gnupg ];
-    };
+  our.nix-config.includes = [a.gpg];
 }

@@ -1,15 +1,21 @@
-{ a, ... }:
-{
-  our.nix-config.includes = [ a.vcs ];
+{a, ...}: {
+  a.vcs.homeManager = {pkgs, ...}: {
+    home.packages = [pkgs.difftastic];
 
-  a.vcs.homeManager =
-    { pkgs, ... }:
-    {
-      home.packages = [ pkgs.difftastic ];
-
-      programs.git = {
+    programs = {
+      delta = {
         enable = true;
-        lfs.enable = true;
+        enableGitIntegration = true;
+        enableJujutsuIntegration = true;
+
+        options = {
+          line-numbers = true;
+          side-by-side = false;
+        };
+      };
+
+      git = {
+        enable = true;
 
         ignores = [
           ".*"
@@ -25,88 +31,93 @@
           "old"
         ];
 
+        lfs.enable = true;
+
         settings = {
-          init.defaultBranch = "master";
-          pull.rebase = true;
-          push.default = "current";
-          push.autoSetupRemote = true;
-          pager.difftool = true;
           diff.tool = "difftastic";
-          difftool.prompt = false;
-          difftool.difftastic.cmd = "${pkgs.difftastic}/bin/difft $LOCAL $REMOTE";
+
+          difftool = {
+            difftastic.cmd = "${pkgs.difftastic}/bin/difft $LOCAL $REMOTE";
+            prompt = false;
+          };
+
+          init.defaultBranch = "master";
+          pager.difftool = true;
+          pull.rebase = true;
+
+          push = {
+            autoSetupRemote = true;
+            default = "current";
+          };
         };
       };
 
-      programs.delta = {
-        enable = true;
-        enableGitIntegration = true;
-        enableJujutsuIntegration = true;
-        options = {
-          line-numbers = true;
-          side-by-side = false;
+      jujutsu.enable = true;
+
+      zsh = {
+        shellAliases = {
+          g = "git";
+          ga = "git add";
+          gaa = "git add --all";
+          gb = "git branch";
+          gbD = "git branch -D";
+          gbd = "git branch -d";
+          gc = "git commit --verbose";
+          gcb = "git checkout -b";
+          gclean = "git clean --interactive -d";
+          gco = "git checkout";
+          gconf = "git config";
+          gconfls = "git config --list";
+          gcount = "git shortlog --summary --numbered";
+          gd = "git diff";
+          gdc = "git diff --cached";
+          gdn = "git rev-list --count --left-right @{upstream}..";
+          gdup = "git diff @{upstream}";
+          gg = "git grep";
+          ggf = "git ls-files | grep";
+          gl = "git pull --rebase";
+          gla = "git pull --autostash";
+          gllog = "git log --graph --all";
+          glo = "git log --oneline --decorate";
+          glog = "git log --graph";
+          glogp = "git log --stat --patch";
+          glon = "git --no-pager log -n";
+          gp = "git push";
+          gpF = "git push --force";
+          gpf = "git push --force-with-lease --force-if-includes";
+          gpsup = "git push --set-upstream origin";
+          grb = "git rebase";
+          grbi = "git rebase -i origin/@{upstream}";
+          grh = "git reset";
+          grhs = "git reset --soft";
+          grs = "git restore";
+          grst = "git restore --staged";
+          gsph = "git stash push";
+          gspp = "git stash pop";
+          gst = "git status";
+          gwipe = "git reset --hard && git clean --force -df";
         };
-      };
 
-      programs.jujutsu.enable = true;
+        siteFunctions = {
+          gcm = ''
+            x=$(git checkout master 2>&1)
+            if [ $? -ne 0 ]; then
+              git checkout main 2>/dev/null || (echo "$x"; exit 1)
+            fi
+          '';
 
-      programs.zsh.shellAliases = {
-        g = "git";
-        ga = "git add";
-        gaa = "git add --all";
-        gconf = "git config";
-        gconfls = "git config --list";
-        gclean = "git clean --interactive -d";
-        gco = "git checkout";
-        gcount = "git shortlog --summary --numbered";
-        gcb = "git checkout -b";
-        gc = "git commit --verbose";
-        gb = "git branch";
-        gbd = "git branch -d";
-        gbD = "git branch -D";
-        gd = "git diff";
-        gdc = "git diff --cached";
-        gdup = "git diff @{upstream}";
-        gdn = "git rev-list --count --left-right @{upstream}..";
-        gg = "git grep";
-        ggf = "git ls-files | grep";
-        gl = "git pull --rebase";
-        gla = "git pull --autostash";
-        glo = "git log --oneline --decorate";
-        glog = "git log --graph";
-        glon = "git --no-pager log -n";
-        gllog = "git log --graph --all";
-        glogp = "git log --stat --patch";
-        gp = "git push";
-        gpf = "git push --force-with-lease --force-if-includes";
-        gpF = "git push --force";
-        gpsup = "git push --set-upstream origin";
-        gst = "git status";
-        gsph = "git stash push";
-        gspp = "git stash pop";
-        grb = "git rebase";
-        grbi = "git rebase -i origin/@{upstream}";
-        grh = "git reset";
-        grhs = "git reset --soft";
-        grs = "git restore";
-        grst = "git restore --staged";
-        gwipe = "git reset --hard && git clean --force -df";
-      };
-
-      programs.zsh.siteFunctions = {
-        gcm = ''
-          x=$(git checkout master 2>&1)
-          if [ $? -ne 0 ]; then
-            git checkout main 2>/dev/null || (echo "$x"; exit 1)
-          fi
-        '';
-        gssh = ''
-          if [[ -z "$1" ]]; then
-            git stash list
-          else
-            git stash list | tail -n "$1" | head -1
-            git stash show "$1"
-          fi
-        '';
+          gssh = ''
+            if [[ -z "$1" ]]; then
+              git stash list
+            else
+              git stash list | tail -n "$1" | head -1
+              git stash show "$1"
+            fi
+          '';
+        };
       };
     };
+  };
+
+  our.nix-config.includes = [a.vcs];
 }

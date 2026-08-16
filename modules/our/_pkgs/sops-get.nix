@@ -5,6 +5,7 @@
 }:
 writeShellApplication {
   name = "sops-get";
+
   text = ''
     export PATH=${lib.getBin sops}/bin:$PATH
     declare -a args more

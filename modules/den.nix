@@ -1,25 +1,18 @@
 {
-  den,
   lib,
+  den,
   inputs,
   ...
-}:
-{
+}: {
   imports = [
     (inputs.den.namespace "a" true)
     (inputs.den.namespace "our" true)
+    (inputs.den.namespace "my" false)
+    inputs.den.flakeModules.default
   ];
 
   den = {
-    schema.user = {
-      classes = lib.mkDefault [ "homeManager" ];
-      includes = [ den.batteries.mutual-provider ];
-    };
-
     default = {
-      homeManager.home.stateVersion = lib.mkDefault "26.05";
-      darwin.system.stateVersion = lib.mkDefault 6;
-
       includes = [
         den.batteries.define-user
         den.batteries.hostname
@@ -28,7 +21,9 @@
       ];
     };
 
-    hosts.aarch64-darwin.hemlock.users.daniel = { };
-    homes.aarch64-darwin."daniel@hemlock" = { };
+    schema.user = {
+      classes = lib.mkDefault ["homeManager"];
+      includes = [den.batteries.mutual-provider];
+    };
   };
 }

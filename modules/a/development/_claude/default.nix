@@ -1,12 +1,11 @@
-{ claudeCode }:
-{
+{claudeCode}: {
   config,
   lib,
   pkgs,
   ...
-}:
-let
-  inherit (lib)
+}: let
+  inherit
+    (lib)
     mkOption
     mkEnableOption
     mkDefault
@@ -17,155 +16,167 @@ let
     mapAttrs'
     nameValuePair
     ;
-
-  hmConfig = config;
-
   cfg = config.nix-config.programs.claude;
-
-  claudeInstance =
-    {
-      config,
-      name,
-      ...
-    }:
-    {
-      options = {
-        enable = mkEnableOption "this Claude Code instance" // {
+  claudeInstance = {
+    config,
+    name,
+    ...
+  }: {
+    options = {
+      enable =
+        mkEnableOption "this Claude Code instance"
+        // {
           default = true;
         };
-        model = mkOption {
-          type = types.enum [
-            "haiku"
-            "opus"
-            "sonnet"
-          ];
-          default = "opus";
-          description = "Default model.";
-        };
-        effortLevel = mkOption {
-          type = types.enum [
-            "low"
-            "medium"
-            "high"
-            "xhigh"
-            "max"
-          ];
-          default = "high";
-          description = "Default effort.";
-        };
-        defaultMode = mkOption {
-          type = types.enum [
-            "default"
-            "acceptEdits"
-            "plan"
-            "auto"
-          ];
-          default = "default";
-          description = "Default permission mode.";
-        };
-        theme = mkOption {
-          type = types.str;
-          default = "auto";
-          description = "Color theme for the interface.";
-        };
-        tui = mkOption {
-          type = types.enum [
-            "default"
-            "fullscreen"
-          ];
-          default = "default";
-          description = "Terminal UI renderer.";
-        };
-        env = mkOption {
-          type = types.attrsOf types.str;
-          default = { };
-          description = "Environment variables applied to every session.";
-        };
-        permissions = {
-          allow = mkOption {
-            type = types.listOf types.str;
-            default = [ ];
-            description = "List of allow rules.";
-          };
-          deny = mkOption {
-            type = types.listOf types.str;
-            default = [ ];
-            description = "List of deny rules.";
-          };
-        };
-        extraSettings = mkOption {
-          type = types.attrsOf types.raw;
-          default = { };
-          description = "Freeform attributes merged into (and overriding) settings.json.";
+
+      package = mkOption {
+        description = "The `claude` wrapper bound to this instance's config dir.";
+        internal = true;
+        type = types.package;
+      };
+
+      configDir = mkOption {
+        description = "Absolute path to this instance's CLAUDE_CONFIG_DIR.";
+        type = types.str;
+      };
+
+      defaultMode = mkOption {
+        default = "default";
+        description = "Default permission mode.";
+
+        type = types.enum [
+          "default"
+          "acceptEdits"
+          "plan"
+          "auto"
+        ];
+      };
+
+      effortLevel = mkOption {
+        default = "high";
+        description = "Default effort.";
+
+        type = types.enum [
+          "low"
+          "medium"
+          "high"
+          "xhigh"
+          "max"
+        ];
+      };
+
+      env = mkOption {
+        default = {};
+        description = "Environment variables applied to every session.";
+        type = types.attrsOf types.str;
+      };
+
+      extraSettings = mkOption {
+        default = {};
+        description = "Freeform attributes merged into (and overriding) settings.json.";
+        type = types.attrsOf types.raw;
+      };
+
+      model = mkOption {
+        default = "opus";
+        description = "Default model.";
+
+        type = types.enum [
+          "haiku"
+          "opus"
+          "sonnet"
+        ];
+      };
+
+      permissions = {
+        allow = mkOption {
+          default = [];
+          description = "List of allow rules.";
+          type = types.listOf types.str;
         };
 
-        configDir = mkOption {
-          type = types.str;
-          description = "Absolute path to this instance's CLAUDE_CONFIG_DIR.";
-        };
-
-        settings = mkOption {
-          type = types.attrsOf types.raw;
-          internal = true;
-          description = "The assembled attrset serialized to settings.json.";
-        };
-
-        settingsFile = mkOption {
-          type = types.package;
-          internal = true;
-          description = "The rendered settings.json in the store.";
-        };
-
-        package = mkOption {
-          type = types.package;
-          internal = true;
-          description = "The `claude` wrapper bound to this instance's config dir.";
+        deny = mkOption {
+          default = [];
+          description = "List of deny rules.";
+          type = types.listOf types.str;
         };
       };
 
-      config = {
-        configDir = mkDefault "${hmConfig.xdg.configHome}/claude-${name}";
+      settings = mkOption {
+        description = "The assembled attrset serialized to settings.json.";
+        internal = true;
+        type = types.attrsOf types.raw;
+      };
 
-        settings = filterAttrsRecursive (_: v: v != null) (
-          {
-            inherit (config)
-              model
-              theme
-              env
-              ;
-            permissions = {
-              inherit (config.permissions) allow deny;
-              inherit (config) defaultMode;
-            };
-          }
-          // config.extraSettings
-        );
+      settingsFile = mkOption {
+        description = "The rendered settings.json in the store.";
+        internal = true;
+        type = types.package;
+      };
 
-        settingsFile = pkgs.writeText "claude-${name}-settings.json" (builtins.toJSON config.settings);
+      theme = mkOption {
+        default = "auto";
+        description = "Color theme for the interface.";
+        type = types.str;
+      };
 
-        package = pkgs.callPackage ./package.nix {
-          inherit name claudeCode;
-          inherit (config) configDir;
-        };
+      tui = mkOption {
+        default = "default";
+        description = "Terminal UI renderer.";
+
+        type = types.enum [
+          "default"
+          "fullscreen"
+        ];
       };
     };
-in
-{
+
+    config = {
+      package = pkgs.callPackage ./package.nix {
+        inherit name claudeCode;
+        inherit (config) configDir;
+      };
+
+      configDir = mkDefault "${hmConfig.xdg.configHome}/claude-${name}";
+
+      settings = filterAttrsRecursive (_: v: v != null) (
+        {
+          inherit
+            (config)
+            model
+            theme
+            tui
+            env
+            ;
+
+          permissions = {
+            inherit (config.permissions) allow deny;
+            inherit (config) defaultMode;
+          };
+        }
+        // config.extraSettings
+      );
+
+      settingsFile = pkgs.writeText "claude-${name}-settings.json" (builtins.toJSON config.settings);
+    };
+  };
+  hmConfig = config;
+in {
   options.nix-config.programs.claude = mkOption {
-    type = types.attrsOf (types.submodule claudeInstance);
-    default = { };
+    default = {};
     description = "Configure a claude-code instance.";
+    type = types.attrsOf (types.submodule claudeInstance);
   };
 
-  config =
-    let
-      enabled = filterAttrs (_: i: i.enable) cfg;
-    in
-    {
-      home.packages = map (i: i.package) (attrValues enabled);
+  config = let
+    enabled = filterAttrs (_: i: i.enable) cfg;
+  in {
+    home.packages = map (i: i.package) (attrValues enabled);
 
-      xdg.configFile = mapAttrs' (
-        name: i: nameValuePair "claude-${name}/settings.json" { source = i.settingsFile; }
-      ) enabled;
-    };
+    xdg.configFile =
+      mapAttrs' (
+        name: i: nameValuePair "claude-${name}/settings.json" {source = i.settingsFile;}
+      )
+      enabled;
+  };
 }

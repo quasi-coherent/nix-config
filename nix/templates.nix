@@ -1,28 +1,24 @@
 {
   flake.templates = {
     crate-rs = {
-      path = ./_templates/crate-rs;
       description = "Single-crate rust project with fenix and crane";
+      path = ./_templates/crate-rs;
     };
-
     crates-rs = {
-      path = ./_templates/crates-rs;
       description = "Cargo workspace with fenix and crane";
+      path = ./_templates/crates-rs;
     };
-
     latex = {
-      path = ./_templates/latex;
       description = "Flake app making the PDF output of src/doc.tex";
+      path = ./_templates/latex;
     };
-
-    rust-shell = {
-      path = ./_devshells/rust;
-      description = "Rust devshell with fenix and crane";
-    };
-
     python-shell = {
-      path = ./_devshells/python;
       description = "Python devshell with pyproject-nix";
+      path = ./_devshells/python;
+    };
+    rust-shell = {
+      description = "Rust devshell with fenix and crane";
+      path = ./_devshells/rust;
     };
   };
 }

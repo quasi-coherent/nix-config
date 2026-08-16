@@ -1,15 +1,17 @@
 {
+  lib,
   cachix,
   sops-get,
-  lib,
   writeShellApplication,
 }:
 writeShellApplication {
   name = "cachix-push";
+
   runtimeInputs = [
     cachix
     sops-get
   ];
+
   text = ''
     export PATH=${
       lib.makeBinPath [

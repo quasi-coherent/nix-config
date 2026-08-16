@@ -1,37 +1,24 @@
 _: {
-  flake-file.inputs.darwin = {
-    url = "github:nix-darwin/nix-darwin";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
+  our.darwin-system.darwin = {
+    pkgs,
+    inputs',
+    ...
+  }: {
+    # https://mastodon.online/@nomeata/109915786344697931
+    documentation.enable = false;
 
-  our.darwin-system.darwin =
-    { inputs', pkgs, ... }:
-    let
-      # typos:off
-      ndPkgs = inputs'.darwin.packages;
-      hmPkgs = inputs'.home-manager.packages;
-      # typos:on
-    in
-    {
+    environment = {
       # 2026-05-23: Changed to `false` because enableAllTerminfo brings in
       # `termite.terminfo`, which requires VTE to build, which fails on MacOS
       # Tahoe 26.x.
-      environment.enableAllTerminfo = false;
-      environment.shellAliases.lctl = "launchctl";
-      environment.variables = {
-        LANG = "en_US.UTF-8";
-        LC_ALL = "en_US.UTF-8";
-      };
+      enableAllTerminfo = false;
+      shellAliases.lctl = "launchctl";
 
-      environment.systemPackages = [
-        hmPkgs.home-manager
-
-        # typos:off
-        ndPkgs.darwin-option
-        ndPkgs.darwin-rebuild
-        ndPkgs.darwin-version
-        ndPkgs.darwin-uninstaller
-        # typos:on
+      systemPackages = [
+        inputs'.darwin.packages.darwin-option
+        inputs'.darwin.packages.darwin-rebuild
+        inputs'.darwin.packages.darwin-version
+        inputs'.darwin.packages.darwin-uninstaller
 
         pkgs.age
         pkgs.cachix
@@ -44,71 +31,105 @@ _: {
         pkgs.tmux.terminfo
       ];
 
+      variables = {
+        LANG = "en_US.UTF-8";
+        LC_ALL = "en_US.UTF-8";
+      };
+    };
+
+    nix = {
       # Allows building Linux binaries.
-      nix.linux-builder = {
+      linux-builder = {
+        config.virtualisation = {
+          cores = 6;
+
+          darwin-builder = {
+            diskSize = 40 * 1024;
+            memorySize = 8 * 1024;
+          };
+        };
+
         enable = true;
         ephemeral = true;
         maxJobs = 4;
-        config.virtualisation = {
-          cores = 6;
-          darwin-builder.diskSize = 40 * 1024;
-          darwin-builder.memorySize = 8 * 1024;
+      };
+
+      # Required for the linux-builder.
+      settings.trusted-users = ["@admin"];
+    };
+
+    security.pam.services.sudo_local = {
+      enable = true;
+      # Allow auth to survive between session boundaries.
+      reattach = true;
+      # Use Touch ID for sudo.
+      touchIdAuth = true;
+    };
+
+    system = {
+      defaults = {
+        ".GlobalPreferences"."com.apple.mouse.scaling" = 3.0;
+        LaunchServices.LSQuarantine = false;
+
+        NSGlobalDomain = {
+          AppleICUForce24HourTime = true;
+          AppleIconAppearanceTheme = "TintedDark";
+          AppleInterfaceStyle = "Dark";
+          InitialKeyRepeat = 15;
+          KeyRepeat = 2;
+          # Infuriating.
+          NSAutomaticCapitalizationEnabled = false;
+          NSAutomaticDashSubstitutionEnabled = false;
+          NSAutomaticInlinePredictionEnabled = false;
+          NSAutomaticPeriodSubstitutionEnabled = false;
+          NSAutomaticQuoteSubstitutionEnabled = false;
+          NSAutomaticSpellingCorrectionEnabled = false;
+          NSWindowShouldDragOnGesture = true;
+          "com.apple.keyboard.fnState" = true;
+          "com.apple.sound.beep.volume" = 0.1;
+        };
+
+        # Disable hot corners.
+        dock = {
+          wvous-bl-corner = 1;
+          wvous-br-corner = 1;
+          wvous-tl-corner = 1;
+          wvous-tr-corner = 1;
+        };
+
+        dock.autohide = true;
+        # These have to be set together to enable the gesture.
+        dock.showAppExposeGestureEnabled = true;
+        dock.showMissionControlGestureEnabled = true;
+        dock.static-only = true;
+        dock.tilesize = 32;
+
+        finder = {
+          AppleShowAllExtensions = true;
+          AppleShowAllFiles = true;
+          FXPreferredViewStyle = "clmv";
+          NewWindowTarget = "Computer";
+          _FXShowPosixPathInTitle = true;
+        };
+
+        hitoolbox.AppleFnUsageType = "Do Nothing";
+
+        trackpad = {
+          Clicking = false;
+          TrackpadThreeFingerHorizSwipeGesture = 2;
+          TrackpadThreeFingerTapGesture = 0;
+          TrackpadThreeFingerVertSwipeGesture = 2;
         };
       };
-      # Required for the linux-builder.
-      nix.settings.trusted-users = [ "@admin" ];
 
-      system.defaults.".GlobalPreferences"."com.apple.mouse.scaling" = 3.0;
-
-      # Disable hot corners.
-      system.defaults.dock = {
-        wvous-tl-corner = 1;
-        wvous-tr-corner = 1;
-        wvous-bl-corner = 1;
-        wvous-br-corner = 1;
+      keyboard = {
+        enableKeyMapping = true;
+        remapCapsLockToControl = true;
       };
 
-      system.defaults.finder.AppleShowAllFiles = true;
-      system.defaults.finder.AppleShowAllExtensions = true;
-      system.defaults.finder.FXPreferredViewStyle = "clmv";
-      system.defaults.finder.NewWindowTarget = "Computer";
-      system.defaults.finder._FXShowPosixPathInTitle = true;
-
-      system.defaults.hitoolbox.AppleFnUsageType = "Do Nothing";
-      system.defaults.LaunchServices.LSQuarantine = false;
-
-      system.defaults.NSGlobalDomain."com.apple.keyboard.fnState" = true;
-      system.defaults.NSGlobalDomain."com.apple.sound.beep.volume" = 0.0;
-      system.defaults.NSGlobalDomain.AppleICUForce24HourTime = true;
-      system.defaults.NSGlobalDomain.AppleIconAppearanceTheme = "TintedDark";
-      system.defaults.NSGlobalDomain.AppleInterfaceStyle = "Dark";
-      system.defaults.NSGlobalDomain.InitialKeyRepeat = 15;
-      system.defaults.NSGlobalDomain.KeyRepeat = 2;
-
-      # Infuriating.
-      system.defaults.NSGlobalDomain.NSAutomaticCapitalizationEnabled = false;
-      system.defaults.NSGlobalDomain.NSAutomaticDashSubstitutionEnabled = false;
-      system.defaults.NSGlobalDomain.NSAutomaticInlinePredictionEnabled = false;
-      system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
-      system.defaults.NSGlobalDomain.NSAutomaticQuoteSubstitutionEnabled = false;
-      system.defaults.NSGlobalDomain.NSAutomaticSpellingCorrectionEnabled = false;
-      system.defaults.NSGlobalDomain.NSWindowShouldDragOnGesture = true;
-
-      system.defaults.trackpad.Clicking = false;
-      system.defaults.trackpad.TrackpadThreeFingerTapGesture = 0;
-
-      system.defaults.dock.autohide = true;
-      system.defaults.dock.static-only = true;
-      system.defaults.dock.tilesize = 32;
-      # These have to be set together to enable the gesture.
-      system.defaults.dock.showAppExposeGestureEnabled = true;
-      system.defaults.dock.showMissionControlGestureEnabled = true;
-      system.defaults.trackpad.TrackpadThreeFingerHorizSwipeGesture = 2;
-      system.defaults.trackpad.TrackpadThreeFingerVertSwipeGesture = 2;
-
-      system.keyboard.enableKeyMapping = true;
-      system.keyboard.remapCapsLockToControl = true;
-
-      time.timeZone = "America/New_York";
+      stateVersion = 6;
     };
+
+    time.timeZone = "America/New_York";
+  };
 }

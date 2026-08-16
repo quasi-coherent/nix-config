@@ -1,10 +1,7 @@
-{ a, ... }:
-{
-  our.nix-config.includes = [ a.toml ];
+{a, ...}: {
+  a.toml.homeManager = {pkgs, ...}: {
+    home.packages = [pkgs.taplo];
+  };
 
-  a.toml.homeManager =
-    { pkgs, ... }:
-    {
-      home.packages = [ pkgs.taplo ];
-    };
+  our.nix-config.includes = [a.toml];
 }

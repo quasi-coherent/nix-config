@@ -1,23 +1,19 @@
-{ a, inputs, ... }:
 {
-  flake-file.inputs.purescript-overlay = {
-    url = "github:thomashoneyman/purescript-overlay";
-    inputs.nixpkgs.follows = "nixpkgs";
+  a,
+  inputs,
+  ...
+}: {
+  a.purescript.homeManager = {pkgs, ...}: {
+    home.packages = with pkgs; [
+      purs
+      purs-tidy
+      purs-backend-es
+      spago
+      purescript-language-server
+    ];
+
+    nixpkgs.overlays = [inputs.purescript-overlay.overlays.default];
   };
 
-  our.nix-config.includes = [ a.purescript ];
-
-  a.purescript.homeManager =
-    { pkgs, ... }:
-    {
-      nixpkgs.overlays = [ inputs.purescript-overlay.overlays.default ];
-
-      home.packages = with pkgs; [
-        purs
-        purs-tidy
-        purs-backend-es
-        spago
-        purescript-language-server
-      ];
-    };
+  our.nix-config.includes = [a.purescript];
 }
