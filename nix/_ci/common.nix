@@ -20,7 +20,7 @@ in {
       name = "checkout";
       uses = actions.checkout;
       with_ = {
-        fetch_depth = 0;
+        fetch-depth = 0;
       };
     };
     checkoutRef = ref: {
@@ -28,7 +28,7 @@ in {
       uses = actions.checkout;
       with_ = {
         inherit ref;
-        fetch_depth = 0;
+        fetch-depth = 0;
       };
     };
     install = {
