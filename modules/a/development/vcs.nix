@@ -23,6 +23,7 @@
           "!.gitkeep"
           "!.envrc"
           "!.sops.yaml"
+          "!.dir-locals.el"
           "*.swp"
           "*.key"
           "target"

@@ -17,7 +17,7 @@
       text = ''${lib.getExe self'.formatter} "$@"'';
     };
     replf = pkgs.writeShellApplication {
-      name = "nrepl";
+      name = "replf";
       text = ''nix repl --expr "builtins.getFlake \"${../.}\""'';
     };
     update = pkgs.writeShellApplication {
@@ -25,7 +25,6 @@
       text = ''
         nix flake update${lib.foldl' (acc: x: acc + " " + x) "" config.nix-config.primaryInputs}
       '';
-      meta.description = "Update primary flake inputs";
     };
   in {
     devShells.default = pkgs.mkShell {

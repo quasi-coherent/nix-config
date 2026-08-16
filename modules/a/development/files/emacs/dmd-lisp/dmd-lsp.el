@@ -136,7 +136,11 @@
         merlin-error-after-save nil
         tuareg-match-patterns-aligned t))
 
-(use-package nix-ts-mode :hook (nix-ts-mode . lsp-deferred))
+(use-package nix-ts-mode
+  :hook
+  (nix-ts-mode . lsp-deferred)
+  :config
+  (setq lsp-nix-nixd-formatting-command ["nix fmt"]))
 
 (use-package rust-ts-mode
   :hook
