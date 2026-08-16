@@ -14,13 +14,14 @@ fmt *args:
 ck *args:
     nix flake check {{args}}
 
+# Build .gitlab/workflows
+ci:
+    nix build .#workflows
+    cp -r result/.github/workflows .github/
+
 # Build default shell
 reload *args:
     nix build .#devShells.{{system}}.default {{args}}
-
-# Regenerate .gitlab/workflows
-ci:
-    nix run .#render-workflows
 
 # Activate a new home configuration only
 home *args:
@@ -41,8 +42,9 @@ clean *args:
 # Update inputs listed in `nix-config.primary-inputs`
 update:
     nix run .#update
+    flake-edit follow
 
-# Regenerate flake.nix
-flake:
-    nix run .#write-flake
-    nix run .#write-lock
+# Update all inputs
+update-all:
+    nix flake update
+    flake-edit follow

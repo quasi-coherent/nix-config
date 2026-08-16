@@ -1,20 +1,12 @@
-_:
-let
-  perSystem =
-    {
-      mkCratePackage,
-      ...
-    }:
-    let
-      facade-rs = mkCratePackage ../.;
-      other-rs = mkCratePackage ../crates/other-rs;
-    in
-    {
-      packages = {
-        inherit facade-rs other-rs;
-      };
+_: let
+  perSystem = {mkCratePackage, ...}: let
+    facade-rs = mkCratePackage ../.;
+    other-rs = mkCratePackage ../crates/other-rs;
+  in {
+    packages = {
+      inherit facade-rs other-rs;
     };
-in
-{
+  };
+in {
   inherit perSystem;
 }

@@ -1,49 +1,15 @@
 {
   lib,
-  stdenv,
+  electron,
   fetchFromGitHub,
   fetchPnpmDeps,
+  makeWrapper,
+  nodejs,
   pnpmConfigHook,
   pnpm_10_29_2,
-  nodejs,
-  electron,
-  makeWrapper,
+  stdenv,
 }:
 stdenv.mkDerivation (finalAttrs: {
-  pname = "legcord";
-  version = "1.2.4";
-
-  src = fetchFromGitHub {
-    owner = "Legcord";
-    repo = "Legcord";
-    tag = "v${finalAttrs.version}";
-    hash = "sha256-nai8lcimEts/E3bwUyQufLYIHhUK83IH431PUQFtQJI=";
-  };
-
-  nativeBuildInputs = [
-    pnpmConfigHook
-    pnpm_10_29_2
-    nodejs
-    makeWrapper
-  ];
-
-  pnpmDeps = fetchPnpmDeps {
-    inherit (finalAttrs) pname version src;
-    pnpm = pnpm_10_29_2;
-    fetcherVersion = 3;
-    hash = "sha256-ME74yxVwH4W9gE0XbtwDhR8g9QulN2eeOB1eekaHmG8=";
-  };
-
-  env = {
-    CSC_IDENTITY_AUTO_DISCOVERY = "false";
-    ELECTRON_SKIP_BINARY_DOWNLOAD = 1;
-    # "File descriptor closed but not opened in unmanaged mode" will show up
-    # 65,000 times without turning off warnings.  Something about pnpm doing a
-    # thing that node got the the start of but not the end of because of course
-    # it's that way.  This is JS tooling.
-    NODE_NO_WARNINGS = 1;
-  };
-
   buildPhase = ''
     runHook preBuild
 
@@ -78,6 +44,16 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postBuild
   '';
 
+  env = {
+    CSC_IDENTITY_AUTO_DISCOVERY = "false";
+    ELECTRON_SKIP_BINARY_DOWNLOAD = 1;
+    # "File descriptor closed but not opened in unmanaged mode" will show up
+    # 65,000 times without turning off warnings.  Something about pnpm doing a
+    # thing that node got the the start of but not the end of because of course
+    # it's that way.  This is JS tooling.
+    NODE_NO_WARNINGS = 1;
+  };
+
   installPhase = ''
     runHook preInstall
 
@@ -97,15 +73,40 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
+  nativeBuildInputs = [
+    pnpmConfigHook
+    pnpm_10_29_2
+    nodejs
+    makeWrapper
+  ];
+
   passthru = {
     inherit (finalAttrs) pnpmDeps;
   };
+
+  pname = "legcord";
+
+  pnpmDeps = fetchPnpmDeps {
+    inherit (finalAttrs) pname version src;
+    fetcherVersion = 3;
+    hash = "sha256-ME74yxVwH4W9gE0XbtwDhR8g9QulN2eeOB1eekaHmG8=";
+    pnpm = pnpm_10_29_2;
+  };
+
+  src = fetchFromGitHub {
+    hash = "sha256-nai8lcimEts/E3bwUyQufLYIHhUK83IH431PUQFtQJI=";
+    owner = "Legcord";
+    repo = "Legcord";
+    tag = "v${finalAttrs.version}";
+  };
+
+  version = "1.2.4";
 
   meta = {
     description = "Lightweight, alternative desktop client for Discord (darwin build)";
     homepage = "https://legcord.app";
     license = lib.licenses.osl3;
-    platforms = lib.platforms.darwin;
     mainProgram = "legcord";
+    platforms = lib.platforms.darwin;
   };
 })

@@ -1,13 +1,10 @@
-{ a, ... }:
-{
-  our.nix-config.includes = [ a.markdown ];
+{a, ...}: {
+  a.markdown.homeManager = {pkgs, ...}: {
+    home.packages = with pkgs; [
+      glow
+      marksman
+    ];
+  };
 
-  a.markdown.homeManager =
-    { pkgs, ... }:
-    {
-      home.packages = with pkgs; [
-        glow
-        marksman
-      ];
-    };
+  our.nix-config.includes = [a.markdown];
 }

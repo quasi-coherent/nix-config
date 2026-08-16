@@ -1,52 +1,62 @@
-{ inputs, ... }:
-{
-  flake-file.inputs.sops-nix = {
-    url = "github:Mic92/sops-nix";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
+{inputs, ...}: {
+  our.secrets.homeManager = {
+    config,
+    pkgs,
+    ...
+  }: let
+    cachix-push = pkgs.callPackage ./_pkgs/cachix-push.nix {inherit sops-get;};
+    sops-get = pkgs.callPackage ./_pkgs/sops-get.nix {};
+  in {
+    home.packages = [
+      pkgs.age
+      pkgs.sops
+      sops-get
+      cachix-push
+    ];
 
-  our.secrets.homeManager =
-    { config, pkgs, ... }:
-    {
-      imports = [ inputs.sops-nix.homeManagerModules.sops ];
+    imports = [inputs.sops-nix.homeManagerModules.sops];
 
-      home.packages = [
-        pkgs.age
-        pkgs.sops
-      ];
+    sops = {
+      age = {
+        generateKey = false;
+        keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
+        sshKeyPaths = [];
+      };
 
-      sops = {
-        age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
-        age.sshKeyPaths = [ ];
-        age.generateKey = false;
-        defaultSopsFile = ./secrets.yaml;
-        validateSopsFiles = true;
-        secrets = {
-          "hello" = { };
-          "id_ed25519" = {
-            path = "${config.home.homeDirectory}/.ssh/id_ed25519";
-          };
-          "signing_ed25519" = {
-            path = "${config.home.homeDirectory}/.ssh/signing_ed25519";
-          };
-          "github_actions_ed25519" = { };
-          "github_actions_pgp_private_key" = { };
-          "github_actions_pgp_passphrase" = { };
-          "github_personal_access_token" = { };
-          "cachix_auth_token" = { };
-          "cratesio_api_token" = { };
-          "lichess_oauth_token" = { };
-          "anthropic_api_key" = { };
-          "openai_api_key" = { };
-          "cloudflared_token" = { };
-          "gh_cachix" = { };
-          "gh_limavm_cachix" = { };
+      defaultSopsFile = ./secrets.yaml;
+
+      secrets = {
+        "anthropic_api_key" = {};
+        "cachix_auth_token" = {};
+        "cloudflared_token" = {};
+        "cratesio_api_token" = {};
+        "gh_cachix" = {};
+        "gh_limavm_cachix" = {};
+        "github_actions_ed25519" = {};
+        "github_actions_pgp_passphrase" = {};
+        "github_actions_pgp_private_key" = {};
+        "github_personal_access_token" = {};
+        "hello" = {};
+
+        "id_ed25519" = {
+          path = "${config.home.homeDirectory}/.ssh/id_ed25519";
         };
-        templates = {
-          "CACHIX_AUTH_TOKEN".content = ''"${config.sops.placeholder.cachix_auth_token}"'';
-          "CARGO_REGISTRY_TOKEN".content = ''"${config.sops.placeholder.cratesio_api_token}"'';
-          "GITHUB_API_TOKEN".content = ''"${config.sops.placeholder.github_personal_access_token}"'';
+
+        "lichess_oauth_token" = {};
+        "openai_api_key" = {};
+
+        "signing_ed25519" = {
+          path = "${config.home.homeDirectory}/.ssh/signing_ed25519";
         };
       };
+
+      templates = {
+        "CACHIX_AUTH_TOKEN".content = ''"${config.sops.placeholder.cachix_auth_token}"'';
+        "CARGO_REGISTRY_TOKEN".content = ''"${config.sops.placeholder.cratesio_api_token}"'';
+        "GITHUB_API_TOKEN".content = ''"${config.sops.placeholder.github_personal_access_token}"'';
+      };
+
+      validateSopsFiles = true;
     };
+  };
 }

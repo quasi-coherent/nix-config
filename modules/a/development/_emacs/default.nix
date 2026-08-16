@@ -1,26 +1,14 @@
-_:
-let
-  flake-file.inputs = {
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
+_: let
+  perSystem = {inputs', ...}: let
+    latestEmacsForDaniel = import ./pkgsFor.nix {epkgs = latestEpkgs;};
+    latestEpkgs = inputs'.emacs-overlay.packages.emacs-git.pkgs;
+    stableEmacsForDaniel = import ./pkgsFor.nix {epkgs = stableEpkgs;};
+    stableEpkgs = inputs'.emacs-overlay.packages.emacs-unstable.pkgs;
+  in {
+    packages = {
+      inherit latestEmacsForDaniel stableEmacsForDaniel;
     };
   };
-
-  perSystem =
-    { inputs', ... }:
-    let
-      latestEpkgs = inputs'.emacs-overlay.packages.emacs-git.pkgs;
-      stableEpkgs = inputs'.emacs-overlay.packages.emacs-unstable.pkgs;
-      latestEmacsForDaniel = import ./pkgsFor.nix { epkgs = latestEpkgs; };
-      stableEmacsForDaniel = import ./pkgsFor.nix { epkgs = stableEpkgs; };
-    in
-    {
-      packages = {
-        inherit latestEmacsForDaniel stableEmacsForDaniel;
-      };
-    };
-in
-{
-  inherit flake-file perSystem;
+in {
+  inherit perSystem;
 }

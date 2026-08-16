@@ -1,13 +1,8 @@
-{ a, ... }:
-{
-  our.nix-config.includes = [ a.rectangle ];
-
+{a, ...}: {
   a.rectangle = {
-    homeManager =
-      { pkgs, ... }:
-      {
-        home.packages = [ pkgs.rectangle ];
-      };
+    homeManager = {pkgs, ...}: {
+      home.packages = [pkgs.rectangle];
+    };
 
     # Options from Rectangle > Settings.
     #
@@ -24,53 +19,31 @@
     # Documentation: https://github.com/rxhanson/Rectangle/blob/main/TerminalCommands.md
     darwin.system.defaults.CustomUserPreferences."com.knollsoft.Rectangle" = {
       allowAnyShortcut = 1;
-      moveCursor = 1;
-      # I'll let the guy who made this manage launch agents.
-      launchOnLogin = 1;
+
+      bottomHalf = {
+        keyCode = 125;
+        modifierFlags = 1835008;
+      };
+
+      bottomLeft = {
+        keyCode = 125;
+        modifierFlags = 1966080;
+      };
+
+      bottomRight = {
+        keyCode = 124;
+        modifierFlags = 1966080;
+      };
 
       # cmd+option+ctrl + N, M
       cascadeActiveApp = {
         keyCode = 45;
         modifierFlags = 1835008;
       };
-      tileActiveApp = {
-        keyCode = 46;
-        modifierFlags = 1835008;
-      };
+
       # cmd+option+ctrl+shift + N, M
       cascadeAll = {
         keyCode = 45;
-        modifierFlags = 1966080;
-      };
-      tileAll = {
-        keyCode = 46;
-        modifierFlags = 1966080;
-      };
-
-      # cmd+option+ctrl + <del>
-      restore = {
-        keyCode = 51;
-        modifierFlags = 1835008;
-      };
-
-      # cmd+option+ctrl + P, N
-      nextDisplay = {
-        keyCode = 35;
-        modifierFlags = 1835008;
-      };
-      previousDisplay = {
-        keyCode = 45;
-        modifierFlags = 1835008;
-      };
-
-      # cmd+option+ctrl + <ret>
-      maximize = {
-        keyCode = 36;
-        modifierFlags = 1835008;
-      };
-      # cmd+option+ctrl+shift + <ret>
-      maximizeHeight = {
-        keyCode = 36;
         modifierFlags = 1966080;
       };
 
@@ -85,26 +58,69 @@
         keyCode = 3;
         modifierFlags = 1835008;
       };
+
       lastThird = {
         keyCode = 5;
         modifierFlags = 1835008;
       };
+
+      # I'll let the guy who made this manage launch agents.
+      launchOnLogin = 1;
 
       # cmd+option+ctrl + <left>, <down>, <up>, <right>
       leftHalf = {
         keyCode = 123;
         modifierFlags = 1835008;
       };
-      bottomHalf = {
-        keyCode = 125;
+
+      # cmd+option+ctrl + <ret>
+      maximize = {
+        keyCode = 36;
         modifierFlags = 1835008;
       };
-      topHalf = {
-        keyCode = 126;
+
+      # cmd+option+ctrl+shift + <ret>
+      maximizeHeight = {
+        keyCode = 36;
+        modifierFlags = 1966080;
+      };
+
+      moveCursor = 1;
+
+      # cmd+option+ctrl + P, N
+      nextDisplay = {
+        keyCode = 35;
         modifierFlags = 1835008;
       };
+
+      previousDisplay = {
+        keyCode = 45;
+        modifierFlags = 1835008;
+      };
+
+      # cmd+option+ctrl + <del>
+      restore = {
+        keyCode = 51;
+        modifierFlags = 1835008;
+      };
+
       rightHalf = {
         keyCode = 124;
+        modifierFlags = 1835008;
+      };
+
+      tileActiveApp = {
+        keyCode = 46;
+        modifierFlags = 1835008;
+      };
+
+      tileAll = {
+        keyCode = 46;
+        modifierFlags = 1966080;
+      };
+
+      topHalf = {
+        keyCode = 126;
         modifierFlags = 1835008;
       };
 
@@ -113,18 +129,13 @@
         keyCode = 123;
         modifierFlags = 1966080;
       };
-      bottomLeft = {
-        keyCode = 125;
-        modifierFlags = 1966080;
-      };
+
       topRight = {
         keyCode = 126;
         modifierFlags = 1966080;
       };
-      bottomRight = {
-        keyCode = 124;
-        modifierFlags = 1966080;
-      };
     };
   };
+
+  our.nix-config.includes = [a.rectangle];
 }
