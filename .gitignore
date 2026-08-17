@@ -1,5 +1,6 @@
-.DS_Store
 !.github
+!.typos.yaml
+.DS_Store
 .direnv/
 result
 result-*
