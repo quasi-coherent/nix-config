@@ -1,7 +1,20 @@
-{lib, ...}: {
+{
+  lib,
+  inputs,
+  ...
+}: {
   our.nix-settings = {
-    # This avoids evaluating nixpkgs all the time.
-    homeManager.nix.registry = lib.mapAttrs (_name: v: {flake = v;}) {};
+    homeManager.nix = {
+      # We are using flakes, not channels:
+      # https://github.com/NixOS/nix/issues/2982#issuecomment-2477618346
+      channel.enable = false;
+      # Adding all pinned input flakes to our local registry.
+      #
+      # Only really important for `nix run nixpkgs#cowsay` types of invocations.
+      # Without it, we fall through to the remote flake registry and completely
+      # different hash of nixpkgs.
+      registry = lib.mapAttrs (_name: v: {flake = v;}) inputs;
+    };
 
     darwin = {pkgs, ...}: {
       launchd = {
