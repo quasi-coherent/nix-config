@@ -140,7 +140,7 @@
   :hook
   (nix-ts-mode . lsp-deferred)
   :config
-  (setq lsp-nix-nixd-formatting-command ["nix fmt"]))
+  (setq lsp-nix-nixd-formatting-command ["nixfmt"]))
 
 (use-package rust-ts-mode
   :hook
