@@ -7,7 +7,7 @@
   imports = [
     (inputs.den.namespace "a" true)
     (inputs.den.namespace "our" true)
-    (inputs.den.namespace "my" false)
+    (inputs.den.namespace "my" true)
     inputs.den.flakeModules.default
   ];
 
