@@ -39,7 +39,7 @@ in {
     }:
       homeWithEmacsPackage {
         inherit pkgs;
-        emacs = self'.packages.latestEmacsForDaniel;
+        emacs = self'.packages.latestEmacsForMyNeeds;
       };
 
     stable-emacs.homeManager = {
@@ -49,7 +49,7 @@ in {
     }:
       homeWithEmacsPackage {
         inherit pkgs;
-        emacs = self'.packages.stableEmacsForDaniel;
+        emacs = self'.packages.stableEmacsForMyNeeds;
       };
   };
 }
