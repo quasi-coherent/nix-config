@@ -103,9 +103,10 @@
         ("g a" . consult-lsp-symbols)))
 
 (use-package treesit-auto
+  :custom
+  (treesit-auto-install nil)
   :config
-  (setq treesit-font-lock-level 4)
-  (treesit-auto-add-to-auto-mode-alist 'all)
+  (treesit-auto-langs '(bash haskell json nix rust python toml yaml))
   (global-treesit-auto-mode))
 
 (use-package bash-ts-mode :hook (bash-ts-mode . lsp-deferred))
@@ -140,7 +141,8 @@
   :hook
   (nix-ts-mode . lsp-deferred)
   :config
-  (setq lsp-nix-nixd-formatting-command ["nixfmt"]))
+  (setq lsp-nix-nixd-formatting-command ["nixfmt"])
+  (setq treesit-simple-indent-rules nix-ts-mode-indent-rules))
 
 (use-package rust-ts-mode
   :hook

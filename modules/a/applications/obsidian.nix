@@ -2,7 +2,8 @@
   a,
   den,
   ...
-}: {
+}:
+{
   a.obsidian = {
     includes = [
       (den.batteries.unfree [
@@ -16,5 +17,5 @@
     };
   };
 
-  our.nix-config.includes = [a.obsidian];
+  our.nix-config.includes = [ a.obsidian ];
 }

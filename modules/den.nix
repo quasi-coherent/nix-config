@@ -3,7 +3,8 @@
   den,
   inputs,
   ...
-}: {
+}:
+{
   imports = [
     (inputs.den.namespace "a" true)
     (inputs.den.namespace "our" false)
@@ -22,8 +23,8 @@
     };
 
     schema.user = {
-      classes = lib.mkDefault ["homeManager"];
-      includes = [den.batteries.mutual-provider];
+      classes = lib.mkDefault [ "homeManager" ];
+      includes = [ den.batteries.mutual-provider ];
     };
   };
 }

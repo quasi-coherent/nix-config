@@ -37,6 +37,9 @@ endurance")
   (csetq enable-recursive-minibuffers t)
   (csetq show-trailing-whitespace t)
   (csetq indent-tabs-mode nil)
+  (csetq tab-always-indent 'complete)
+  (csetq text-mode-ispell-word-completion nil)
+  (csetq read-extended-command-predicate #'command-completion-default-include-p)
   ;; Don't need to (defalias 'yes-or-no-p 'y-or-n-p) anymore.
   (csetq use-short-answers t)
   (csetq make-backup-files nil)
@@ -52,26 +55,30 @@ endurance")
   (csetq frame-title-format '(%b))
   (csetq ring-bell-function 'ignore)
   (csetq use-file-dialog nil)
+  (csetq vc-follow-symlinks t)
+  (csetq kill-region-dwim 'emacs-word)
+  (csetq which-func-update-delay 1.0)
+  (csetq treesit-font-lock-level 4)
   (when (string= system-type "darwin")
     (setq dired-use-ls-dired t
           insert-directory-program "gls" ; Needs coreutils on the path
           dired-listing-switches "-aBhl --group-directories-first"))
   :custom
-  (tab-always-indent 'complete)
-  (text-mode-ispell-word-completion nil)
-  (read-extended-command-predicate #'command-completion-default-include-p))
+  )
 
 ;;;; Global modes:
 (require 'git-gutter)
 (require 'simpleclip)
 
 (column-number-mode 1)
+(blink-cursor-mode -1)
 (delete-selection-mode 1) ; Yank replaces the region
 (global-auto-revert-mode t)
 (global-display-line-numbers-mode 1)
 (global-git-gutter-mode 1)
 (global-hl-line-mode 1)
 (global-subword-mode 1) ; camelCase word boundaries
+(global-so-long-mode)
 (show-paren-mode 1)
 (simpleclip-mode 1) ; Bindings to OS-defined clipboard keys
 (winner-mode 1)
@@ -85,6 +92,7 @@ endurance")
 ;; `keyboard-quit' that actually works.
 (global-set-key (kbd "C-g") #'dmd/keyboard-quit-dwim)
 (global-set-key (kbd "C-x b") #'ibuffer)
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 ;; Hate whitespace.
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
@@ -118,7 +126,7 @@ endurance")
 ;; Set a GC strategy that will garbage collect more eagerly when idle.
 (require 'gcmh)
 (setopt gcmh-high-cons-threshold (* 256 1024 1024))
-(setopt gcmh-low-cons-threshold (* 16 1024 1024))
+(setopt gcmh-low-cons-threshold (* 100 1024 1024))
 (setopt gcmh-idle-delay 3)
 (setopt gc-cons-percentage 0.2)
 (add-hook 'after-init-hook #'gcmh-mode)

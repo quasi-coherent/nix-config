@@ -3,7 +3,7 @@
   tex,
 }:
 stdenv.mkDerivation {
-  buildInputs = [tex];
+  buildInputs = [ tex ];
   buildPhase = ''
     pdflatex "doc.tex"
   '';

@@ -1,4 +1,5 @@
-{a, ...}: {
+{ a, ... }:
+{
   a.colima.homeManager.services.colima.enable = true;
-  our.nix-config.includes = [a.colima];
+  our.nix-config.includes = [ a.colima ];
 }

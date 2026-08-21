@@ -3,7 +3,8 @@
   den,
   inputs,
   ...
-}: {
+}:
+{
   a.spotify = {
     includes = [
       (den.batteries.unfree [
@@ -12,28 +13,31 @@
       ])
     ];
 
-    homeManager = {inputs', ...}: let
-      spiceExts = inputs'.spicetify-nix.legacyPackages.extensions;
-    in {
-      imports = [inputs.spicetify-nix.homeManagerModules.spicetify];
+    homeManager =
+      { inputs', ... }:
+      let
+        spiceExts = inputs'.spicetify-nix.legacyPackages.extensions;
+      in
+      {
+        imports = [ inputs.spicetify-nix.homeManagerModules.spicetify ];
 
-      programs.spicetify = {
-        enable = true;
+        programs.spicetify = {
+          enable = true;
 
-        enabledExtensions = with spiceExts; [
-          betterGenres
-          groupSession
-          history
-          loopyLoop
-          playlistIntersection
-          shuffle
-          songStats
-          skipStats
-          wikify
-        ];
+          enabledExtensions = with spiceExts; [
+            betterGenres
+            groupSession
+            history
+            loopyLoop
+            playlistIntersection
+            shuffle
+            songStats
+            skipStats
+            wikify
+          ];
+        };
       };
-    };
   };
 
-  our.nix-config.includes = [a.spotify];
+  our.nix-config.includes = [ a.spotify ];
 }

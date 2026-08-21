@@ -6,29 +6,32 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
   };
 
-  outputs = inputs @ {flake-parts, ...}:
-    flake-parts.lib.mkFlake {inherit inputs;} {
-      perSystem = {pkgs, ...}: let
-        tex = pkgs.texlive.combine {
-          # I dunno what you really need here.
-          inherit
-            (pkgs.texlive)
-            amsmath
-            dvipng
-            dvisvgm
-            geometry
-            lm
-            luatex
-            moderncv
-            outlines
-            rsfs
-            scheme-medium
-            wrapfig
-            ;
+  outputs =
+    inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      perSystem =
+        { pkgs, ... }:
+        let
+          tex = pkgs.texlive.combine {
+            # I dunno what you really need here.
+            inherit (pkgs.texlive)
+              amsmath
+              dvipng
+              dvisvgm
+              geometry
+              lm
+              luatex
+              moderncv
+              outlines
+              rsfs
+              scheme-medium
+              wrapfig
+              ;
+          };
+        in
+        {
+          packages.default = pkgs.callPackage ./doc.nix { inherit tex; };
         };
-      in {
-        packages.default = pkgs.callPackage ./doc.nix {inherit tex;};
-      };
-      systems = ["aarch64-darwin"];
+      systems = [ "aarch64-darwin" ];
     };
 }

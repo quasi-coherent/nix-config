@@ -2,11 +2,12 @@
   a,
   den,
   ...
-}: {
+}:
+{
   a.discord = {
     includes = [
-      (den.batteries.unfree ["discord"])
-      (den.batteries.insecure ["electron-40.10.5"])
+      (den.batteries.unfree [ "discord" ])
+      (den.batteries.insecure [ "electron-40.10.5" ])
     ];
 
     homeManager = {
@@ -23,5 +24,5 @@
     };
   };
 
-  our.nix-config.includes = [a.discord];
+  our.nix-config.includes = [ a.discord ];
 }

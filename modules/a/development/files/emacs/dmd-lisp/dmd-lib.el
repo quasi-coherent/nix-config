@@ -88,18 +88,6 @@ Do not try to make a new directory or anything fancy."
       (rename-file file name))
     (set-visited-file-name name t t)))
 
-(defun dmd/embark-act-no-quit ()
-  "Call `embark-act' but do not quit after the action."
-  (interactive)
-  (let ((embark-quit-after-action nil))
-    (call-interactively #'embark-act)))
-
-(defun dmd/embark-act-quit ()
-  "Call `embark-act' and quit after the action."
-  (interactive)
-  (let ((embark-quit-after-action 1))
-    (call-interactively #'embark-act)))
-
 (defun dmd/orderless-fast-dispatch (word index total)
   "This is a dumb sentence with WORD, INDEX, and TOTAL."
   (and (= index 0) (= total 1) (length< word 4)

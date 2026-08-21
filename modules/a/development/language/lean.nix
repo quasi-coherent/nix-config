@@ -1,7 +1,10 @@
-{a, ...}: {
-  a.lean.homeManager = {pkgs, ...}: {
-    home.packages = [pkgs.elan];
-  };
+{ a, ... }:
+{
+  a.lean.homeManager =
+    { pkgs, ... }:
+    {
+      home.packages = [ pkgs.elan ];
+    };
 
-  our.nix-config.includes = [a.lean];
+  our.nix-config.includes = [ a.lean ];
 }

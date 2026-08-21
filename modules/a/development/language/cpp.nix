@@ -1,15 +1,18 @@
-{a, ...}: {
-  a.cpp.homeManager = {pkgs, ...}: {
-    home.packages = with pkgs; [
-      boost
-      catch2
-      ccls
-      clang-tools
-      cmake
-      cmake-language-server
-      ninja
-    ];
-  };
+{ a, ... }:
+{
+  a.cpp.homeManager =
+    { pkgs, ... }:
+    {
+      home.packages = with pkgs; [
+        boost
+        catch2
+        ccls
+        clang-tools
+        cmake
+        cmake-language-server
+        ninja
+      ];
+    };
 
-  our.nix-config.includes = [a.cpp];
+  our.nix-config.includes = [ a.cpp ];
 }

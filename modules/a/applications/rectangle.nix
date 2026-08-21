@@ -1,8 +1,11 @@
-{a, ...}: {
+{ a, ... }:
+{
   a.rectangle = {
-    homeManager = {pkgs, ...}: {
-      home.packages = [pkgs.rectangle];
-    };
+    homeManager =
+      { pkgs, ... }:
+      {
+        home.packages = [ pkgs.rectangle ];
+      };
 
     # Options from Rectangle > Settings.
     #
@@ -137,5 +140,5 @@
     };
   };
 
-  our.nix-config.includes = [a.rectangle];
+  our.nix-config.includes = [ a.rectangle ];
 }

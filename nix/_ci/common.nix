@@ -1,11 +1,13 @@
-_: let
+_:
+let
   actions = {
     cachix = "cachix/cachix-action@v17";
     checkout = "actions/checkout@v6";
     install-nix = "cachix/install-nix-action@v30";
     update-flake-lock = "DeterminateSystems/update-flake-lock@main";
   };
-in {
+in
+{
   steps = {
     cachix = {
       name = "cachix";

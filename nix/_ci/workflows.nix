@@ -1,4 +1,5 @@
-_: let
+_:
+let
   cd = {
     concurrency = {
       cancelInProgress = true;
@@ -15,8 +16,8 @@ _: let
     };
     name = "cd";
     on = {
-      schedule = [{cron = "0 0 * * 0";}];
-      workflowDispatch = {};
+      schedule = [ { cron = "0 0 * * 0"; } ];
+      workflowDispatch = { };
     };
     permissions = {
       contents = "write";
@@ -49,15 +50,16 @@ _: let
     name = "ci";
     on = {
       pullRequest = {
-        branches = ["master"];
+        branches = [ "master" ];
       };
       push = {
-        branches = ["master"];
+        branches = [ "master" ];
       };
     };
   };
-  common = import ./common.nix {};
+  common = import ./common.nix { };
   flakeRef = "git+file:.";
-in {
-  workflows = {inherit ci cd;};
+in
+{
+  workflows = { inherit ci cd; };
 }

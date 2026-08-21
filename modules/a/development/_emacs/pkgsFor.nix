@@ -1,6 +1,7 @@
-{epkgs}:
+{ epkgs }:
 epkgs.emacsWithPackages (
-  with epkgs; [
+  with epkgs;
+  [
     ace-window
     auctex
     auctex-lua

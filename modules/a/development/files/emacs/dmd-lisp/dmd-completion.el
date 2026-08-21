@@ -106,6 +106,8 @@
 (use-package corfu
   :init
   (global-corfu-mode)
+  (corfu-history-mode)
+  (corfu-popupinfo-mode)
   :bind
   (:map corfu-map
         ("C-n" . #'corfu-next)
@@ -122,20 +124,25 @@
   :custom
   (corfu-auto t)
   (corfu-cycle t)
-  (corfu-auto-delay 0.67)
-  (corfu-auto-prefix 2)
-  (corfu-preselect 'directory)
-  (corfu-history-mode)
+  (corfu-auto-delay 1)
+  (corfu-auto-prefix 3)
+  (corfu-preselect 'prompt)
+  (corfu-popupinfo-delay '(0.5 . 0.2))
+  (corfu-popupinfo-max-height 70)
+  (corfu-quit-no-match 'separator)
+  (corfu-separator ?\s)
   (add-to-list 'savehist-additional-variables 'corfu-history)
-  (corfu-popupinfo-mode)
   :config
   (keymap-unset corfu-map "RET"))
 
 (use-package embark
   :bind
-  (("C-." . dmd/embark-act-quit)
-   ("M-." . dmd/embark-act-no-quit)
+  (("C-." . embark-act)
+   ("C-c c" . embark-collect)
+   ("M-." . embark-dwim)
    ("C-h B" . embark-bindings))
+  :custom
+  (embark-quit-after-action '((t . nil)))
   :config
   (setq prefix-help-command #'embark-prefix-help-command)
   ;; Hide the mode line of the Embark live/completions buffers.

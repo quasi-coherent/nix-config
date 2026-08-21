@@ -10,23 +10,27 @@
     };
   };
 
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
-      perSystem = {pkgs, ...}: let
-        arg = prj.renderers.withPackages {inherit (pyPkgs) python;};
-        prj = inputs.pyproject.lib.project.loadPyproject {inherit projectRoot;};
-        projectRoot = ./.;
-        pyPkgs = pkgs.python314Packages;
-        pythonEnv = pyPkgs.python.withPackages arg;
-      in {
-        devShells.default = pkgs.mkShell {
-          packages = [
-            pythonEnv
-            pyPkgs.ruff
-            pyPkgs.python-lsp-ruff
-          ];
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      perSystem =
+        { pkgs, ... }:
+        let
+          arg = prj.renderers.withPackages { inherit (pyPkgs) python; };
+          prj = inputs.pyproject.lib.project.loadPyproject { inherit projectRoot; };
+          projectRoot = ./.;
+          pyPkgs = pkgs.python314Packages;
+          pythonEnv = pyPkgs.python.withPackages arg;
+        in
+        {
+          devShells.default = pkgs.mkShell {
+            packages = [
+              pythonEnv
+              pyPkgs.ruff
+              pyPkgs.python-lsp-ruff
+            ];
+          };
         };
-      };
       systems = [
         "x86_64-darwin"
         "aarch64-darwin"

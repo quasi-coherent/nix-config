@@ -1,4 +1,5 @@
-{our, ...}: {
+{ our, ... }:
+{
   den.aspects.hemlock = {
     includes = [
       our.darwin-system

@@ -7,7 +7,7 @@
 }:
 writeShellApplication {
   inherit name;
-  runtimeInputs = [claudeCode];
+  runtimeInputs = [ claudeCode ];
 
   text = ''
     export CLAUDE_CONFIG_DIR=${lib.escapeShellArg configDir}

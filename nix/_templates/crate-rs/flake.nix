@@ -14,9 +14,10 @@
       url = "github:numtide/treefmt-nix";
     };
   };
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
-      imports = [./.];
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [ ./. ];
       systems = import inputs.systems;
     };
 }

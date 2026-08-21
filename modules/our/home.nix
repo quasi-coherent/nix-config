@@ -1,28 +1,30 @@
 _: {
-  our.home.homeManager = {
-    config,
-    lib,
-    pkgs,
-    ...
-  }: let
-    home = config.home.homeDirectory;
-  in {
-    home.stateVersion = lib.mkDefault "26.05";
+  our.home.homeManager =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    let
+      home = config.home.homeDirectory;
+    in
+    {
+      home.stateVersion = lib.mkDefault "26.05";
 
-    manual = {
-      html.enable = false;
-      json.enable = false;
-      manpages.enable = false;
-    };
+      manual = {
+        html.enable = false;
+        json.enable = false;
+        manpages.enable = false;
+      };
 
-    programs.home-manager.enable = true;
+      programs.home-manager.enable = true;
 
-    xdg = {
-      binHome = "${home}/.bin";
-      enable = true;
+      xdg = {
+        binHome = "${home}/.bin";
+        enable = true;
 
-      userDirs =
-        {
+        userDirs = {
           createDirectories = true;
           enable = true;
           setSessionVariables = true;
@@ -42,6 +44,6 @@ _: {
           publicShare = "${home}/Public";
           templates = "${home}/.Templates";
         });
+      };
     };
-  };
 }

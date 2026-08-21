@@ -1,11 +1,14 @@
-{a, ...}: {
-  a.lua.homeManager = {pkgs, ...}: {
-    home.packages = with pkgs; [
-      lua
-      lua-language-server
-      luaformatter
-    ];
-  };
+{ a, ... }:
+{
+  a.lua.homeManager =
+    { pkgs, ... }:
+    {
+      home.packages = with pkgs; [
+        lua
+        lua-language-server
+        luaformatter
+      ];
+    };
 
-  our.nix-config.includes = [a.lua];
+  our.nix-config.includes = [ a.lua ];
 }

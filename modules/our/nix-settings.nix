@@ -2,23 +2,13 @@
   lib,
   inputs,
   ...
-}: {
+}:
+{
   our.nix-settings = {
-    homeManager.nix = {
-      # We are using flakes, not channels:
-      # https://github.com/NixOS/nix/issues/2982#issuecomment-2477618346
-      channel.enable = false;
-      # Adding all pinned input flakes to our local registry.
-      #
-      # Only really important for `nix run nixpkgs#cowsay` types of invocations.
-      # Without it, we fall through to the remote flake registry and completely
-      # different hash of nixpkgs.
-      registry = lib.mapAttrs (_name: v: {flake = v;}) inputs;
-    };
-
-    darwin = {pkgs, ...}: {
-      launchd = {
-        daemons = {
+    darwin =
+      { pkgs, ... }:
+      {
+        launchd.daemons = {
           # Clean up old gcroots and broken symlinks weekly.
           nix-cleanup-gcroots = {
             script = ''
@@ -46,43 +36,51 @@
             serviceConfig.Nice = -10;
           };
         };
+
+        nix.settings.trusted-users = [
+          "@admin"
+          "@wheel"
+        ];
       };
-    };
 
-    os = {pkgs, ...}: {
-      nix = {
-        gc = {
-          automatic = true;
-          options = "--delete-older-than 14d";
-        };
-
-        optimise.automatic = true;
-        # Use the lix installer not CppNix.
-        package = pkgs.lix;
-
-        settings = {
-          extra-experimental-features = [
-            "nix-command"
-            "flakes"
-          ];
-
-          keep-derivations = true;
-          # for nix-direnv
-          keep-outputs = true;
-
-          substituters = [
-            "https://quasi-coherent.cachix.org"
-            "https://nix-community.cachix.org"
-          ];
-
-          trusted-public-keys = [
-            "quasi-coherent.cachix.org-1:3+u75bSX52FuYz64LAqVEY9+/FPztofTDfz7p9UTBEA="
-            "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-          ];
-
-          trusted-users = ["@wheel"];
+    os =
+      { pkgs, ... }:
+      {
+        nix = {
+          # We are using flakes, not channels:
+          # https://github.com/NixOS/nix/issues/2982#issuecomment-2477618346
+          channel.enable = false;
+          gc = {
+            automatic = true;
+            options = "--delete-older-than 14d";
+          };
+          optimise.automatic = true;
+          # Use the lix installer not CppNix.
+          package = pkgs.lix;
+          # Adding all pinned input flakes to our local registry.
+          #
+          # Only really important for `nix run nixpkgs#cowsay` types of invocations.
+          # Without it, we fall through to the remote flake registry and completely
+          # different hash of nixpkgs.
+          registry = lib.mapAttrs (_name: v: { flake = v; }) inputs;
+          settings = {
+            extra-experimental-features = [
+              "nix-command"
+              "flakes"
+            ];
+            keep-derivations = true;
+            # for nix-direnv
+            keep-outputs = true;
+            substituters = [
+              "https://quasi-coherent.cachix.org"
+              "https://nix-community.cachix.org"
+            ];
+            trusted-public-keys = [
+              "quasi-coherent.cachix.org-1:3+u75bSX52FuYz64LAqVEY9+/FPztofTDfz7p9UTBEA="
+              "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+            ];
+          };
         };
       };
-    };
   };
 }

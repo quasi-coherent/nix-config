@@ -1,11 +1,14 @@
-{a, ...}: {
-  a.nixlang.homeManager = {pkgs, ...}: {
-    home.packages = [
-      pkgs.deadnix
-      pkgs.nixd
-      pkgs.statix
-    ];
-  };
+{ a, ... }:
+{
+  a.nixlang.homeManager =
+    { pkgs, ... }:
+    {
+      home.packages = [
+        pkgs.deadnix
+        pkgs.nixd
+        pkgs.statix
+      ];
+    };
 
-  our.nix-config.includes = [a.nixlang];
+  our.nix-config.includes = [ a.nixlang ];
 }

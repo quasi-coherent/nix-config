@@ -1,4 +1,5 @@
-{a, ...}: {
+{ a, ... }:
+{
   a.aerospace.darwin = {
     services = {
       aerospace = {
@@ -64,5 +65,5 @@
   };
 
   # I think it's impossible to come up with usable keybindings.
-  our.disabled.includes = [a.aerospace];
+  our.disabled.includes = [ a.aerospace ];
 }
