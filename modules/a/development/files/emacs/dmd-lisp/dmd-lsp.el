@@ -137,6 +137,7 @@
         tuareg-match-patterns-aligned t))
 
 (use-package nix-ts-mode
+  :mode "\\.nix\\'"
   :hook
   (nix-ts-mode . lsp-deferred)
   :config
