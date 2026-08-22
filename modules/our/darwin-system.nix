@@ -6,6 +6,8 @@ _: {
       ...
     }:
     {
+      system.stateVersion = 6;
+
       # https://mastodon.online/@nomeata/109915786344697931
       documentation.enable = false;
 
@@ -128,8 +130,6 @@ _: {
           enableKeyMapping = true;
           remapCapsLockToControl = true;
         };
-
-        stateVersion = 6;
       };
 
       time.timeZone = "America/New_York";

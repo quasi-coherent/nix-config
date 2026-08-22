@@ -62,9 +62,7 @@ endurance")
   (when (string= system-type "darwin")
     (setq dired-use-ls-dired t
           insert-directory-program "gls" ; Needs coreutils on the path
-          dired-listing-switches "-aBhl --group-directories-first"))
-  :custom
-  )
+          dired-listing-switches "-aBhl --group-directories-first")))
 
 ;;;; Global modes:
 (require 'git-gutter)

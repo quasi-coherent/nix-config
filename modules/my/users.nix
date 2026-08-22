@@ -27,7 +27,5 @@
         ];
       };
     };
-
-    nix-config.includes = [ our.nix-config ];
   };
 }

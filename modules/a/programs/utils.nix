@@ -26,6 +26,11 @@
 
         btop.enable = true;
 
+        devenv = {
+	  enable = true;
+	  enableZshIntegration = true;
+	};
+
         direnv = {
           enable = true;
           enableZshIntegration = true;
@@ -42,18 +47,15 @@
         fd.enable = true;
 
         fzf = {
-          changeDirWidget.command = "fd -t d";
+          enable = true;
+          enableZshIntegration = true;
           defaultCommand = "fd -t f";
-
           defaultOptions = [
             "--height 40%"
             "--border"
           ];
-
-          enable = true;
-          enableZshIntegration = true;
+          changeDirWidget.command = "fd -t d";
           fileWidget.command = "fd -t f";
-
           historyWidget.options = [
             "--sort"
             "--exact"
@@ -87,10 +89,10 @@
           settings.updates.auto_update = true;
         };
 
-        television = {
-          enable = true;
-          enableZshIntegration = true;
-        };
+        # television = {
+        #   enable = true;
+        #   enableZshIntegration = true;
+        # };
 
         yazi = {
           enable = true;
@@ -113,5 +115,6 @@
         };
       };
     };
+
   our.nix-config.includes = [ a.programs.utils ];
 }

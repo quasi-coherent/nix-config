@@ -1,6 +1,6 @@
 { a, ... }:
 {
-  a.desktop.homeManager =
+  a.desktop.darwin =
     {
       lib,
       pkgs,
@@ -16,7 +16,7 @@
       '';
     in
     {
-      home.packages = lib.optional pkgs.stdenvNoCC.hostPlatform.isDarwin zoom-bullshit;
+      environment.systemPackages = [ zoom-bullshit ];
     };
 
   our.nix-config.includes = [ a.desktop ];

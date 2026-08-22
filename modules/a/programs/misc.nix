@@ -1,6 +1,11 @@
-{ a, ... }:
+{ a, den, ... }:
 {
-  a.programs.misc.homeManager =
+  a.programs.misc = {
+    includes = [
+      (den.batteries.unfree [ "1password" "1password-cli" ])
+    ];
+
+    homeManager =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
@@ -13,6 +18,10 @@
         yt-dlp.enable = true;
       };
     };
+
+    darwin.programs._1password.enable = true;
+    darwin.programs._1password-gui.enable = true;
+  };
 
   our.nix-config.includes = [ a.programs.misc ];
 }

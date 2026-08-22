@@ -103,10 +103,9 @@
         ("g a" . consult-lsp-symbols)))
 
 (use-package treesit-auto
-  :custom
-  (treesit-auto-install nil)
   :config
-  (treesit-auto-langs '(bash haskell json nix rust python toml yaml))
+  (setq treesit-auto-install nil
+	treesit-auto-langs '(bash haskell json nix rust python toml yaml))
   (global-treesit-auto-mode))
 
 (use-package bash-ts-mode :hook (bash-ts-mode . lsp-deferred))
