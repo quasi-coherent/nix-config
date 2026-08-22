@@ -6,11 +6,8 @@ _: {
       ...
     }:
     {
-      system.stateVersion = 6;
-
       # https://mastodon.online/@nomeata/109915786344697931
       documentation.enable = false;
-
       environment = {
         # 2026-05-23: Changed to `false` because enableAllTerminfo brings in
         # `termite.terminfo`, which requires VTE to build, which fails on MacOS
@@ -40,7 +37,6 @@ _: {
           LC_ALL = "en_US.UTF-8";
         };
       };
-
       nix = {
         # Allows building Linux binaries.
         linux-builder = {
@@ -61,7 +57,6 @@ _: {
         # Required for the linux-builder.
         settings.trusted-users = [ "@admin" ];
       };
-
       security.pam.services.sudo_local = {
         enable = true;
         # Allow auth to survive between session boundaries.
@@ -69,7 +64,6 @@ _: {
         # Use Touch ID for sudo.
         touchIdAuth = true;
       };
-
       system = {
         defaults = {
           ".GlobalPreferences"."com.apple.mouse.scaling" = 3.0;
@@ -131,7 +125,7 @@ _: {
           remapCapsLockToControl = true;
         };
       };
-
+      system.stateVersion = 6;
       time.timeZone = "America/New_York";
     };
 }

@@ -27,9 +27,9 @@
         btop.enable = true;
 
         devenv = {
-	  enable = true;
-	  enableZshIntegration = true;
-	};
+          enable = true;
+          enableZshIntegration = true;
+        };
 
         direnv = {
           enable = true;
@@ -47,14 +47,14 @@
         fd.enable = true;
 
         fzf = {
-          enable = true;
-          enableZshIntegration = true;
+          changeDirWidget.command = "fd -t d";
           defaultCommand = "fd -t f";
           defaultOptions = [
             "--height 40%"
             "--border"
           ];
-          changeDirWidget.command = "fd -t d";
+          enable = true;
+          enableZshIntegration = true;
           fileWidget.command = "fd -t f";
           historyWidget.options = [
             "--sort"

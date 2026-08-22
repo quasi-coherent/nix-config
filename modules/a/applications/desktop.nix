@@ -2,7 +2,6 @@
 {
   a.desktop.darwin =
     {
-      lib,
       pkgs,
       ...
     }:
