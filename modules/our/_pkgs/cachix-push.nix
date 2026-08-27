@@ -21,16 +21,18 @@ writeShellApplication {
     }:$PATH
 
     cache="quasi-coherent"
+    key="cachix_auth_token"
     args=()
 
     while [[ $# -gt 0 ]]; do
       case "$1" in
+        -k|--key) key="$2"; shift 2     ;;
         -c|--cache) cache="$2"; shift 2 ;;
-        --) shift; args+=("$@"); break ;;
-        *) echo "Usage: cachix-push [-c/--cache <CACHE>] -- [COMMAND]" >&2; exit 1 ;;
+        --) shift; args+=("$@"); break  ;;
+        *) echo "Usage: cachix-push [-k | --key <name>] [-c | --cache <name>] -- <command>" >&2; exit 1 ;;
       esac
     done
 
-    CACHIX_AUTH_TOKEN=$(sops-get -a cachix_auth_token) cachix watch-exec "$cache" -- "''${args[@]}"
+    CACHIX_AUTH_TOKEN=$(sops-get -a "$key") cachix watch-exec "$cache" -- "''${args[@]}"
   '';
 }
