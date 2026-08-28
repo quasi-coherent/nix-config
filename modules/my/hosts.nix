@@ -4,7 +4,6 @@
     includes = [
       our.darwin-system
       our.nix-settings
-      our.theme
     ];
   };
 }

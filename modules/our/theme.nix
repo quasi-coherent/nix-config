@@ -5,18 +5,14 @@
     homeManager =
       { pkgs, ... }:
       {
+        imports = [ inputs.stylix.homeModules.stylix ];
+
         fonts.fontconfig.enable = true;
 
         home.packages = [
           pkgs.beedii
           pkgs.nerd-fonts.hasklug
         ];
-      };
-
-    darwin =
-      { pkgs, ... }:
-      {
-        imports = [ inputs.stylix.darwinModules.stylix ];
 
         stylix = {
           autoEnable = true;

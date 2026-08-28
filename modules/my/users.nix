@@ -19,6 +19,7 @@
         our.nix-config._.stable-emacs
         # our.nix-config._.latest-emacs # latest git master
         our.secrets
+        our.theme
       ];
 
       provides.to-hosts = _: {
