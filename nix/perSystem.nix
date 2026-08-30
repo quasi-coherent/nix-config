@@ -24,7 +24,7 @@ let
         name = "replf";
         text = ''nix repl --expr "builtins.getFlake \"${../.}\""'';
       };
-      update = pkgs.writeShellApplication {
+      update-primary = pkgs.writeShellApplication {
         name = "update-primary";
         text = ''
           nix flake update${lib.foldl' (acc: x: acc + " " + x) "" config.nix-config.primaryInputs}
@@ -51,7 +51,7 @@ let
         ++ builtins.attrValues activatePkgs;
       };
       packages = activatePkgs // {
-        inherit update;
+        inherit update-primary;
       };
       treefmt = {
         programs = {

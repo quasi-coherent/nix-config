@@ -5,15 +5,12 @@
     homeManager =
       { pkgs, ... }:
       {
-        imports = [ inputs.stylix.homeModules.stylix ];
-
         fonts.fontconfig.enable = true;
-
         home.packages = [
           pkgs.beedii
           pkgs.nerd-fonts.hasklug
         ];
-
+        imports = [ inputs.stylix.homeModules.stylix ];
         stylix = {
           autoEnable = true;
           base16Scheme = ./base16-scheme.yaml;

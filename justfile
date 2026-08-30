@@ -14,11 +14,6 @@ fmt *args:
 ck *args:
     nix flake check {{args}}
 
-# Build .gitlab/workflows
-ci:
-    nix build .#workflows
-    cp -r result/.github/workflows .github/
-
 # Build default shell
 reload *args:
     nix build .#devShells.{{system}}.default {{args}}
@@ -39,9 +34,14 @@ switch host=hostname *args:
 clean *args:
     nh clean all --ask {{args}}
 
+# Generate .github
+dot-github:
+    nix build .#dot-github
+    cp -r --no-preserve=mode result/.github/* .github/
+
 # Update inputs listed in `nix-config.primary-inputs`
-update:
-    nix run .#update
+update-primary:
+    nix run .#update-primary
     flake-edit follow
 
 # Update all inputs
