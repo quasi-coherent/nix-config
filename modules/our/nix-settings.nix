@@ -66,7 +66,6 @@
           settings = {
             extra-experimental-features = [
               "nix-command"
-              "pipe-operator"
               "flakes"
             ];
             keep-derivations = true;

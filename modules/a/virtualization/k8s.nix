@@ -10,6 +10,7 @@
         # conflicting subpaths.  I'd rather just not install it here than
         # override the minikube derivation to not install it over there, even
         # though it would be better to manage kubectl separately.
+        #
         # kubectl
         kubectl-neat
         kubectl-validate

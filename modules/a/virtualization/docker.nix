@@ -6,7 +6,6 @@
       home.packages = with pkgs; [
         compose2nix
         dive
-        dockerfile-language-server
         docker
         docker-compose
         lazydocker

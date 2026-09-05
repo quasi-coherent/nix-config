@@ -41,7 +41,7 @@ _: {
         # Allows building Linux binaries.
         linux-builder = {
           config.virtualisation = {
-            cores = 6;
+            cores = 4;
 
             darwin-builder = {
               diskSize = 40 * 1024;
@@ -50,8 +50,7 @@ _: {
           };
 
           enable = true;
-          ephemeral = true;
-          maxJobs = 4;
+          maxJobs = 2;
         };
 
         # Required for the linux-builder.
