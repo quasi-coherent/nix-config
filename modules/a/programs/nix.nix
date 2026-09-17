@@ -10,6 +10,7 @@
       home.packages = with pkgs; [
         dix
         manix
+        nix-diff
         nix-du
         nix-inspect
         nix-melt

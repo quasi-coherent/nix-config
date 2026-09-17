@@ -26,7 +26,7 @@ let
             GIT_COMMITTER_NAME = "\${{ steps.import-pgp.outputs.name }}";
           };
           name = "flake-update";
-          run = "nix-shell --run gh-flake-update";
+          run = "nix run git+file:.#gh-flake-update";
         }
       ];
     };

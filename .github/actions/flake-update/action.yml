@@ -26,6 +26,6 @@ runs:
         GIT_COMMITTER_EMAIL: ${{ steps.import-pgp.outputs.email }}
         GIT_COMMITTER_NAME: ${{ steps.import-pgp.outputs.name }}
       name: flake-update
-      run: nix-shell --run gh-flake-update
+      run: nix run git+file:.#gh-flake-update
       shell: bash
   using: composite
