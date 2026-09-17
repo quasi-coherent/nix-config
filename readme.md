@@ -16,5 +16,5 @@ Maybe useful outputs:
 
 [nd]: https://github.com/nix-darwin/nix-darwin
 [hm]: https://github.com/nix-community/home-manager
-[den]: https://github.com/nix-community/home-manager
+[den]: https://github.com/denful/den
 [dns]: https://den.denful.dev/guides/namespaces/
