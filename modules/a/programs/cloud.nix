@@ -1,14 +1,15 @@
 { a, ... }:
 {
-  a.aws.homeManager =
+  a.cloud.homeManager =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
+        az
         aws-vault
         awscli2
         eksctl
       ];
     };
 
-  our.nix-config.includes = [ a.aws ];
+  our.nix-config.includes = [ a.cloud ];
 }
