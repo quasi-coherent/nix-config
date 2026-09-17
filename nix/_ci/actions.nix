@@ -59,6 +59,7 @@ let
     with_ = {
       git_config_global = true;
       git_user_signingkey = true;
+      git_commit_gpgsign = true;
       gpg_private_key = "\${{ inputs.gitPgpPrivateKey }}";
       passphrase = "\${{ inputs.gitPgpPassphrase }}";
     };

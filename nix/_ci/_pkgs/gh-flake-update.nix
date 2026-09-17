@@ -14,17 +14,18 @@ writeShellApplication {
   text = ''
     branch="flake-update-$(date '+%F')"
     title="Flake update $(date)"
+    git checkout -b "$branch"
 
     (
       echo "$title"
-      echo -ne "\n\n\n\n"
+      echo -ne "\n\n\n"
       echo '```shell'
       echo '> $ nix flake update'
       nix flake update 2>&1
       echo '> $ flake-edit follow'
       flake-edit follow 2>&1
       echo '```'
-      echo -ne "\n\n\n\n"
+      echo -ne "\n\n\n"
     ) | tee /tmp/commit-message.md
 
     changes="$(git status -s | grep -o 'M ' | wc -l)"
