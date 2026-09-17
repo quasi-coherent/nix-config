@@ -3,6 +3,7 @@
 * Be able to run an update to flake inputs, make a signed commit, then open a PR
 if there were changes.  I have to think it's running out of ways to not work at this
 point.
+![lol](./assets/lol.png)
 * nix-community/impermanence
 * `dmd/my-keymap` with everything absolutely perfect.
 * Oh this is cool, one CLI called `the` that has namespaced subcommands and every CLI

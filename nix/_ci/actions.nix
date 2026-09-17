@@ -57,9 +57,9 @@ let
     name = "import-pgp";
     uses = "crazy-max/ghaction-import-gpg@2dc316deee8e90f13e1a351ab510b4d5bc0c82cd"; # v7.0.0
     with_ = {
+      git_commit_gpgsign = true;
       git_config_global = true;
       git_user_signingkey = true;
-      git_commit_gpgsign = true;
       gpg_private_key = "\${{ inputs.gitPgpPrivateKey }}";
       passphrase = "\${{ inputs.gitPgpPassphrase }}";
     };
