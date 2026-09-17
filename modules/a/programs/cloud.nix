@@ -4,7 +4,7 @@
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
-        az
+        azure-cli
         aws-vault
         awscli2
         eksctl
