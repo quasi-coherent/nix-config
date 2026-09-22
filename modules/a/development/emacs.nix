@@ -30,7 +30,7 @@ let
 
       xdg.configFile.emacs = {
         recursive = true;
-        source = ./files/emacs;
+        source = ./_files/emacs;
       };
     };
 in

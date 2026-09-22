@@ -35,7 +35,7 @@
 
       xdg.configFile.alacritty = {
         recursive = true;
-        source = ./files/alacritty;
+        source = ./_files/alacritty;
       };
     };
 
