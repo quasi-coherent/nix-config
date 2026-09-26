@@ -42,6 +42,7 @@ epkgs.emacsWithPackages (
     multiple-cursors
     nix-ts-mode
     no-littering
+    nushell-ts-mode
     orderless
     purescript-mode
     reason-mode

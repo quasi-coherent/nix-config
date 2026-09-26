@@ -105,7 +105,7 @@
 (use-package treesit-auto
   :config
   (setq treesit-auto-install nil
-	treesit-auto-langs '(bash haskell json nix rust python toml yaml))
+	treesit-auto-langs '(bash haskell json nix rust python toml yaml nu))
   (global-treesit-auto-mode))
 
 (use-package bash-ts-mode :hook (bash-ts-mode . lsp-deferred))
@@ -143,6 +143,8 @@
   :config
   (setq lsp-nix-nixd-formatting-command ["nixfmt"])
   (setq treesit-simple-indent-rules nix-ts-mode-indent-rules))
+
+(use-package nushell-ts-mode :hook (nushell-ts-mode . lsp-deferred))
 
 (use-package rust-ts-mode
   :hook
