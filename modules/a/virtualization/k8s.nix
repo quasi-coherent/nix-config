@@ -5,17 +5,11 @@
     {
       home.packages = with pkgs; [
         helm-ls
-        # It is conspicuously missing, but don't try to install kubectl here.
-        # It's provided by minikube and it will cause errors because of
-        # conflicting subpaths.  I'd rather just not install it here than
-        # override the minikube derivation to not install it over there, even
-        # though it would be better to manage kubectl separately.
-        #
-        # kubectl
+        kubectl
         kubectl-neat
         kubectl-validate
         kubectx
-        minikube
+        # minikube
         stern
       ];
 

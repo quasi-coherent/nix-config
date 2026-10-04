@@ -126,6 +126,7 @@
   (turn-on-purescript-indentation))
 
 (use-package reason-mode
+  :mode "\\.re\\'"
   :hook
   (reason-mode . lsp-deferred)
   :custom
@@ -144,7 +145,9 @@
   (setq lsp-nix-nixd-formatting-command ["nixfmt"])
   (setq treesit-simple-indent-rules nix-ts-mode-indent-rules))
 
-(use-package nushell-ts-mode :hook (nushell-ts-mode . lsp-deferred))
+(use-package nushell-ts-mode
+  :mode "\\.nu\\'"
+  :hook (nushell-ts-mode . lsp-deferred))
 
 (use-package rust-ts-mode
   :hook
@@ -173,6 +176,11 @@
   ;; Rather just turn off the whole mode map.
   (with-eval-after-load 'python
     (setcdr python-base-mode-map nil)))
+
+(use-package terraform-mode
+  :mode "\\.tf\\'"
+  :hook
+  (terraform-mode . lsp-deferred))
 
 (use-package toml-ts-mode
   :hook (toml-ts-mode . lsp-deferred)

@@ -48,6 +48,7 @@ epkgs.emacsWithPackages (
     reason-mode
     simpleclip
     smartparens
+    terraform-mode
     treesit-auto
     treesit-grammars.with-all-grammars
     tuareg

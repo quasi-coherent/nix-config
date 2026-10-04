@@ -21,7 +21,17 @@
         den.batteries.self'
       ];
     };
-
+    quirks = {
+      dirHashes = {
+        description = "Attribute set of zsh local directory hashes.";
+      };
+      shellAliases = {
+        description = "Attribute set of alias/shell command.";
+      };
+      siteFunctions = {
+        description = "Attribute set of shell function name/body.";
+      };
+    };
     schema.user = {
       classes = lib.mkDefault [ "homeManager" ];
       includes = [ den.batteries.mutual-provider ];
