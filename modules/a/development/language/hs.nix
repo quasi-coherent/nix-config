@@ -5,10 +5,10 @@
     {
       home.packages = with pkgs; [
         cabal-install
+        fourmolu
         ghc
         ghcid
         haskell-language-server
-        ormolu
         stack
       ];
     };

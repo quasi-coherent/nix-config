@@ -8,6 +8,7 @@ epkgs.emacsWithPackages (
     avy
     bind-key
     caml
+    cabal-mode
     cape
     cdlatex
     chess

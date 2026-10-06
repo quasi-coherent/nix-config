@@ -56,7 +56,13 @@
           };
         };
 
-        jujutsu.enable = true;
+        jujutsu = {
+          enable = true;
+          # templates = {
+          #   log = "builtin_log_detailed";
+          #   show = "builtin_log_detailed";
+          # };
+        };
 
         zsh = {
           shellAliases = {

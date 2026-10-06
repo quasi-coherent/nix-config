@@ -108,8 +108,15 @@
 	treesit-auto-langs '(bash haskell json nix rust python toml yaml nu))
   (global-treesit-auto-mode))
 
+(use-package cabal-mode :mode "\\.cabal\\'")
+
 (use-package bash-ts-mode :hook (bash-ts-mode . lsp-deferred))
-(use-package haskell-ts-mode :hook (haskell-ts-mode . lsp-deferred))
+
+(use-package haskell-ts-mode
+  :hook (haskell-ts-mode . lsp-deferred)
+  :config
+  (setq lsp-haskell-formatting-provider "fourmolu"))
+
 (use-package json-ts-mode :hook (json-ts-mode . lsp-deferred))
 
 (use-package markdown-mode
