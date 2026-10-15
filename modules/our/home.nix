@@ -3,6 +3,7 @@ _: {
     {
       config,
       lib,
+      nixpkgs-overlays,
       pkgs,
       ...
     }:
@@ -11,6 +12,8 @@ _: {
     in
     {
       home.stateVersion = lib.mkDefault "26.05";
+
+      nixpkgs.overlays = lib.unique nixpkgs-overlays;
 
       manual = {
         html.enable = false;

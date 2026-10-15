@@ -89,11 +89,6 @@
           settings.updates.auto_update = true;
         };
 
-        # television = {
-        #   enable = true;
-        #   enableZshIntegration = true;
-        # };
-
         yazi = {
           enable = true;
           enableZshIntegration = true;

@@ -3,7 +3,7 @@
   inputs = {
     claude = {
       inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:sadjow/claude-code-nix?ref=v2.1.218";
+      url = "github:sadjow/claude-code-nix?ref=v2.1.290";
     };
     darwin = {
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,6 +36,14 @@
       url = "github:nix-community/home-manager";
     };
     import-tree.url = "github:vic/import-tree";
+    # llm-agents = {
+    #   url = "github:numtide/llm-agents.nix";
+    #   inputs = {
+    #     nixpkgs.follows = "nixpkgs";
+    #     treefmt-nix.follows = "treefmt-nix";
+    #     flake-parts.follows = "flake-parts";
+    #   };
+    # };
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     nix-index-database = {
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,10 +55,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-ocaml/nix-overlays";
     };
-    pedantix.inputs.flake-parts.follows = "flake-parts";
-    pedantix.inputs.nixpkgs.follows = "nixpkgs";
-    pedantix.inputs.treefmt-nix.follows = "treefmt-nix";
-    pedantix.url = "github:swarsel/pedantix";
+    pedantix = {
+      url = "github:swarsel/pedantix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
+        flake-parts.follows = "flake-parts";
+      };
+    };
     purescript-overlay = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:thomashoneyman/purescript-overlay";

@@ -22,20 +22,24 @@
             settingsJson = {
               defaultMode = "default";
               effortLevel = "high";
-              model = "sonnet";
+              model = "opus";
 
               permissions.deny = [
                 # I don't even have these; cannot understand why it continues to
                 # try to use things not even available on the path.
-                "Bash(python3)"
-                "Bash(gh)"
+                "Bash(python3 *)"
+                "Bash(gh *)"
+                "Bash(perl *)"
 
-                "Bash(sops*)"
-                "Bash(age*)"
-                "Bash(cachix*)"
-                "Bash(aws*)"
+                "Bash(sops *)"
+                "Bash(age *)"
+                "Bash(cachix *)"
+                "Bash(aws *)"
+                "Bash(az *)"
                 "Bash(git commit *)"
+                "Bash(gc *)"
                 "Bash(git push *)"
+                "Bash(gp *)"
                 "Bash(nix profile *)"
                 "Bash(* install)"
               ];

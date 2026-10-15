@@ -108,12 +108,17 @@
 	treesit-auto-langs '(bash haskell json nix rust python toml yaml nu))
   (global-treesit-auto-mode))
 
-(use-package cabal-mode :mode "\\.cabal\\'")
-
 (use-package bash-ts-mode :hook (bash-ts-mode . lsp-deferred))
 
-(use-package haskell-ts-mode
-  :hook (haskell-ts-mode . lsp-deferred)
+(use-package haskell-mode
+  :mode "\\.hs\\'"
+  :config
+  (setq haskell-mode-map (make-sparse-keymap))
+  (setq interactive-haskell-mode-map (make-sparse-keymap)))
+
+(use-package lsp-haskell
+  :after haskell-mode
+  :hook (haskell-mode . lsp-deferred)
   :config
   (setq lsp-haskell-formatting-provider "fourmolu"))
 
@@ -181,8 +186,7 @@
   (lazy-ruff-mode 1)
   ;; Ton of useless key bindings that start with C-c.
   ;; Rather just turn off the whole mode map.
-  (with-eval-after-load 'python
-    (setcdr python-base-mode-map nil)))
+  (setq python-base-mode-map (make-sparse-keymap)))
 
 (use-package terraform-mode
   :mode "\\.tf\\'"

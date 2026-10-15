@@ -8,7 +8,6 @@ epkgs.emacsWithPackages (
     avy
     bind-key
     caml
-    cabal-mode
     cape
     cdlatex
     chess
@@ -29,6 +28,7 @@ epkgs.emacsWithPackages (
     just-ts-mode
     gcmh
     git-gutter
+    haskell-mode
     helpful
     # kkp # https://github.com/tmux/tmux/issues/4196
     lichess
