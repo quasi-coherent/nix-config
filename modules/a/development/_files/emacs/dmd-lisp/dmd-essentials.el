@@ -101,8 +101,7 @@
          ("M-s A" . mc/mark-all-like-this)
          ("M-s R" . mc/mark-all-in-region))
   :config
-  (setq mc/always-run-for-all t
-        mc/cmds-to-run-once nil))
+  (setq mc/always-run-for-all t))
 
 (provide 'dmd-essentials)
 ;;; dmd-essentials.el ends here

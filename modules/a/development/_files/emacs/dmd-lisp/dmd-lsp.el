@@ -1,5 +1,6 @@
 ;;; dmd-lsp.el --- -*- lexical-binding: t; -*-
 ;;; Commentary:
+;;; Stuff related to lsp and language-specific implementations of it.
 ;;; Code:
 
 (require 'dmd-lib)
@@ -28,18 +29,6 @@
   (setq flycheck-emacs-lisp-load-path 'inherit
         flycheck-checker-error-threshold 1000
         flycheck-check-syntax-automatically '(mode-enabled save)))
-
-(use-package cape
-  :config
-  ;; NB: First one returning wins, so order matters.
-  ;;
-  ;; Use ~add-hook~ because it sets the global (default) value of capf.
-  ;; Using ~setq~ would be a mistake since that's buffer-local and capf is
-  ;; already buffer-local.
-  (add-hook 'completion-at-point-functions #'cape-history)
-  (add-hook 'completion-at-point-functions #'cape-file)
-  (add-hook 'completion-at-point-functions #'cape-keyword)
-  (add-hook 'completion-at-point-functions #'cape-dabbrev))
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
@@ -122,6 +111,10 @@
   :config
   (setq lsp-haskell-formatting-provider "fourmolu"))
 
+(use-package poly-mode-helm
+  :config
+  (setq poly-helm-mode-template-directories '("templates" "charts" "helm")))
+
 (use-package json-ts-mode :hook (json-ts-mode . lsp-deferred))
 
 (use-package markdown-mode
@@ -202,9 +195,6 @@
   :hook (yaml-pro . lsp-deferred)
   :config
   (require 'yaml-pro-ts-mode))
-
-(define-derived-mode helm-mode yaml-ts-mode "helm"
-  "Major mode for editing kubernetes helm templates.")
 
 (provide 'dmd-lsp)
 ;;; dmd-lsp.el ends here

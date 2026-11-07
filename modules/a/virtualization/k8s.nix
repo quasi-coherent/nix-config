@@ -4,7 +4,6 @@
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
-        helm-ls
         kubectl
         kubectl-neat
         kubectl-validate

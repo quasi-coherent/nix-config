@@ -135,6 +135,18 @@
   :config
   (keymap-unset corfu-map "RET"))
 
+(use-package cape
+  :config
+  ;; NB: First one returning wins, so order matters.
+  ;;
+  ;; Use ~add-hook~ because it sets the global (default) value of capf.
+  ;; Using ~setq~ would be a mistake since that's buffer-local and capf is
+  ;; already buffer-local.
+  (add-hook 'completion-at-point-functions #'cape-history)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-keyword)
+  (add-hook 'completion-at-point-functions #'cape-dabbrev))
+
 (use-package embark
   :bind
   (("C-." . embark-act)

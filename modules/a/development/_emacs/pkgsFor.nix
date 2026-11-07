@@ -60,5 +60,7 @@ epkgs.emacsWithPackages (
     which-key
     yasnippet
     yasnippet-snippets
+
+    (callPackage ./poly-helm-mode.nix { })
   ]
 )
