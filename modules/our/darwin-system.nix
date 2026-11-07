@@ -37,25 +37,7 @@ _: {
           LC_ALL = "en_US.UTF-8";
         };
       };
-      nix = {
-        # Allows building Linux binaries.
-        linux-builder = {
-          config.virtualisation = {
-            cores = 4;
 
-            darwin-builder = {
-              diskSize = 40 * 1024;
-              memorySize = 8 * 1024;
-            };
-          };
-
-          enable = true;
-          maxJobs = 2;
-        };
-
-        # Required for the linux-builder.
-        settings.trusted-users = [ "@admin" ];
-      };
       security.pam.services.sudo_local = {
         enable = true;
         # Allow auth to survive between session boundaries.

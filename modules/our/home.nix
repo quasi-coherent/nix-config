@@ -3,8 +3,8 @@ _: {
     {
       config,
       lib,
-      nixpkgs-overlays,
       pkgs,
+      nixpkgs-overlays,
       ...
     }:
     let
@@ -12,17 +12,13 @@ _: {
     in
     {
       home.stateVersion = lib.mkDefault "26.05";
-
-      nixpkgs.overlays = lib.unique nixpkgs-overlays;
-
       manual = {
         html.enable = false;
         json.enable = false;
         manpages.enable = false;
       };
-
+      nixpkgs.overlays = lib.unique nixpkgs-overlays;
       programs.home-manager.enable = true;
-
       xdg = {
         binHome = "${home}/.bin";
         enable = true;

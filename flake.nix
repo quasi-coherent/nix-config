@@ -49,6 +49,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/nix-index-database";
     };
+    nix-rosetta-builder = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:cpick/nix-rosetta-builder";
+    };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-lib.follows = "nixpkgs";
     ocaml-overlay = {
@@ -56,12 +60,12 @@
       url = "github:nix-ocaml/nix-overlays";
     };
     pedantix = {
-      url = "github:swarsel/pedantix";
       inputs = {
+        flake-parts.follows = "flake-parts";
         nixpkgs.follows = "nixpkgs";
         treefmt-nix.follows = "treefmt-nix";
-        flake-parts.follows = "flake-parts";
       };
+      url = "github:swarsel/pedantix";
     };
     purescript-overlay = {
       inputs.nixpkgs.follows = "nixpkgs";
