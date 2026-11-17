@@ -111,7 +111,12 @@
   :config
   (setq lsp-haskell-formatting-provider "fourmolu"))
 
-(use-package poly-mode-helm
+(use-package poly-helm-mode
+  :custom-face
+  (poly-helm-template-delimiter-face ((t (:foreground "red" :weight bold))))
+  (poly-helm-template-keyword-face ((t (:foreground "blue" :weight bold))))
+  (poly-helm-template-variable-face ((t (:foreground "green"))))
+  (poly-helm-template-action-face ((t (:foreground "purple"))))
   :config
   (setq poly-helm-mode-template-directories '("templates" "charts" "helm")))
 
@@ -195,6 +200,22 @@
   :hook (yaml-pro . lsp-deferred)
   :config
   (require 'yaml-pro-ts-mode))
+
+(define-derived-mode tiltfile-mode
+  python-mode "tiltfile"
+  "Major mode for editing a Tiltfile."
+  (setq-local case-fold-search nil))
+
+(add-to-list 'auto-mode-alist '("Tiltfile$" . tiltfile-mode))
+
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-language-id-configuration
+               '(tiltfile-mode . "tiltfile"))
+
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection `("tilt" "lsp" "start"))
+                    :activation-fn (lsp-activate-on "tiltfile")
+                    :server-id 'tilt-lsp)))
 
 (provide 'dmd-lsp)
 ;;; dmd-lsp.el ends here

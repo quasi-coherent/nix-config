@@ -4,12 +4,14 @@
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
-        kubectl
+        ctlptl
+        # kubectl
         kubectl-neat
         kubectl-validate
         kubectx
-        # minikube
+        minikube
         stern
+        tilt
       ];
 
       programs = {

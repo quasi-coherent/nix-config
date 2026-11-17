@@ -30,9 +30,13 @@ build host=hostname *args:
 switch host=hostname *args:
     {{hostname}} switch --ask --show-activation-logs {{args}}
 
-# Clean up all old generations and store paths
+# Clean up all generations and gcroots except direnv gcroots
 clean *args:
-    nh clean all --ask {{args}}
+    nh clean all --no-direnv --optimise --ask {{args}}
+
+# Clean up all old generations and gcroots
+clean-all *args:
+    nh clean all --optimise --ask {{args}}
 
 # Generate .github
 dot-github:
