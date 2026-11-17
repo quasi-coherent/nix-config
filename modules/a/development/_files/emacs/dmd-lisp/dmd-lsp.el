@@ -206,16 +206,17 @@
   "Major mode for editing a Tiltfile."
   (setq-local case-fold-search nil))
 
-(add-to-list 'auto-mode-alist '("Tiltfile$" . tiltfile-mode))
-
 (with-eval-after-load 'lsp-mode
   (add-to-list 'lsp-language-id-configuration
                '(tiltfile-mode . "tiltfile"))
-
   (lsp-register-client
    (make-lsp-client :new-connection (lsp-stdio-connection `("tilt" "lsp" "start"))
                     :activation-fn (lsp-activate-on "tiltfile")
                     :server-id 'tilt-lsp)))
+
+(use-package tiltfile-mode
+  :mode "Tiltfile\\'"
+  :hook (tiltfile-mode . lsp-deferred))
 
 (provide 'dmd-lsp)
 ;;; dmd-lsp.el ends here

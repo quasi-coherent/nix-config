@@ -4,8 +4,10 @@
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
+        cosign
         graphviz # graph file tools
         jless
+        minisign
         ouch # compression/decompression
         pandoc
         pandoc-imagine

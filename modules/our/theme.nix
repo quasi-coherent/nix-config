@@ -15,7 +15,6 @@
           autoEnable = true;
           base16Scheme = ./base16-scheme.yaml;
           enable = true;
-
           fonts = {
             emoji = {
               name = "Beedii Emoji";
@@ -42,9 +41,10 @@
               terminal = 11;
             };
           };
-
           opacity.popups = 0.5;
           polarity = "dark";
+          # https://github.com/nix-community/stylix/issues/2526
+          targets.rofi.enable = false;
         };
       };
   };
