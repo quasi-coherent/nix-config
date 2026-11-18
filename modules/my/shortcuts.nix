@@ -2,21 +2,29 @@
   my.shortcuts.homeManager =
     { config, ... }:
     {
-      programs.zsh = {
-        dirHashes = {
-          cfg = "${config.home.homeDirectory}/nix-config";
-          dd = "${config.home.homeDirectory}/dd";
-          ghub = "${config.home.homeDirectory}/dd/git/hub";
-          glab = "${config.home.homeDirectory}/dd/git/lab";
-          vc = "${config.home.homeDirectory}/dd/git";
+      programs = {
+        nnn.bookmarks = {
+          c = "${config.home.homeDirectory}/nix-config";
+          d = "${config.home.homeDirectory}/dd";
+          g = "${config.home.homeDirectory}/dd/git/hub";
         };
 
-        shellAliases = {
-          cdc = "cd ~cfg";
-          cdd = "cd ~dd";
-          cdg = "cd ~vc";
-          cdgh = "cd ~ghub";
-          cdgl = "cd ~glab";
+        zsh = {
+          dirHashes = {
+            cfg = "${config.home.homeDirectory}/nix-config";
+            dd = "${config.home.homeDirectory}/dd";
+            ghub = "${config.home.homeDirectory}/dd/git/hub";
+            glab = "${config.home.homeDirectory}/dd/git/lab";
+            vc = "${config.home.homeDirectory}/dd/git";
+          };
+
+          shellAliases = {
+            cdc = "cd ~cfg";
+            cdd = "cd ~dd";
+            cdg = "cd ~vc";
+            cdgh = "cd ~ghub";
+            cdgl = "cd ~glab";
+          };
         };
       };
 
