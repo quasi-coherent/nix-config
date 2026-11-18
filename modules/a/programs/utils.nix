@@ -2,7 +2,7 @@
 {
   # Command line utilities.
   a.programs.utils.homeManager =
-    { pkgs, ... }:
+    { lib, pkgs, ... }:
     {
       home.packages = with pkgs; [
         calc
@@ -68,6 +68,35 @@
           nix-output-monitor.enable = true;
         };
 
+        nnn = {
+          enable = true;
+          enableZshIntegration = true;
+          options = {
+            A = true;
+            Q = true;
+            c = true;
+            r = true;
+            t = 8;
+          };
+          plugins.mappings =
+            lib.optionalAttrs pkgs.stdenvNoCC.hostPlatform.isDarwin {
+              w = "cbcopy-mac";
+              y = "cbpaste-mac";
+            }
+            // {
+              F = "fzcd";
+              L = "launch";
+              N = "renamer";
+              R = "fzhist";
+              d = "diffs";
+              g = "gitroot";
+              j = "autojump";
+              p = "preview-tabbed";
+              s = "stats";
+            };
+          quitcd = true;
+        };
+
         ripgrep = {
           arguments = [
             "--smart-case"
@@ -87,11 +116,6 @@
         tealdeer = {
           enable = true;
           settings.updates.auto_update = true;
-        };
-
-        yazi = {
-          enable = true;
-          enableZshIntegration = true;
         };
 
         zoxide = {
